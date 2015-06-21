@@ -81,6 +81,10 @@ class Database
 		while ($obj = $stmt->fetchObject())
 			array_push($repos, new Repository($obj->id, $obj->name));
 
+		foreach ($repos as &$repo)
+			foreach ($this->GetAddOns($repo->Id()) as $addon)
+				$repo->AddAddOn($addon);
+
 		return $repos;
 	}
 
@@ -112,6 +116,10 @@ class Database
 		$addons = [];
 		while ($obj = $stmt->fetchObject())
 			array_push($addons, new AddOn($obj->id, $obj->name));
+
+		foreach ($addons as $i => $addon)
+			foreach ($this->GetChannels($addon->Id()) as $channel)
+				$addons[$i]->AddChannel($channel);
 
 		return $addons;
 	}
@@ -146,13 +154,13 @@ class Database
 	// Get channels in add-on
 	public function GetChannels($addon_id)
 	{
-		$stmt = $this->db->prepare('SELECT id, name FROM addon_channels WHERE addon_id=?');
+		$stmt = $this->db->prepare('SELECT id, name, (SELECT file FROM addon_data WHERE id=addon_channels.data) AS file FROM addon_channels WHERE addon_id=?');
 		if (!$stmt->execute(array($addon_id)))
 			return [];
 
 		$channels = [];
 		while ($obj = $stmt->fetchObject())
-			array_push($channels, new Channel($obj->id, $obj->name));
+			array_push($channels, new Channel($obj->id, $obj->name, $obj->file));
 
 		return $channels;
 	}
@@ -162,19 +170,19 @@ class Database
 	{
 		if (is_string($name_id))
 		{
-			$stmt = $this->db->prepare('SELECT id, name FROM addon_channels WHERE name=?');
+			$stmt = $this->db->prepare('SELECT id, name, (SELECT file FROM addon_data WHERE id=addon_channels.data) AS file FROM addon_channels WHERE name=?');
 			$data = array(mb_strtolower($name_id));
 		}
 		else
 		{
-			$stmt = $this->db->prepare('SELECT id, name FROM addon_channels WHERE id=?');
+			$stmt = $this->db->prepare('SELECT id, name, (SELECT file FROM addon_data WHERE id=addon_channels.data) AS file FROM addon_channels WHERE id=?');
 			$data = array($name_id);
 		}
 		if (!$stmt->execute($data))
 			return null;
 
 		if ($obj = $stmt->fetchObject())
-			$addon = new Channel($obj->id, $obj->name);
+			$addon = new Channel($obj->id, $obj->name, $obj->file);
 		else
 			return null;
 

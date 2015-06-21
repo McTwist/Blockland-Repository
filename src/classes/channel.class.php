@@ -18,12 +18,13 @@ class Channel
 	const TABS = "\t\t";
 	const TABS2 = "\t\t\t";
 
-	public function __construct($id = null, $name = '*')
+	public function __construct($id = null, $name = '*', $file)
 	{
 		if (empty($name))
 			$name = '*';
 		$this->channelId = null;
 		$this->channelName = $name;
+		$this->file = $file;
 	}
 
 	public function Id()
