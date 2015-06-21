@@ -8,14 +8,19 @@ require 'channel.class.php';
 
 class AddOn
 {
-	private $addonName = '';
+	private $addonId = null;
+	private $addonName = null;
+	private $description = null;
+
 	private $channels = [];
 
 	const TABS = "\t";
 
-	public function __construct($name)
+	public function __construct($id = null, $name = null, $description = null)
 	{
+		$this->addonId = $id;
 		$this->addonName = $name;
+		$this->description = $description;
 	}
 
 	public function AddChannel(Channel $channel)
@@ -23,12 +28,23 @@ class AddOn
 		array_push($this->channels, $channel);
 	}
 
-	public function GetName()
+	public function Id()
+	{
+		return $this->addonId;
+	}
+
+	public function Name()
 	{
 		return $this->addonName;
 	}
 
-	public function PrintFormat()
+	public function GetDescription()
+	{
+		return $this->description;
+	}
+
+	// Print in Torque Markup Language
+	public function PrintTML($pretty = false)
 	{
 		if (empty($this->addonName))
 			return '';
@@ -36,15 +52,52 @@ class AddOn
 		$channels = '';
 		foreach ($this->channels as $channel)
 		{
-			$channels .= $channel->PrintFormat();
+			$channels .= $channel->PrintTML($pretty);
 		}
 		if (empty($channels))
 			return '';
+		// Description outside
+		elseif (!empty($this->description))
+		{
+			if ($pretty) $channels .= Channel::TABS;
+			$channels .= "<desc:{$this->desc}>";
+			if ($pretty) $channels .= "\n";
+		}
 
-		$data = self::TABS."<addon:{$this->addonName}>\n";
+		$data = '';
+		if ($pretty) $data .= self::TABS;
+		$data .= "<addon:{$this->addonName}>";
+		if ($pretty) $data .= "\n";
 		$data .= $channels;
-		$data .= self::TABS."</addon>\n";
+		if ($pretty) $data .= self::TABS;
+		$data .= "</addon>";
+		if ($pretty) $data .= "\n";
 		return $data;
+	}
+
+	// Print in JSON
+	public function PrintJSON($pretty = false, $as_struct = false)
+	{
+		$addon = new stdClass;
+		if (empty($this->addonName))
+			return self::MakeJSON($addon, $as_struct);
+
+		$addon->name = $this->addonName;
+		$addon->description = $this->description;
+		$addon->channels = [];
+		foreach ($this->channels as $channel)
+		{
+			$channel = $channel->PrintJSON($pretty, $as_struct);
+			if (isset($channel->file))
+				array_push($addon->channels, $channel);
+		}
+
+		return self::MakeJSON($addon, $pretty, $as_struct);
+	}
+
+	static private function MakeJSON($data, $pretty, $as_struct)
+	{
+		return $as_struct ? (object)$data : json_encode((object)$data, ($pretty ? JSON_PRETTY_PRINT : 0) | JSON_UNESCAPED_SLASHES);
 	}
 
 	// Object iteration

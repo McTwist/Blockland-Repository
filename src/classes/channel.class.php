@@ -7,55 +7,121 @@
 
 class Channel
 {
+	private $channelId = null;
 	private $channelName = '*';
 
 	private $version = '0.0';
 	private $restartRequired = null;
 	private $file = null;
 	private $changelog = null;
-	private $desc = null;
 
 	const TABS = "\t\t";
 	const TABS2 = "\t\t\t";
 
-	public function __construct($name = '*')
+	public function __construct($id = null, $name = '*')
 	{
+		if (empty($name))
+			$name = '*';
+		$this->channelId = null;
 		$this->channelName = $name;
 	}
 
-	public function GetName()
+	public function Id()
+	{
+		return $this->channelId;
+	}
+
+	public function Name()
 	{
 		return $this->channelName;
 	}
 
-	public function PrintFormat()
+	// Print in Torque Markup Language
+	public function PrintTML($pretty = false)
 	{
 		// No file, avoid showing it
 		if ($this->file === null)
 			return '';
 
-		$data = self::TABS."<channel:{$this->channelName}>\n";
+		$data = '';
+		if ($pretty) $data .= self::TABS;
+		$data .= "<channel:{$this->channelName}>";
+		if ($pretty) $data .= "\n";
 
 		// Version
-		$data .= self::TABS2."<version:{$this->version}>\n";
+		if ($pretty) $data .= self::TABS2;
+		$data .= "<version:{$this->version}>";
+		if ($pretty) $data .= "\n";
 
 		// Restart required
 		if ($this->restartRequired !== null)
-			$data .= self::TABS2."<restartRequired:{$this->restartRequired}>\n";
+		{
+			if ($pretty) $data .= self::TABS2;
+			$data .= "<restartRequired:{$this->restartRequired}>";
+			if ($pretty) $data .= "\n";
+		}
 
 		// File
-		$data .= self::TABS2."<file:{$this->file}>\n";
+		if ($pretty) $data .= self::TABS2;
+		$data .= "<file:{$this->file}>";
+		if ($pretty) $data .= "\n";
 
 		// Change log
 		if ($this->changelog !== null)
-			$data .= self::TABS2."<changelog:{$this->changelog}>\n";
+		{
+			if ($pretty) $data .= self::TABS2;
+			$data .= "<changelog:{$this->changelog}>";
+			if ($pretty) $data .= "\n";
+		}
 
 		// Description
-		if ($this->desc !== null)
-			$data .= self::TABS2."<desc:{$this->desc}>\n";
+		/*if ($this->desc !== null)
+		{
+			if ($pretty) $data .= self::TABS2;
+			$data .= "<desc:{$this->desc}>";
+			if ($pretty) $data .= "\n";
+		}*/
 
-		$data .= self::TABS."<channel>\n";
+		if ($pretty) $data .= self::TABS;
+		$data .= "</channel>";
+		if ($pretty) $data .= "\n";
 		return $data;
+	}
+
+	// Print in JSON
+	public function PrintJSON($pretty = false, $as_struct = false)
+	{
+		$channel = new stdClass;
+		// No file, avoid showing it
+		if ($this->file === null)
+			return self::MakeJSON($channel, $as_struct);
+
+		$channel->channel = $this->channelName;
+
+		// Version
+		$channel->version = $this->version;
+
+		// Restart required
+		if ($this->restartRequired !== null)
+			$channel->restartRequired = $this->restartRequired;
+
+		// File
+		$channel->file = $this->file;
+
+		// Change log
+		if ($this->changelog !== null)
+			$channel->changelog = $this->changelog;
+
+		// Description
+		/*if ($this->desc !== null)
+			$channel->desc = $this->desc;*/
+
+		return self::MakeJSON($channel, $pretty, $as_struct);
+	}
+
+	static private function MakeJSON($data, $pretty, $as_struct)
+	{
+		return $as_struct ? (object)$data : json_encode((object)$data, ($pretty ? JSON_PRETTY_PRINT : 0) | JSON_UNESCAPED_SLASHES);
 	}
 
 	// Set values to be used
@@ -96,10 +162,6 @@ class Channel
 	public function GetChangelog()
 	{
 		return $this->changelog;
-	}
-	public function GetDesc()
-	{
-		return $this->desc;
 	}
 }
 

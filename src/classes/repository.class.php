@@ -8,11 +8,13 @@ require 'addon.class.php';
 
 class Repository
 {
+	private $repositoryId = null;
 	private $repositoryName = null;
 	private $addons = [];
 
-	public function __construct($name = null)
+	public function __construct($id = null, $name = null)
 	{
+		$this->repositoryId = $id;
 		$this->repositoryName = $name;
 	}
 
@@ -22,23 +24,53 @@ class Repository
 		array_push($this->addons, $addon);
 	}
 
-	public function GetName()
+	public function Id()
+	{
+		return $this->repositoryId;
+	}
+
+	public function Name()
 	{
 		return $this->repositoryName;
 	}
 
-	public function PrintFormat()
+	// Print in Torque Markup Language
+	public function PrintTML($pretty = false)
 	{
 		$data = '<repository';
 		if ($this->repositoryName !== null)
 			$data .= ":{$this->repositoryName}";
-		$data .= ">\n";
+		$data .= '>';
+		if ($pretty) $data .= "\n";
 		foreach ($this->addons as $addon)
 		{
-			$data .= $addon->PrintFormat();
+			$data .= $addon->PrintTML($pretty);
 		}
 		$data .= '</repository>';
 		return $data;
+	}
+
+	// Print in JSON
+	public function PrintJSON($pretty = false, $as_struct = false)
+	{
+		$data = [];
+		if ($this->repositoryName !== null)
+			$data['name'] = $this->repositoryName;
+
+		$data['add-ons'] = [];
+		foreach ($this->addons as $addon)
+		{
+			$addon = $addon->PrintJSON($pretty, true);
+			if (isset($addon->name))
+				array_push($data['add-ons'], $addon);
+		}
+
+		return self::MakeJSON($data, $pretty, $as_struct);
+	}
+
+	static private function MakeJSON($data, $pretty, $as_struct)
+	{
+		return $as_struct ? (object)$data : json_encode((object)$data, ($pretty ? JSON_PRETTY_PRINT : 0) | JSON_UNESCAPED_SLASHES);
 	}
 
 	// Object iteration
