@@ -83,7 +83,8 @@ class AddOn
 			return self::MakeJSON($addon, $as_struct);
 
 		$addon->name = $this->addonName;
-		$addon->description = $this->description;
+		if ($this->description !== null)
+			$addon->description = $this->description;
 		$addon->channels = [];
 		foreach ($this->channels as $channel)
 		{
