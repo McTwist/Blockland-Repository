@@ -70,6 +70,89 @@ class Database
 			return null;
 	}
 
+	// Get list of addons and its channels from a string
+	public function GetAddOnString($str)
+	{
+		// Filter out the bad bits and get a valid list
+		$list = array_map('intval', array_filter(explode('-', $str), 'is_numeric'));
+		return $this->GetAddOnList($list);
+	}
+
+	// Get list of addons and its channels
+	public function GetAddOnList($list)
+	{
+		if (is_string($list))
+			$list = explode('-', $list);
+		elseif (is_object($list))
+			$list = array_values((array)$list);
+		elseif (!is_array($list))
+			$list = array($list);
+
+		// Prepare IN statement
+		$in_query = implode(', ', array_fill(0, count($list), '?'));
+
+		// Get ready for the huge selection statement
+		$query = 'SELECT 
+			repo.id AS repo_id, 
+			repo.name AS repo_name, 
+			addons.id AS addon_id, 
+			addons.name AS addon_name, 
+			addons.description AS description, 
+			channels.id AS channel_id,
+			channels.name AS channel_name,
+			channels.version AS channel_version,
+			channels.restart_required AS channel_restart_required,
+			channels.changelog AS channel_changelog,
+			(SELECT file FROM addon_data AS data WHERE data.id=channels.data) AS file
+			FROM addons
+			LEFT JOIN repositories AS repo ON repo.id=addons.repository_id
+			LEFT JOIN addon_channels AS channels ON addons.id=channels.addon_id
+			WHERE addons.id IN ('.$in_query.')';
+
+		$stmt = $this->db->prepare($query);
+		if (!$stmt->execute($list))
+		{
+			print_r($stmt->errorInfo());
+			return null;
+		}
+		$result = $stmt->fetchAll(PDO::FETCH_CLASS, "stdClass");
+
+		$repos = [];
+		$addons = [];
+		$channels = [];
+		foreach ($result as $obj)
+		{
+			// Found repository
+			if (!isset($repos[$obj->repo_id]))
+			{
+				$repos[$obj->repo_id] = new Repository($obj->repo_id, $obj->repo_name);
+			}
+			// Found add-on
+			if (!isset($addons[$obj->addon_id]))
+			{
+				$desc = $obj->description;
+				if (empty($desc))
+					$desc = null;
+				$addons[$obj->addon_id] = new AddOn($obj->addon_id, $obj->addon_name, $desc);
+				$repos[$obj->repo_id]->AddAddOn($addons[$obj->addon_id]);
+			}
+			// Found channel
+			if (!isset($channels[$obj->channel_id]))
+			{
+				$channels[$obj->channel_id] = new Channel($obj->channel_id, $obj->channel_name, $obj->file);
+				if (isset($obj->channel_version))
+					$channels[$obj->channel_id]->SetVersion($obj->channel_version);
+				if (isset($obj->channel_restart_required))
+					$channels[$obj->channel_id]->SetRestartRequired($obj->channel_restart_required);
+				if (isset($obj->channel_changelog))
+					$channels[$obj->channel_id]->SetChangelog($obj->channel_changelog);
+				$addons[$obj->addon_id]->AddChannel($channels[$obj->channel_id]);
+			}
+		}
+
+		return count($repos) ? array_shift($repos) : null;
+	}
+
 	// Get all repositories available
 	public function GetRepositories()
 	{
