@@ -38,7 +38,7 @@ class Channel
 	}
 
 	// Print in Torque Markup Language
-	public function PrintTML($pretty = false)
+	public function PrintTML($pretty = false, $description = null)
 	{
 		// No file, avoid showing it
 		if ($this->file === null)
@@ -76,12 +76,12 @@ class Channel
 		}
 
 		// Description
-		/*if ($this->desc !== null)
+		if ($description !== null)
 		{
 			if ($pretty) $data .= self::TABS2;
-			$data .= "<desc:{$this->desc}>";
+			$data .= "<desc:{$description}>";
 			if ($pretty) $data .= "\n";
-		}*/
+		}
 
 		if ($pretty) $data .= self::TABS;
 		$data .= "</channel>";

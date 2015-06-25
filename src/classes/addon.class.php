@@ -52,17 +52,10 @@ class AddOn
 		$channels = '';
 		foreach ($this->channels as $channel)
 		{
-			$channels .= $channel->PrintTML($pretty);
+			$channels .= $channel->PrintTML($pretty, $this->description);
 		}
 		if (empty($channels))
 			return '';
-		// Description outside
-		elseif (!empty($this->description))
-		{
-			if ($pretty) $channels .= Channel::TABS;
-			$channels .= "<desc:{$this->desc}>";
-			if ($pretty) $channels .= "\n";
-		}
 
 		$data = '';
 		if ($pretty) $data .= self::TABS;
