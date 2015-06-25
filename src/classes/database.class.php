@@ -233,6 +233,10 @@ class Database
 	{
 		if (empty($name))
 			$name = '*';
+		if (empty($restart))
+			$restart = null;
+		if (empty($changelog))
+			$changelog = null;
 
 		$this->db->beginTransaction();
 
@@ -251,7 +255,6 @@ class Database
 			VALUES (?, ?, ?, ?, ?, ?)');
 		if (!$stmt->execute(array($name, $addon, $version, $restart, $last_id, $changelog)))
 		{
-			print_r($stmt->errorInfo());
 			$this->db->rollBack();
 			return false;
 		}
