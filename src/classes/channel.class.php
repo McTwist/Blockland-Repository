@@ -18,7 +18,7 @@ class Channel
 	const TABS = "\t\t";
 	const TABS2 = "\t\t\t";
 
-	public function __construct($id = null, $name = '*', $file)
+	public function __construct($id = null, $name = '*', $file = null)
 	{
 		if (empty($name))
 			$name = '*';
@@ -141,10 +141,6 @@ class Channel
 	public function SetChangelog($changelog)
 	{
 		$this->changelog = $changelog;
-	}
-	public function SetDesc($desc)
-	{
-		$this->desc = $desc;
 	}
 
 	// Get values from channel
