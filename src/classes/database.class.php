@@ -193,13 +193,13 @@ class Database
 	// Get add-ons in repository
 	public function GetAddOns($repository_id)
 	{
-		$stmt = $this->db->prepare('SELECT id, name FROM addons WHERE repository_id=?');
+		$stmt = $this->db->prepare('SELECT id, name, description FROM addons WHERE repository_id=?');
 		if (!$stmt->execute(array($repository_id)))
 			return [];
 
 		$addons = [];
 		while ($obj = $stmt->fetchObject())
-			array_push($addons, new AddOn($obj->id, $obj->name));
+			array_push($addons, new AddOn($obj->id, $obj->name, $obj->description));
 
 		foreach ($addons as $i => $addon)
 			foreach ($this->GetChannels($addon->Id()) as $channel)
@@ -213,19 +213,19 @@ class Database
 	{
 		if (is_string($name_id))
 		{
-			$stmt = $this->db->prepare('SELECT id, name FROM addons WHERE searchable_name=?');
+			$stmt = $this->db->prepare('SELECT id, name, description FROM addons WHERE searchable_name=?');
 			$data = array(mb_strtolower($name_id));
 		}
 		else
 		{
-			$stmt = $this->db->prepare('SELECT id, name FROM addons WHERE id=?');
+			$stmt = $this->db->prepare('SELECT id, name, description FROM addons WHERE id=?');
 			$data = array($name_id);
 		}
 		if (!$stmt->execute($data))
 			return null;
 
 		if ($obj = $stmt->fetchObject())
-			$addon = new AddOn($obj->id, $obj->name);
+			$addon = new AddOn($obj->id, $obj->name, $obj->description);
 		else
 			return null;
 
