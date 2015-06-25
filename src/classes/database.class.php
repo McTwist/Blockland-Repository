@@ -92,21 +92,22 @@ class Database
 		$in_query = implode(', ', array_fill(0, count($list), '?'));
 
 		// Get ready for the huge selection statement
-		$query = 'SELECT 
-			repo.id AS repo_id, 
-			repo.name AS repo_name, 
-			addons.id AS addon_id, 
-			addons.name AS addon_name, 
-			addons.description AS description, 
+		$query = 'SELECT
+			repo.id AS repo_id,
+			repo.name AS repo_name,
+			addons.id AS addon_id,
+			addons.name AS addon_name,
+			addons.description AS description,
 			channels.id AS channel_id,
 			channels.name AS channel_name,
 			channels.version AS channel_version,
 			channels.restart_required AS channel_restart_required,
 			channels.changelog AS channel_changelog,
-			(SELECT file FROM addon_data AS data WHERE data.id=channels.data) AS file
+			data.file AS file
 			FROM addons
 			LEFT JOIN repositories AS repo ON repo.id=addons.repository_id
 			LEFT JOIN addon_channels AS channels ON addons.id=channels.addon_id
+			LEFT JOIN addon_data AS data ON data.id=channels.data
 			WHERE addons.id IN ('.$in_query.')';
 
 		$stmt = $this->db->prepare($query);
