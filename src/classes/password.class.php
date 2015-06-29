@@ -15,10 +15,10 @@
 
 class Password
 {
-	// Constants
-	const SEPARATOR = ';';
-	const SALT_SIZE = 24;
-	const HASH_SIZE = 24;
+	// Statics, default
+	public static $separator = ';';
+	public static $salt_size = 24;
+	public static $hash_size = 24;
 	
 	// Enum
 	const HASH_TYPE = 0;
@@ -36,55 +36,55 @@ class Password
 	// Create the password
 	public function Create($password)
 	{
-		$salt = $this->CreateSalt(self::SALT_SIZE);
+		$salt = self::CreateSalt(self::$salt_size);
 		
 		// Put everything together
-		return $this->CreateCompound(
+		return self::CreateCompound(
 			$this->hash_function,
 			$this->hash_algorithm,
 			$this->hash_iterations,
 			$salt,
-			$this->Hash(
+			self::Hash(
 				$this->hash_function,
 				$this->hash_algorithm,
 				$password,
 				$salt,
 				$this->hash_iterations,
-				self::HASH_SIZE
+				self::$hash_size
 				)
 			);
 	}
 	
 	// Validate a password
-	public function Validate($password, $string)
+	public static function Validate($password, $string)
 	{
-		if (!$this->IsValidCompound($string))
+		if (!self::IsValidCompound($string))
 			return false;
 		
 		// Get values
-		list($func, $algorithm, $iterations, $salt, $hash) = $this->SplitCompound($string);
+		list($func, $algorithm, $iterations, $salt, $hash) = self::SplitCompound($string);
 		
 		// Hash the input
-		$hash2 = $this->Hash($func, $algorithm, $password, $salt, $iterations, self::HASH_SIZE);
+		$hash2 = self::Hash($func, $algorithm, $password, $salt, $iterations, self::$hash_size);
 		
 		// Validate
-		return $this->ValidateHash($func, $hash, $hash2);
+		return self::ValidateHash($func, $hash, $hash2);
 	}
 	
 	// Create hash string for compatibility
-	private function CreateCompound($func, $algorithm, $count, $salt, $hash)
+	private static function CreateCompound($func, $algorithm, $count, $salt, $hash)
 	{
-		return self::SEPARATOR.$func.self::SEPARATOR.$algorithm.self::SEPARATOR.$count.self::SEPARATOR.$salt.self::SEPARATOR.$hash;
+		return self::$separator.$func.self::$separator.$algorithm.self::$separator.$count.self::$separator.$salt.self::$separator.$hash;
 	}
 	
 	// Split compound string to its components
-	private function SplitCompound($compound)
+	private static function SplitCompound($compound)
 	{
 		return explode($compound[0], substr($compound, 1));
 	}
 	
 	// Is a valid compound
-	private function IsValidCompound($hash)
+	private static function IsValidCompound($hash)
 	{
 		if (substr_count(substr($hash, 1), $hash[0]) + 1 != self::HASH_COUNT)
 			return false;
@@ -92,16 +92,16 @@ class Password
 	}
 	
 	// Get a real random salt
-	private function CreateSalt($max_len = null)
+	private static function CreateSalt($max_len = null)
 	{
 		// mcrypt
 		if (extension_loaded('mcrypt'))
-			$rand = mcrypt_create_iv(self::SALT_SIZE, MCRYPT_DEV_URANDOM);
+			$rand = mcrypt_create_iv(self::$salt_size, MCRYPT_DEV_URANDOM);
 		// openssl
 		elseif (extension_loaded('openssl'))
 		{
 			$is_strong = true;
-			$rand = openssl_random_pseudo_bytes(self::SALT_SIZE, $is_strong);
+			$rand = openssl_random_pseudo_bytes(self::$salt_size, $is_strong);
 			// If it's not strong enough, then issue default one
 			if (!$is_strong)
 				unset($rand);
@@ -117,7 +117,7 @@ class Password
 	
 	// Hash a a password
 	// Contains several hashing functions
-	private function Hash($func, $algorithm, $password, $salt, $count, $max_len)
+	private static function Hash($func, $algorithm, $password, $salt, $count, $max_len)
 	{
 		switch($func)
 		{
@@ -146,7 +146,7 @@ class Password
 	}
 	
 	// Validate hash if correct
-	private function ValidateHash($func, $a, $b)
+	private static function ValidateHash($func, $a, $b)
 	{
 		switch($func)
 		{
@@ -160,7 +160,7 @@ class Password
 	}
 	
 	// Slow, length-constant equals
-	static private function SlowEquals($a, $b)
+	private static function SlowEquals($a, $b)
 	{
 		$len1 = strlen($a);
 		$len2 = strlen($b);
