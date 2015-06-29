@@ -6,5 +6,14 @@
 		"username" : "username",
 		"password" : "password",
 		"db" : "database"
+	},
+	"password" :
+	{
+		"function" : "pbkdf2",
+		"algorithm" : "sha256",
+		"iterations" : 5000,
+		"salt_size" : 24,
+		"hash_size" : 24,
+		"separator" : ";"
 	}
 }
