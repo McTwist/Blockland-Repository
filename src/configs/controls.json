@@ -3,7 +3,6 @@
 	{
 		"driver" : "mysql",
 		"host" : "localhost",
-		"schema" : "db_schema",
 		"username" : "username",
 		"password" : "password",
 		"db" : "database"
