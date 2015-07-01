@@ -15,6 +15,7 @@ class AddOn
 	private $channels = [];
 
 	const TABS = "\t";
+	const TABS2 = "\t\t";
 
 	public function __construct($id = null, $name = null, $description = null)
 	{
@@ -52,7 +53,7 @@ class AddOn
 		$channels = '';
 		foreach ($this->channels as $channel)
 		{
-			$channels .= $channel->PrintTML($pretty, $this->description);
+			$channels .= $channel->PrintTML($pretty);
 		}
 		if (empty($channels))
 			return '';
@@ -61,6 +62,15 @@ class AddOn
 		if ($pretty) $data .= self::TABS;
 		$data .= "<addon:{$this->addonName}>";
 		if ($pretty) $data .= "\n";
+
+		// Description
+		if ($this->description !== null)
+		{
+			if ($pretty) $data .= self::TABS2;
+			$data .= "<desc:{$this->description}>";
+			if ($pretty) $data .= "\n";
+		}
+
 		$data .= $channels;
 		if ($pretty) $data .= self::TABS;
 		$data .= "</addon>";
