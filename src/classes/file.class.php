@@ -290,7 +290,7 @@ class File
 		$lines = preg_split('/$\R?^/m', $content);
 
 		// Split up the fields internally into arrays
-		array_walk($lines, function(&$value, $i) { $value = preg_split('/\s+/', $value); });
+		array_walk($lines, function(&$value, $i) { $value = preg_split('/\s+/', trim($value)); });
 
 		$repositories = [];
 		$formats = [];
