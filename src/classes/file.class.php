@@ -9,6 +9,9 @@ class File
 {
 	private $archive = null;
 
+	private $type = null;
+	private $name = null;
+
 	// description.txt
 	private $title = null;
 	private $author = null;
@@ -26,12 +29,26 @@ class File
 
 	public function __construct($file)
 	{
+		// Read archive
 		$this->archive = new ZipArchive();
 		if ($this->archive->open($file) !== true)
 		{
 			$this->archive = null;
 			return;
 		}
+
+		// Parse filename
+		$underscore = strpos($file, '_');
+		if ($underscore !== false)
+		{
+			$this->type = substr($file, 0, $underscore);
+			list($this->name) = explode('.', substr($file, $underscore + 1));
+		}
+		else
+		{
+			list($this->name) = explode('.', $file);
+		}
+
 
 		// Read in default information if it exists
 		$this->ReadVersion();
@@ -42,6 +59,16 @@ class File
 	public function IsOpen()
 	{
 		return $this->archive !== null;
+	}
+
+	public function Type($lower = false)
+	{
+		return $lower ? strtolower($this->type) : $this->type;
+	}
+
+	public function Name()
+	{
+		return $this->name;
 	}
 
 	public function Title($value = null)
