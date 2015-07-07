@@ -219,6 +219,11 @@ class File
 		return $this->HaveFile('gamemode.txt');
 	}
 
+	public function HaveColorset()
+	{
+		return $this->HaveFile('colorset.txt');
+	}
+
 	// Generate a description.txt file
 	public function GenerateDescription($overwrite = false)
 	{
@@ -236,8 +241,6 @@ class File
 
 		// Save it
 		$this->archive->addFromString('description.txt', $content);
-
-		return;
 	}
 
 	// Generate a namecheck.txt file
