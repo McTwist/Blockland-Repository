@@ -251,6 +251,17 @@ class File
 		return $this->HaveFile('colorset.txt');
 	}
 
+	public function HasBricks()
+	{
+		for ($i = 0; $i < $this->archive->numFiles; $i++)
+		{
+			$stat = $this->archive->statIndex($i);
+			if (end(explode('.', $stat['name'])) === 'blb')
+				return true;
+		}
+		return false;
+	}
+
 	// Generate a description.txt file
 	public function GenerateDescription($overwrite = false)
 	{
