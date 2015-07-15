@@ -159,6 +159,7 @@ class Input
 		}
 	}
 
+	// Create data from collected information
 	private function CreateData()
 	{
 		// Merge get, post and files
