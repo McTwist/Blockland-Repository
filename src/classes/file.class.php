@@ -14,7 +14,7 @@ class File
 
 	// description.txt
 	private $title = null;
-	private $author = null;
+	private $authors = null;
 	private $description = null;
 
 	// namecheck.txt
@@ -79,12 +79,12 @@ class File
 		return $title;
 	}
 
-	public function Author($value = null)
+	public function Authors($value = null)
 	{
-		$author = $this->author;
+		$authors = $this->authors;
 		if ($value !== null)
-			$this->author = $value;
-		return $author;
+			$this->authors = $value;
+		return $authors;
 	}
 
 	public function Description($value = null)
@@ -143,10 +143,10 @@ class File
 	// Validates file to contain the required data
 	public function Validate()
 	{
-		return $this->ValidateDescription() &&
-			$this->ValidateNamecheck() &&
-			$this->ValidateVersion() &&
-			$this->ValidateScripts();
+		return $this->ValidateDescription()
+			&& $this->ValidateNamecheck()
+			&& $this->ValidateVersion()
+			&& $this->ValidateScripts();
 	}
 
 	public function ValidateScripts()
@@ -191,7 +191,9 @@ class File
 
 		// Easy parser
 		$this->title = trim(substr($lines[0], 6));
-		$this->author = trim(substr($lines[1], 7));
+		$authors = preg_split('/(\,|\;)/', substr($lines[1], 7));
+		array_walk($authors, function(&$value, $i) { $value = trim($value); });
+		$this->authors = $authors;
 		$this->description = $lines[2];
 	}
 
@@ -231,6 +233,17 @@ class File
 		}
 	}
 
+	// Validate gmae mode files
+	public function ValidateGameMode()
+	{
+		return $this->IsGameMode()
+			&& $this->HaveColorset()
+			&& $this->HaveFile('description.txt')
+			&& $this->HaveFile('save.bls')
+			&& $this->HaveFile('preview.jpg')
+			&& $this->HaveFile('thumb.jpg')
+	}
+
 	public function IsClient()
 	{
 		return $this->HaveFile('client.cs');
@@ -268,17 +281,20 @@ class File
 		if (!$overwrite && $this->HaveFile('description.txt'))
 			return;
 
-		// Make sure you write correct data
-		if (empty($this->title) || empty($this->author) || empty($this->description))
-			return;
+		$authors = implode(', ', $this->authors);
 
 		// Prepare the data
-		$content  = "Title: {$this->title}\n";
-		$content .= "Author: {$this->author}\n";
-		$content .= "{$this->description}";
+		$content = '';
+		if (!empty($this->title))
+			$content .= "Title: {$this->title}\n";
+		if (!empty($authors))
+			$content .= "Author: {$authors}\n";
+		if (!empty($this->description))
+			$content .= "{$this->description}";
 
 		// Save it
-		$this->archive->addFromString('description.txt', $content);
+		if (!empty($content))
+			$this->archive->addFromString('description.txt', $content);
 	}
 
 	// Generate a namecheck.txt file
