@@ -97,7 +97,7 @@ class File
 
 	public function Namecheck()
 	{
-		return $this->namecheck;
+		return isset($this->namecheck) ? $this->namecheck->Get() : '';
 	}
 
 	public function Version($value = null)
@@ -200,6 +200,28 @@ class File
 		$this->description = $lines[2];
 	}
 
+	// Generate a description.txt file
+	public function GenerateDescription($overwrite = false)
+	{
+		if (!$overwrite && $this->HaveFile('description.txt'))
+			return;
+
+		$authors = implode(', ', $this->authors);
+
+		// Prepare the data
+		$content = '';
+		if (!empty($this->title))
+			$content .= "Title: {$this->title}".self::NL;
+		if (!empty($authors))
+			$content .= "Author: {$authors}".self::NL;
+		if (!empty($this->description))
+			$content .= "{$this->description}";
+
+		// Save it
+		if (!empty($content))
+			$this->archive->addFromString('description.txt', $content);
+	}
+
 	// Validate internal namecheck file
 	public function ValidateNamecheck()
 	{
@@ -207,22 +229,25 @@ class File
 		if (!$this->HaveFile('namecheck.txt'))
 			return true;
 
-		$namecheck = $this->ReadFile('namecheck.txt');
-
-		if ($namecheck !== basename($this->archive->filename, '.zip'))
-			return false;
-
-		return true;
+		return $this->namecheck->Validate();
 	}
 
 	// Read the file
 	public function ReadNamecheck()
 	{
 		// Check for file that to check for
-		if (!$this->HaveFile('namecheck.txt'))
+		$namecheck = ($this->HaveFile('namecheck.txt')) ? $this->ReadFile('namecheck.txt') : '';
+		
+		$this->namecheck = new FileNamecheck($this->archive->filename, $namecheck);
+	}
+
+	// Generate a namecheck.txt file
+	public function GenerateNamecheck($overwrite = false)
+	{
+		if (!$overwrite && $this->HaveFile('namecheck.txt'))
 			return;
 
-		$this->namecheck = $this->ReadFile('namecheck.txt');
+		$this->archive->addFromString('namecheck.txt', $this->namecheck->Generate());
 	}
 
 	// Validate the file types in the archive
@@ -276,38 +301,6 @@ class File
 				return true;
 		}
 		return false;
-	}
-
-	// Generate a description.txt file
-	public function GenerateDescription($overwrite = false)
-	{
-		if (!$overwrite && $this->HaveFile('description.txt'))
-			return;
-
-		$authors = implode(', ', $this->authors);
-
-		// Prepare the data
-		$content = '';
-		if (!empty($this->title))
-			$content .= "Title: {$this->title}".self::NL;
-		if (!empty($authors))
-			$content .= "Author: {$authors}".self::NL;
-		if (!empty($this->description))
-			$content .= "{$this->description}";
-
-		// Save it
-		if (!empty($content))
-			$this->archive->addFromString('description.txt', $content);
-	}
-
-	// Generate a namecheck.txt file
-	public function GenerateNamecheck($overwrite = false)
-	{
-		if (!$overwrite && $this->HaveFile('namecheck.txt'))
-			return;
-
-		// Ignore everything and just add the filename as it should be
-		$this->archive->addFromString('namecheck.txt', basename($this->archive->filename, '.zip'));
 	}
 
 	// Get out all those pesky files that somehow get into every other add-on
@@ -576,6 +569,40 @@ class File
 			// Save it
 			$this->archive->addFromString('version.json', $content);
 		}
+	}
+}
+
+/*
+ * FileNamecheck
+ * Handles the name checking
+ */
+class FileNamecheck
+{
+	private $filename = '';
+	private $namecheck = '';
+
+	public function __construct($filename, $namecheck = '')
+	{
+		$this->filename = basename($filename, '.zip');
+		$this->namecheck = $namecheck;
+	}
+
+	// Validate the name
+	public function Validate()
+	{
+		return $this->namecheck === $this->filename;
+	}
+
+	// Generate a new namecheck
+	public function Generate()
+	{
+		// Ignore everything and just add the filename as it should be
+		return $this->namecheck = $this->filename;
+	}
+
+	public function Get()
+	{
+		return $this->namecheck;
 	}
 }
 
