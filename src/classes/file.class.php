@@ -19,9 +19,7 @@ class File
 	private $namecheck = null;
 
 	// version.txt
-	private $version = '0.0';
-	private $channel = '*';
-	private $repositories = [];
+	private $version = null;
 
 	const NL = "\r\n";
 
@@ -48,6 +46,7 @@ class File
 		}
 
 		$this->description = new FileDescription();
+		$this->version = new FileVersion();
 
 		// Read in default information if it exists
 		$this->ReadVersion();
@@ -92,45 +91,28 @@ class File
 
 	public function Version($value = null)
 	{
-		$version = $this->version;
-		if ($value !== null)
-			$this->version = $value;
-		return $version;
+		return $this->version->Version($value);
 	}
 
 	public function Channel($value = null)
 	{
-		$channel = $this->channel;
-		if ($value !== null)
-			$this->channel = $value;
-		return $channel;
+		return $this->version->Channel($value);
 	}
 
 	public function AddRepository($url, $format = null, $id = null)
 	{
-		if (isset($this->repositories[$url]))
-			return SetRepository($url, $format, $id);
-
-		$repo = new stdClass();
-		$repo->format = $format;
-		$repo->id = $id;
-		$this->repositories[$url] = $repo;
+		return $this->version->AddRepository($url, $format, $id);
 	}
 
 	public function SetRepository($url, $format = null, $id = null)
 	{
-		if (!isset($this->repositories[$url]))
-			return AddRepository($url, $format, $id);
-
-		if (isset($format))
-			$this->repositories[$url]->format = $format;
-		if (isset($id))
-			$this->repositories[$url]->id = $id;
+		return $this->version->SetRepository($url, $format, $id);
 	}
 
 	public function Repositories()
 	{
-		return $this->repositories;
+		//return $this->repositories;
+		return $this->version->Repositories();
 	}
 
 	// Validates file to contain the required data
@@ -291,70 +273,7 @@ class File
 		if ($version_txt && $version_json)
 			return false;
 
-		// Old version.txt format
-		if ($version_txt)
-		{
-			// Get content
-			$content = $this->ReadFile('version.txt');
-
-			// Split up the lines into an array
-			$lines = preg_split('/$\R?^/m', $content);
-
-			// Split up the fields internally into arrays
-			array_walk($lines, function(&$value, $i) { $value = preg_split('/\s+/', trim($value)); });
-
-			$repositories = [];
-			foreach ($lines as $line)
-			{
-				// Avoid problem
-				if (count($line) < 2)
-					continue;
-				switch ($line[0])
-				{
-				case 'version': case 'version:': case 'vers':
-					$version = $line[1];
-					break;
-				case 'channel': case 'channel:': case 'chan':
-					$channel = $line[1];
-					break;
-				case 'repository': case 'repository:': case 'repo':
-					array_push($repositories, $line[1]);
-					break;
-				}
-			}
-		}
-		// New JSON format
-		elseif ($version_json)
-		{
-			// Get content
-			$content = $this->ReadFile('version.json');
-
-			$data = json_decode($content);
-
-			// Could not decode
-			if ($data === null)
-				return false;
-
-			if (!isset($data->version))
-				return false;
-			if (!isset($data->channel))
-				return false;
-
-			if (isset($data->repositories))
-			{
-				foreach ($data->repositories as $repository)
-				{
-					if (isset($repository->url))
-						return true;
-				}
-			}
-
-			return false;
-		}
-
-
-		// And check if it's valid
-		return !empty($version) && !empty($channel) && !empty($repositories);
+		return $this->version->Validate();
 	}
 
 	// Read version.txt
@@ -363,90 +282,12 @@ class File
 		// Old version.txt format
 		if ($this->HaveFile('version.txt'))
 		{
-			$this->repositories = [];
-
-			// Get content
-			$content = $this->ReadFile('version.txt');
-
-			// Split up the lines into an array
-			$lines = preg_split('/$\R?^/m', $content);
-
-			// Split up the fields internally into arrays
-			array_walk($lines, function(&$value, $i) { $value = preg_split('/\s+/', trim($value)); });
-
-			// Default values
-			$format = null;
-			$id = null;
-			foreach ($lines as $line)
-			{
-				// Avoid problem
-				if (count($line) < 2)
-					continue;
-				// Note: Values are taken directly from the Updater
-				switch ($line[0])
-				{
-				case 'version': case 'version:': case 'vers':
-					$this->version = $line[1];
-					break;
-				case 'channel': case 'channel:': case 'chan':
-					$this->channel = $line[1];
-					break;
-				case 'repository': case 'repository:': case 'repo':
-					$this->AddRepository(
-						$line[1],
-						count($line) > 2 ? $line[2] : null,
-						count($line) > 3 ? $line[3] : null);
-					break;
-				case 'format': case 'format:': case 'form':
-					$format = $line[1];
-					break;
-				case 'id': case 'id:':
-					$id = (int)$line[1];
-					break;
-				}
-			}
-
-			// Set defaults
-			foreach ($this->repositories as &$repo)
-			{
-				if (!isset($repo->format))
-					$repo->format = $format;
-				if (!isset($repo->id))
-					$repo->id = $id;
-			}
+			$this->version->Read($this->ReadFile('version.txt'), false);
 		}
 		// New JSON format
 		elseif ($this->HaveFile('version.json'))
 		{
-			// Get content
-			$content = $this->ReadFile('version.json');
-
-			$data = json_decode($content);
-
-			// Could not decode
-			if ($data === null)
-				return;
-
-			$this->repositories = [];
-
-			if (isset($data->version))
-				$this->version = $data->version;
-			if (isset($data->channel))
-				$this->channel = $data->channel;
-
-			if (isset($data->repositories))
-			{
-				foreach ($data->repositories as $repository)
-				{
-					if (isset($repository->url))
-					{
-						$this->AddRepository(
-							$repository->url,
-							isset($repository->format) ? $repository->format : null,
-							isset($repository->id) ? $repository->id : null);
-					}
-				}
-			}
+			$this->version->Read($this->ReadFile('version.json'), true);
 		}
 	}
 
@@ -457,8 +298,7 @@ class File
 		$version_txt = $this->HaveFile('version.txt');
 		$version_json = $this->HaveFile('version.json');
 
-		// Check a couple of restrainments
-		if (empty($this->version) || empty($this->channel) || count($this->repositories) == 0)
+		if (!$this->version->Validate())
 			return;
 
 		// Remove old files if overwriting
@@ -476,51 +316,9 @@ class File
 			return;
 		}
 
-		// Old version
-		if (!$json)
-		{
-			// Prepare data
-			$content  = "version {$this->version}".self::NL;
-			$content .= "channel {$this->channel}".self::NL;
-			foreach ($this->repositories as $url => $repo)
-			{
-				$content .= "repository {$url} {$url}";
-				if (isset($repo->format))
-					$content .= " {$repo->format}";
-				if (isset($repo->id))
-					$content .= " {$repo->id}";
-				$content .= self::NL;
-			}
-
-			// Save it
-			$this->archive->addFromString('version.txt', $content);
-		}
-		// New format
-		else
-		{
-			// Prepare data
-			$data = new stdClass();
-			$data->version = $this->version;
-			$data->channel = $this->channel;
-			$data->repositories = [];
-			foreach ($this->repositories as $url => $repo)
-			{
-				// Note: New object is required to sort the data
-				$rep = new stdClass();
-				$rep->url = $url;
-				if (isset($repo->format))
-					$rep->format = $repo->format;
-				if (isset($repo->id))
-					$rep->id = $repo->id;
-				array_push($data->repositories, $rep);
-			}
-
-			// Generate content
-			$content = json_encode($data, ($pretty ? JSON_PRETTY_PRINT : 0) | JSON_UNESCAPED_SLASHES);
-
-			// Save it
-			$this->archive->addFromString('version.json', $content);
-		}
+		$content = $this->version->Generate($json, $pretty);
+		if (!empty($content))
+			$this->archive->addFromString($json ? 'version.json' : 'version.txt', $content);
 	}
 }
 
@@ -644,6 +442,209 @@ class FileDescription
 		if ($value !== null)
 			$this->description = $value;
 		return $description;
+	}
+}
+
+/*
+ * FileNamecheck
+ * Handles the version file
+ * Greek2me's Updater
+ */
+class FileVersion
+{
+	private $version = '0.0';
+	private $channel = '*';
+	private $repositories = [];
+
+	const NL = File::NL;
+
+	// Read version
+	public function Read($content, $json)
+	{
+		$this->repositories = [];
+
+		// Old version.txt format
+		if (!$json)
+		{
+			// Split up the lines into an array
+			$lines = preg_split('/$\R?^/m', $content);
+
+			// Split up the fields internally into arrays
+			array_walk($lines, function(&$value, $i) { $value = preg_split('/\s+/', trim($value)); });
+
+			// Default values
+			$format = null;
+			$id = null;
+			foreach ($lines as $line)
+			{
+				// Avoid problem
+				if (count($line) < 2)
+					continue;
+				// Note: Values are taken directly from the Updater
+				switch ($line[0])
+				{
+				case 'version': case 'version:': case 'vers':
+					$this->version = $line[1];
+					break;
+				case 'channel': case 'channel:': case 'chan':
+					$this->channel = $line[1];
+					break;
+				case 'repository': case 'repository:': case 'repo':
+					$this->AddRepository(
+						$line[1],
+						count($line) > 2 ? $line[2] : null,
+						count($line) > 3 ? $line[3] : null);
+					break;
+				case 'format': case 'format:': case 'form':
+					$format = $line[1];
+					break;
+				case 'id': case 'id:':
+					$id = (int)$line[1];
+					break;
+				}
+			}
+
+			// Set defaults
+			foreach ($this->repositories as &$repo)
+			{
+				if (!isset($repo->format))
+					$repo->format = $format;
+				if (!isset($repo->id))
+					$repo->id = $id;
+			}
+		}
+		// New JSON format
+		else
+		{
+			$data = json_decode($content);
+
+			// Could not decode
+			if ($data === null)
+				return;
+
+			$this->repositories = [];
+
+			if (isset($data->version))
+				$this->version = $data->version;
+			if (isset($data->channel))
+				$this->channel = $data->channel;
+
+			if (isset($data->repositories))
+			{
+				foreach ($data->repositories as $repository)
+				{
+					if (isset($repository->url))
+					{
+						$this->AddRepository(
+							$repository->url,
+							isset($repository->format) ? $repository->format : null,
+							isset($repository->id) ? $repository->id : null);
+					}
+				}
+			}
+		}
+	}
+
+	// Validate version
+	public function Validate()
+	{
+		return !empty($this->version)
+			&& !empty($this->channel)
+			&& count($this->repositories) > 0;
+	}
+
+	// Generate a version file
+	// Pretty only works with JSON
+	public function Generate($json = true, $pretty = true)
+	{
+		// Check a couple of restrainments
+		if (empty($this->version) || empty($this->channel) || count($this->repositories) == 0)
+			return '';
+
+		// Old version
+		if (!$json)
+		{
+			// Prepare data
+			$content  = "version {$this->version}".self::NL;
+			$content .= "channel {$this->channel}".self::NL;
+			foreach ($this->repositories as $url => $repo)
+			{
+				$content .= "repository {$url} {$url}";
+				if (isset($repo->format))
+					$content .= " {$repo->format}";
+				if (isset($repo->id))
+					$content .= " {$repo->id}";
+				$content .= self::NL;
+			}
+		}
+		// New format
+		else
+		{
+			// Prepare data
+			$data = new stdClass();
+			$data->version = $this->version;
+			$data->channel = $this->channel;
+			$data->repositories = [];
+			foreach ($this->repositories as $url => $repo)
+			{
+				// Note: New object is required to sort the data
+				$rep = new stdClass();
+				$rep->url = $url;
+				if (isset($repo->format))
+					$rep->format = $repo->format;
+				if (isset($repo->id))
+					$rep->id = $repo->id;
+				array_push($data->repositories, $rep);
+			}
+
+			// Generate content
+			$content = json_encode($data, ($pretty ? JSON_PRETTY_PRINT : 0) | JSON_UNESCAPED_SLASHES);
+		}
+
+		return $content;
+	}
+
+	public function Version($value = null)
+	{
+		$version = $this->version;
+		if ($value !== null)
+			$this->version = $value;
+		return $version;
+	}
+
+	public function Channel($value = null)
+	{
+		$channel = $this->channel;
+		if ($value !== null)
+			$this->channel = $value;
+		return $channel;
+	}
+
+	public function AddRepository($url, $format = null, $id = null)
+	{
+		if (isset($this->repositories[$url]))
+			return $this->SetRepository($url, $format, $id);
+
+		$repo = new stdClass();
+		$repo->format = $format;
+		$repo->id = $id;
+		$this->repositories[$url] = $repo;
+	}
+
+	public function SetRepository($url, $format = null, $id = null)
+	{
+		if (!isset($this->repositories[$url]))
+			return $this->AddRepository($url, $format, $id);
+
+		if (isset($format))
+			$this->repositories[$url]->format = $format;
+		if (isset($id))
+			$this->repositories[$url]->id = $id;
+	}
+
+	public function Repositories()
+	{
+		return $this->repositories;
 	}
 }
 
