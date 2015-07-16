@@ -206,6 +206,12 @@ class File
 			&& $this->HaveFile('thumb.jpg');
 	}
 
+	// A small check to see if people have included code, but no file to execute it from
+	public function CanExecute()
+	{
+		return !$this->IsClient() && !$this->IsServer() && $this->HasFileType('cs');
+	}
+
 	public function IsClient()
 	{
 		return $this->HaveFile('client.cs');
@@ -228,13 +234,54 @@ class File
 
 	public function HasBricks()
 	{
-		for ($i = 0; $i < $this->archive->numFiles; $i++)
-		{
-			$stat = $this->archive->statIndex($i);
-			if (end(explode('.', $stat['name'])) === 'blb')
-				return true;
-		}
-		return false;
+		return $this->HasFileType('blb');
+	}
+
+	public function HasMusic()
+	{
+		return $this->HasFileType('ogg');
+	}
+
+	public function HasSound()
+	{
+		return $this->HasFileType('wav');
+	}
+
+	public function HasImages()
+	{
+		return $this->HasFileType('png')
+			|| $this->HasFileType('jpg');
+	}
+
+	public function HasModels()
+	{
+		return $this->HasFileType('dts')
+			&& $this->HasFileType('dif');
+	}
+
+	public function HasAnimations()
+	{
+		return $this->HasFileType('dsq');
+	}
+
+	public function HasTerrain()
+	{
+		return $this->HasFileType('ter');
+	}
+
+	public function HasLight()
+	{
+		return $this->HasFileType('ml');
+	}
+
+	public function HasMission()
+	{
+		return $this->HasFileType('mis');
+	}
+
+	public function HasSave()
+	{
+		return $this->HasFileType('bls');
 	}
 
 	// Get out all those pesky files that somehow get into every other add-on
@@ -255,6 +302,17 @@ class File
 	private function HaveFile($file)
 	{
 		return $this->archive->locateName($file, ZipArchive::FL_NOCASE) !== false;
+	}
+
+	private function HasFileType($ext)
+	{
+		for ($i = 0; $i < $this->archive->numFiles; $i++)
+		{
+			$stat = $this->archive->statIndex($i);
+			if (end(explode('.', $stat['name'])) === $ext)
+				return true;
+		}
+		return false;
 	}
 
 	private function ReadFile($file)
