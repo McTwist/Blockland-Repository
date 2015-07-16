@@ -13,8 +13,6 @@ class File
 	private $name = null;
 
 	// description.txt
-	private $title = null;
-	private $authors = [];
 	private $description = null;
 
 	// namecheck.txt
@@ -49,6 +47,7 @@ class File
 			list($this->name) = explode('.', $file);
 		}
 
+		$this->description = new FileDescription();
 
 		// Read in default information if it exists
 		$this->ReadVersion();
@@ -73,26 +72,17 @@ class File
 
 	public function Title($value = null)
 	{
-		$title = $this->title;
-		if ($value !== null)
-			$this->title = $value;
-		return $title;
+		return $this->description->Title($value);
 	}
 
 	public function Authors($value = null)
 	{
-		$authors = $this->authors;
-		if ($value !== null)
-			$this->authors = (is_array($value)) ? $value : array($value);
-		return $authors;
+		return $this->description->Authors($value);
 	}
 
 	public function Description($value = null)
 	{
-		$description = $this->description;
-		if ($value !== null)
-			$this->description = $value;
-		return $description;
+		return $this->description->Description($value);
 	}
 
 	public function Namecheck()
@@ -161,43 +151,14 @@ class File
 	// Validate internal description file
 	public function ValidateDescription()
 	{
-		// Check for file that to check for
-		if (!$this->HaveFile('description.txt'))
-			return false;
-
-		// Read content
-		$content = $this->ReadFile('description.txt');
-
-		// Split it into suitable pieces
-		$lines = preg_split('/$\R?^/m', $content, 3);
-
-		if (substr($lines[0], 0, 6) !== 'Title:')
-			return false;
-		if (substr($lines[1], 0, 7) !== 'Author:')
-			return false;
-
-		return true;
+		return $this->description->Validate();
 	}
 
 	// Read the file
 	public function ReadDescription()
 	{
-		// Check for file that to check for
-		if (!$this->HaveFile('description.txt'))
-			return;
-
-		// Read content
-		$content = $this->ReadFile('description.txt');
-
-		// Split it into suitable pieces
-		$lines = preg_split('/$\R?^/m', $content, 3);
-
-		// Easy parser
-		$this->title = trim(substr($lines[0], 6));
-		$authors = preg_split('/(\,|\;)/', substr($lines[1], 7));
-		array_walk($authors, function(&$value, $i) { $value = trim($value); });
-		$this->authors = $authors;
-		$this->description = $lines[2];
+		if ($this->HaveFile('description.txt'))
+			$this->description->Read($this->ReadFile('description.txt'));
 	}
 
 	// Generate a description.txt file
@@ -206,16 +167,7 @@ class File
 		if (!$overwrite && $this->HaveFile('description.txt'))
 			return;
 
-		$authors = implode(', ', $this->authors);
-
-		// Prepare the data
-		$content = '';
-		if (!empty($this->title))
-			$content .= "Title: {$this->title}".self::NL;
-		if (!empty($authors))
-			$content .= "Author: {$authors}".self::NL;
-		if (!empty($this->description))
-			$content .= "{$this->description}";
+		$content = $this->description->Generate();
 
 		// Save it
 		if (!empty($content))
@@ -603,6 +555,95 @@ class FileNamecheck
 	public function Get()
 	{
 		return $this->namecheck;
+	}
+}
+
+/*
+ * FileDescription
+ * Handles the description content
+ */
+class FileDescription
+{
+	private $title = null;
+	private $authors = [];
+	private $description = null;
+
+	const NL = File::NL;
+
+	// Read the description information
+	public function Read($content)
+	{
+		// Split it into suitable pieces
+		$lines = preg_split('/$\R?^/m', $content);
+
+		foreach ($lines as $line)
+		{
+			$lower = strtolower($line);
+			// Title
+			if (substr($lower, 0, 6) == 'title:')
+			{
+				$this->title = trim(substr($line, 6));
+			}
+			// Author
+			elseif (substr($lower, 0, 7) == 'author:')
+			{
+				$authors = preg_split('/(\,|\;)/', substr($line, 7));
+				array_walk($authors, function(&$value, $i) { $value = trim($value); });
+				$this->authors = $authors;
+			}
+			// Description
+			else
+			{
+				$this->description .= $line;
+			}
+		}
+	}
+
+	// Validate the description
+	public function Validate()
+	{
+		return !empty($this->title) && !empty($this->authors) && !empty($this->description);
+	}
+
+	// Generate new description content
+	public function Generate()
+	{
+		$authors = implode(', ', $this->authors);
+
+		// Prepare the data
+		$content = '';
+		if (!empty($this->title))
+			$content .= "Title: {$this->title}".self::NL;
+		if (!empty($authors))
+			$content .= "Author: {$authors}".self::NL;
+		if (!empty($this->description))
+			$content .= "{$this->description}";
+
+		return $content;
+	}
+
+	public function Title($value = null)
+	{
+		$title = $this->title;
+		if ($value !== null)
+			$this->title = $value;
+		return $title;
+	}
+
+	public function Authors($value = null)
+	{
+		$authors = $this->authors;
+		if ($value !== null)
+			$this->authors = (is_array($value)) ? $value : array($value);
+		return $authors;
+	}
+
+	public function Description($value = null)
+	{
+		$description = $this->description;
+		if ($value !== null)
+			$this->description = $value;
+		return $description;
 	}
 }
 
