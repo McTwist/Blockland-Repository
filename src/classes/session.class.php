@@ -94,6 +94,12 @@ class Session
 	{
 		// Store them away for later use
 		$this->variables = $_SESSION;
+		$this->Touch();
+	}
+
+	// Touch the session, updating the last access time
+	private function Touch()
+	{
 		// This ensures that the session wont time out
 		$_SESSION['__last_access__'] = time();
 	}
