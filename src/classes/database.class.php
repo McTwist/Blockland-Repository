@@ -4,6 +4,7 @@
  * Creates objects retrieved from the database
  */
 
+require_once 'config.class.php';
 require 'user.class.php';
 require 'repository.class.php';
 require 'password.class.php';
@@ -12,26 +13,20 @@ class Database
 {
 	private $db = null;
 
-	public function __construct($file)
+	public function __construct()
 	{
-		// Get file content
-		$json = file_get_contents($file);
-		if ($json === false)
-			throw new Exception("Unable to open file: {$file}");
-
-		// Decode preferences
-		$pref = json_decode($json);
-		if ($pref === null)
-			throw new Exception("File is not valid: {$file}, ".'"'.json_last_error().'"');
+		$pref = Config::Database();
+		if (!is_object($pref))
+			throw new Exception("Invalid preference");
 
 		// Prepare port if it exists
-		$port = (isset($pref->database->port)) ? ";port={$pref->database->port}" : '';
+		$port = (isset($pref->port)) ? ";port={$pref->port}" : '';
 
 		// Start the connection
 		$this->db = new PDO(
-			"{$pref->database->driver}:host={$pref->database->host}{$port};dbname={$pref->database->db}",
-			$pref->database->username,
-			$pref->database->password);
+			"{$pref->driver}:host={$pref->host}{$port};dbname={$pref->db}",
+			$pref->username,
+			$pref->password);
 	}
 
 	// Get users
