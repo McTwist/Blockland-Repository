@@ -170,7 +170,10 @@ class Database
 	// Get repository
 	public function GetRepository($name = null)
 	{
-		$stmt = $this->db->prepare('SELECT id, name FROM repositories WHERE name=?');
+		if ($name !== null)
+			$stmt = $this->db->prepare('SELECT id, name FROM repositories WHERE name=?');
+		else
+			$stmt = $this->db->prepare('SELECT id, name FROM repositories');
 		if (!$stmt->execute(array($name)))
 			return null;
 
