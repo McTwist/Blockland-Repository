@@ -17,7 +17,7 @@ class Database
 	{
 		$pref = Config::Database();
 		if (!is_object($pref))
-			throw new Exception("Invalid preference");
+			throw new Exception('Invalid preference');
 
 		// Prepare port if it exists
 		$port = (isset($pref->port)) ? ";port={$pref->port}" : '';
