@@ -38,6 +38,9 @@ class Database
 			$dsn,
 			$pref->username,
 			$pref->password);
+		// Rather go for the real deal for full security
+		$this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+		$this->db->query('SET NAMES utf8');
 	}
 
 	// Get users
