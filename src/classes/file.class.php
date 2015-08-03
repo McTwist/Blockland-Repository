@@ -234,7 +234,7 @@ class File
 
 	public function HasBricks()
 	{
-		return $this->HasFileType('blb');
+		return $this->HasFileType('blb'); // Brick format
 	}
 
 	public function HasMusic()
@@ -255,8 +255,7 @@ class File
 
 	public function HasModels()
 	{
-		return $this->HasFileType('dts')
-			&& $this->HasFileType('dif');
+		return $this->HasFileType('dts'); // Normal models
 	}
 
 	public function HasAnimations()
@@ -264,24 +263,47 @@ class File
 		return $this->HasFileType('dsq');
 	}
 
+	public function HasSave()
+	{
+		return $this->HasFileType('bls');
+	}
+
+	public function HasAtmosphere()
+	{
+		return $this->HasFileType('atmosphere');
+	}
+
+	public function HasSkyboxTexture()
+	{
+		return $this->HasFileType('dml');
+	}
+
+	// Deprecated file types
+
+	public function HasDeprecatedFiles()
+	{
+		return $this->HasFileType('dif') // Models for interiors
+			|| $this->HasTerrain()
+			|| $this->HasLight()
+			|| $this->HasMission();
+	}
+
+	// Terrain files. dts may be used instead
 	public function HasTerrain()
 	{
 		return $this->HasFileType('ter');
 	}
-
+	
+	// Light file
 	public function HasLight()
 	{
 		return $this->HasFileType('ml');
 	}
 
+	// Mission file, use gamemode.txt, atmosphere and/or dml
 	public function HasMission()
 	{
 		return $this->HasFileType('mis');
-	}
-
-	public function HasSave()
-	{
-		return $this->HasFileType('bls');
 	}
 
 	// Get out all those pesky files that somehow get into every other add-on
