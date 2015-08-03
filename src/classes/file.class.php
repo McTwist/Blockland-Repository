@@ -12,6 +12,8 @@ class File
 	private $type = null;
 	private $name = null;
 
+	private $filetype_count = [];
+
 	// description.txt
 	private $description = null;
 
@@ -52,6 +54,18 @@ class File
 		$this->ReadVersion();
 		$this->ReadDescription();
 		$this->ReadNamecheck();
+
+		// Count all file types
+		for ($i = 0; $i < $this->archive->numFiles; $i++)
+		{
+			$stat = $this->archive->statIndex($i);
+			$ext = strtolower(end(explode('.', $stat['name'])));
+
+			if (!isset($this->filetype_count[$ext]))
+				$this->filetype_count[$ext] = 0;
+
+			++$this->filetype_count[$ext];
+		}
 	}
 
 	public function IsOpen()
@@ -328,13 +342,7 @@ class File
 
 	private function HasFileType($ext)
 	{
-		for ($i = 0; $i < $this->archive->numFiles; $i++)
-		{
-			$stat = $this->archive->statIndex($i);
-			if (end(explode('.', $stat['name'])) === $ext)
-				return true;
-		}
-		return false;
+		return isset($this->filetype_count[strtolower($ext)]);
 	}
 
 	private function ReadFile($file)
