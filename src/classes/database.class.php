@@ -22,9 +22,20 @@ class Database
 		// Prepare port if it exists
 		$port = (isset($pref->port)) ? ";port={$pref->port}" : '';
 
+		// Handle special cases
+		switch ($pref->driver)
+		{
+		case 'sqlite':
+			$dsn = "sqlite:{$pref->db}";
+			break;
+		default:
+			$dsn = "{$pref->driver}:host={$pref->host}{$port};dbname={$pref->db}";
+			break;
+		}
+
 		// Start the connection
 		$this->db = new PDO(
-			"{$pref->driver}:host={$pref->host}{$port};dbname={$pref->db}",
+			$dsn,
 			$pref->username,
 			$pref->password);
 	}
