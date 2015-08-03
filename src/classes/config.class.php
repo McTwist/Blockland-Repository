@@ -31,6 +31,11 @@ class Config
 	{
 		return isset(self::$config->password) ? self::$config->password : null;
 	}
+
+	public static function Uid()
+	{
+		return isset(self::$config->uid) ? self::$config->uid : null;
+	}
 }
 
 ?>
