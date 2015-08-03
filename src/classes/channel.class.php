@@ -22,7 +22,7 @@ class Channel
 	{
 		if (empty($name))
 			$name = '*';
-		$this->channelId = null;
+		$this->channelId = $id;
 		$this->channelName = $name;
 		$this->file = $file;
 	}
