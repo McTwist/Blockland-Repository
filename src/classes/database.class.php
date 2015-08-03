@@ -79,26 +79,32 @@ class Database
 			return null;
 	}
 
-	// Get list of addons and its channels from a string
-	public function GetAddOnString($str)
-	{
-		// Filter out the bad bits and get a valid list
-		$list = array_map('intval', array_filter(explode('-', $str), 'is_numeric'));
-		return $this->GetAddOnList($list);
-	}
-
 	// Get list of addons and its channels
-	public function GetAddOnList($list)
+	public function GetAddOnList(array $list)
 	{
-		if (is_string($list))
-			$list = explode('-', $list);
-		elseif (is_object($list))
-			$list = array_values((array)$list);
-		elseif (!is_array($list))
-			$list = array($list);
+		// Gather all ids in arrays
+		$addon_ids = [];
+		$channel_ids = [];
+		foreach ($list as $value)
+		{
+			if (is_numeric($value))
+				array_push($addon_ids, $value);
+			elseif (is_array($value))
+			{
+				if (count($value) >= 1)
+					array_push($addon_ids, $value[0]);
+				if (count($value) >= 2)
+					array_push($channel_ids, $value[1]);
+			}
+		}
 
 		// Prepare IN statement
-		$in_query = implode(', ', array_fill(0, count($list), '?'));
+		$addons_query = '';
+		$channels_query = '';
+		if (!empty($addon_ids))
+			$addons_query = implode(', ', array_fill(0, count($addon_ids), '?'));
+		if (!empty($channel_ids))
+			$channels_query = implode(', ', array_fill(0, count($channel_ids), '?'));
 
 		// Get ready for the huge selection statement
 		$query = 'SELECT
@@ -116,11 +122,19 @@ class Database
 			FROM addons
 			LEFT JOIN repositories AS repo ON repo.id=addons.repository_id
 			LEFT JOIN addon_channels AS channels ON addons.id=channels.addon_id
-			LEFT JOIN addon_data AS data ON data.id=channels.data
-			WHERE addons.id IN ('.$in_query.')';
+			LEFT JOIN addon_data AS data ON data.id=channels.data';
+
+		if (!empty($addons_query) || !empty($channels_query))
+			$query .= " WHERE";
+		if (!empty($addons_query))
+			$query .= " addons.id IN ({$addons_query})";
+		if (!empty($addons_query) && !empty($channels_query))
+			$query .= " AND";
+		if (!empty($channels_query))
+			$query .= " channels.id IN ({$channels_query})";
 
 		$stmt = $this->db->prepare($query);
-		if (!$stmt->execute($list))
+		if (!$stmt->execute(array_merge($addon_ids, $channel_ids)))
 		{
 			print_r($stmt->errorInfo());
 			return null;
