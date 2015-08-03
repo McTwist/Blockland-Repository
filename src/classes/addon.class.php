@@ -29,6 +29,11 @@ class AddOn
 		array_push($this->channels, $channel);
 	}
 
+	public function GetChannels()
+	{
+		return $this->channels;
+	}
+
 	public function Id()
 	{
 		return $this->addonId;

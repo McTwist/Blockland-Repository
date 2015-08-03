@@ -24,6 +24,11 @@ class Repository
 		array_push($this->addons, $addon);
 	}
 
+	public function GetAddOns()
+	{
+		return $this->addons;
+	}
+
 	public function Id()
 	{
 		return $this->repositoryId;
