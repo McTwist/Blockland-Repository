@@ -171,10 +171,16 @@ class Database
 	public function GetRepository($name = null)
 	{
 		if ($name !== null)
+		{
 			$stmt = $this->db->prepare('SELECT id, name FROM repositories WHERE name=?');
+			$list = array($name);
+		}
 		else
+		{
 			$stmt = $this->db->prepare('SELECT id, name FROM repositories');
-		if (!$stmt->execute(array($name)))
+			$list = array();
+		}
+		if (!$stmt->execute($list))
 			return null;
 
 		if ($obj = $stmt->fetchObject())
