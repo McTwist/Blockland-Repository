@@ -37,7 +37,7 @@ class Session
 				$configs['path'],
 				$configs['domain'],
 				$configs['secure'],
-				$configs['httponly']);
+				isset($configs['httponly']));
 		}
 
 		session_start();
