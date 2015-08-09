@@ -129,6 +129,11 @@ class Session
 	{
 		$_SESSION[$name] = $val;
 	}
+
+	public function Exist($name)
+	{
+		return isset($_SESSION[$name]);
+	}
 }
 
 ?>
