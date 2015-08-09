@@ -52,8 +52,15 @@ class Input
 	}
 
 	// Get the amount of files uploaded
-	public function FileCount()
+	public function FileCount($name_or_quick = null)
 	{
+		// Quick version
+		if ($name_or_quick === true)
+			return count($this->files);
+		// Only go through the one with name
+		if ($name_or_quick !== null)
+			return isset($this->files[$name_or_quick]) ? count($this->files[$name_or_quick]) : 0;
+		// Go through all files
 		$amount = 0;
 		foreach ($this->files as $files)
 			$amount += count($files);
