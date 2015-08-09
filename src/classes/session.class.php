@@ -53,10 +53,21 @@ class Session
 	// Destroy the current session along with its variables
 	public function Destroy()
 	{
-		// Create a new ID
-		session_regenerate_id(true);
 		// Clear the variables
 		$this->Clear();
+		// Clear the cookie
+		if (isset($_COOKIE[session_name()]))
+		{
+			$params = session_get_cookie_params();
+			setcookie(session_name(), '', 
+				1, 
+				$params['path'], 
+				$params['domain'], 
+				$params['secure'], 
+				isset($params['httponly']));
+		}
+		// Create a new ID
+		session_regenerate_id(true);
 		// Destroy it
 		session_destroy();
 	}
