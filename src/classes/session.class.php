@@ -13,6 +13,9 @@ class Session
 	}
 
 	// Start a session
+	// name - The name of the session (variable name)
+	// id - The id of the session (variable value)
+	// array - Special extra configs
 	public function Start($name = null, $id = null, array $config = null)
 	{
 		// Set the name of the key
