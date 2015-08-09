@@ -35,10 +35,11 @@ class Input
 		{
 			foreach ($files as $i => $file)
 			{
+				$new_name = $folder.basename($file['name']);
 				if ($file['error'] === 0 && 
-					move_uploaded_file($file['tmp_name'], $folder.basename($file['name'])))
+					move_uploaded_file($file['tmp_name'], $new_name))
 				{
-					$this->files[$name][$i]['new_name'] = $folder.basename($file['name']);
+					$this->files[$name][$i]['new_name'] = $new_name;
 					++$success;
 				}
 			}
