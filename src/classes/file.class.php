@@ -90,7 +90,12 @@ class File
 
 	public function Title($value = null)
 	{
-		return $this->description->Title($value);
+		$title = $this->description->Title($value);
+		if ($title === null)
+			$title = $this->rtbInfo->Title($value);
+		if ($title === null)
+			$title = $this->Name();
+		return $title;
 	}
 
 	public function Authors($value = null)
