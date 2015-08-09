@@ -9,10 +9,16 @@ class Input
 	private $raw = null;
 	private $raw_get = null;
 
+	// Get the process method
+	public function ProcessMethod()
+	{
+		return strtoupper($_SERVER['REQUEST_METHOD']);
+	}
+
 	// Loads all the data available as input
 	public function Process()
 	{
-		switch (strtoupper($_SERVER['REQUEST_METHOD']))
+		switch ($this->ProcessMethod())
 		{
 		case 'POST':
 			$this->RequestPost();
