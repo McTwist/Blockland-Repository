@@ -61,7 +61,7 @@ class Session
 		session_destroy();
 	}
 
-	// Reset the session variables
+	// Clear the session variables
 	public function Clear()
 	{
 		session_unset();
@@ -80,7 +80,7 @@ class Session
 		}
 	}
 
-	// Reset variables to previous
+	// Reset variables to previous state
 	public function Reset()
 	{
 		if (function_exists('session_reset'))
