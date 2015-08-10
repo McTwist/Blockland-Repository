@@ -70,6 +70,24 @@ class Password
 		// Validate
 		return self::ValidateHash($func, $hash, $hash2);
 	}
+
+	// Check if password requires rehashing
+	public static function NeedsRehash($string, $obj)
+	{
+		if (!self::IsValidCompound($string))
+			return false;
+		if (!is_a($obj, 'Password'))
+			return false;
+		
+		// Get values
+		list($func, $algorithm, $iterations, $salt, $hash) = self::SplitCompound($string);
+
+		// Check for function, algorithm, iterations and hash size
+		return $func !== $obj->hash_function
+			|| $algorithm !== $obj->hash_algorithm
+			|| $iterations !== $obj->iterations
+			|| strlen(base64_decode($hash)) !== self::$hash_size;
+	}
 	
 	// Create hash string for compatibility
 	private static function CreateCompound($func, $algorithm, $count, $salt, $hash)
