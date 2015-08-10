@@ -522,7 +522,7 @@ class FileDescription
 			// Author
 			elseif (substr($lower, 0, 7) == 'author:')
 			{
-				$authors = preg_split('/(\,|\;| and )/i', substr($line, 7));
+				$authors = preg_split('/(\,|\;| and |\&)/i', substr($line, 7));
 				array_walk($authors, function(&$value, $i) { $value = trim($value); });
 				$this->authors = $authors;
 			}
