@@ -103,6 +103,17 @@ class Session
 			$_SESSION = $this->variables;
 	}
 
+	// Secure the data by regenerating
+	// Put in true iff there is only one script currently called
+	public function Regenerate($delete = false)
+	{
+		session_regenerate_id($delete);
+		$new_session = session_id();
+		session_write_close();
+		session_id($new_session);
+		session_start();
+	}
+
 	// Load a session
 	private function Load()
 	{
