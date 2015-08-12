@@ -133,6 +133,11 @@ class Session
 		$_SESSION[$name] = $val;
 	}
 
+	public function Remove($name)
+	{
+		unset($_SESSION[$name]);
+	}
+
 	public function Exist($name)
 	{
 		return isset($_SESSION[$name]);
