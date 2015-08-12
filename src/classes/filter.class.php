@@ -33,6 +33,12 @@ class Filter
 		return filter_var($value, FILTER_VALIDATE_IP, self::DefaultOptions());
 	}
 
+	// Validate a URL
+	static public function URL($value)
+	{
+		return filter_var($value, FILTER_VALIDATE_URL, self::DefaultOptions());
+	}
+
 	// Create a default array of options
 	static private function DefaultOptions($default = null)
 	{
