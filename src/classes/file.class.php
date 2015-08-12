@@ -139,6 +139,27 @@ class File
 		return $this->version->Repositories();
 	}
 
+	// Direct access
+	public function &GetNamecheck()
+	{
+		return $this->namecheck;
+	}
+
+	public function &GetDescription()
+	{
+		return $this->description;
+	}
+
+	public function &GetVersion()
+	{
+		return $this->version;
+	}
+
+	public function &GetRTBInfo()
+	{
+		return $this->rtbInfo;
+	}
+
 	// Validates file to contain the required data
 	public function Validate()
 	{
