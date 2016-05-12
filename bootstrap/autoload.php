@@ -14,7 +14,15 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+$autoloadPath = __DIR__.'/../vendor/autoload.php';
+
+if(file_exists($autoloadPath)) {
+	require $autoloadPath;
+}
+else {
+	require __DIR__ . '/composer.php';
+	die();
+}
 
 /*
 |--------------------------------------------------------------------------
