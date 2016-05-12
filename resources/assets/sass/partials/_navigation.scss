@@ -1,0 +1,24 @@
+#navigation
+{
+	margin-top: -15px;
+	width: 100%;
+	text-align: center;
+
+	.nav-item-group {
+		padding: 0;
+	}
+
+	.nav-item
+	{
+		display: inline;
+
+		// Add Middot to Second Element and Beyond
+		&:nth-child(n+2):before {
+			content: "\00B7";
+			font-size: 40px;
+			line-height: 0;
+			vertical-align: middle;
+			margin-right: 5px;
+		}
+	}
+}

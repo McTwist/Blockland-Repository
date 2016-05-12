@@ -1,18 +1,19 @@
 <nav id="navigation" class="navigation" role="navigation">
-	<a href="/">Categories</a>
-	<span>&middot;</span>
+	<ul class="nav-item-group">
+		<li class="nav-item">
+			<a href="/">Categories</a>
+		</li>
 
-	@if(Auth::check())
+		@if(Auth::check())
 
-		<a href="#upload">Upload</a>
-		<span>&middot;</span>
-		<a href="#logout">Log Out</a>
+			<li class="nav-item"><a href="#upload">Upload</a></li>
+			<li class="nav-item"><a href="#logout">Log Out</a></li>
 
-	@else
+		@else
 
-		<a href="#register">Register</a>
-		<span>&middot;</span>
-		<a href="#login">Log In</a>
+			<li class="nav-item"><a href="#register">Register</a></li>
+			<li class="nav-item"><a href="#login">Log In</a></li>
 
-	@endif
+		@endif
+	</ul>
 </nav>

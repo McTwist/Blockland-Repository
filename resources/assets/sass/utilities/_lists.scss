@@ -1,0 +1,7 @@
+// Encompass List Containers
+ol, ul
+{
+	// For List Containers
+	&.--padding-half { padding-left: 20px; }
+	&.--list-style-none { list-style: none; }
+}

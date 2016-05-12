@@ -1,0 +1,10 @@
+// Width Attribute
+.--full-width    { width: 100%; }
+.--half-width    { width: 50%; }
+.--quarter-width { width: 25%; }
+
+// Column Width Table Layouts
+.--layout-fixed { table-layout: fixed; }
+
+// Padding
+.--padded-horizontal { padding-left: 15px; padding-right: 15px; }

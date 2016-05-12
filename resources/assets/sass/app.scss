@@ -1,2 +1,82 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+/*
+|--------------------------------------------------------------------------
+| Table of Contents
+|--------------------------------------------------------------------------
+|
+| For both functionality and tidiness, these files are to be loaded in a
+| certain order. In the event of clashes, files that were loaded at a
+| later time will override those that were loaded before them.
+|
+*/
 
+/*
+|--------------------------------------------------------------------------
+| Variables
+|--------------------------------------------------------------------------
+|
+| Variables are loaded first, as many other files will depend upon them.
+| All Variables are defined in this section, and used throughout the
+| remainder of the code. This is where most of the magic happens.
+|
+*/
+@import 'variables/variables';
+
+/*
+|--------------------------------------------------------------------------
+| Mixins
+|--------------------------------------------------------------------------
+|
+| Mixins are loaded second, as many other files will depend upon them,
+| but Mixins may also depend upon Variables. All Mixins are defined
+| in this section, and used throughout the remainder of the code.
+|
+*/
+@import 'mixins/mixins';
+
+/*
+|--------------------------------------------------------------------------
+| Elements
+|--------------------------------------------------------------------------
+|
+| Elements target the HTML Tags themselves, regardless of class. These
+| styles are used to give the entire site a certain look-and-feel.
+| States and pseudo-classes for elements are also handled here.
+|
+*/
+@import 'elements/elements';
+
+/*
+|--------------------------------------------------------------------------
+| Partials
+|--------------------------------------------------------------------------
+|
+| Partials are custom-tailored CSS classes that are applied to a single
+| element on a page to achieve a specific functionality. All Partials
+| are meant to appear once-per-page, rather than multiple times.
+|
+*/
+@import 'partials/partials';
+
+/*
+|--------------------------------------------------------------------------
+| Components
+|--------------------------------------------------------------------------
+|
+| Components are custom-tailored CSS classes that are applied to various
+| elements in order to achieve a specific functionality. This section
+| will contain most of the functionality that the CSS provides.
+|
+*/
+@import 'components/components';
+
+/*
+|--------------------------------------------------------------------------
+| Utilities
+|--------------------------------------------------------------------------
+|
+| Utilities are simple modifiers that are generally intended to be used on
+| any element. All Utilities are prefixed with '--' (Like a command-line
+| argument). Most Utilties only add/modify a single attribute or two.
+|
+*/
+@import 'utilities/utilities';

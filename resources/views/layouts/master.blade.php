@@ -8,18 +8,19 @@
 		<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
 
 		<!-- Stylesheets -->
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="/css/main.css">
 		<link rel="stylesheet" type="text/css" href="/css/form.css">
-		<link rel="stylesheet" type="text/css" href="/css/front.css">
+		<link rel="stylesheet" type="text/css" href="/css/app.css">
 
 		@yield('stylesheets')
 	</head>
 
 	<body>
-		<div id="root">
+		<div class="--center">
 			@include('partials.header')
 
-			<div id="@yield('mainbox', 'main')" class="box" role="document">
+			<div id="@yield('mainbox', 'main')" class="container box" role="document">
 				@include('partials.navigation')
 				
 				@yield('content')
