@@ -1,7 +1,7 @@
 <nav id="navigation" class="navigation" role="navigation">
 	<ul class="nav-item-group">
 		<li class="nav-item">
-			<a href="/">Categories</a>
+			<a href="{{ route('categories.index') }}">Categories</a>
 		</li>
 
 		@if(Auth::check())

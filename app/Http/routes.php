@@ -28,10 +28,22 @@ Route::group(['middleware' => ['web']], function() {
 		'uses' 	=> 'PagesController@home',
 		'as' 	=> 'pages.home'
 	));
-	Route::get('/category/{category}', array(
-		'uses' 	=> 'CategoriesController@show',
-		'as' 	=> 'categories.show'
-	));
+
+	/*
+	|--------------------------------------------------------------------------
+	| Category Routes
+	|--------------------------------------------------------------------------
+	|
+	| All Routes pertaining to Categories are defined here. These routes are
+	| prefixed by the 'categories' noun, and use the '{category}' wildcard
+	| when necessary. The Route Names are prefixed with 'categories'.
+	|
+	*/
+	Route::resource('categories', 'CategoriesController', [
+		'parameters' => 'singular'
+	]);
+
+
 	Route::get('/addon/{addon}', array(
 		'uses' 	=> 'AddonController@show',
 		'as' 	=> 'addon.show'

@@ -2,14 +2,12 @@
 
 @section('content')
 
-	<div class="categories">
+	<section class="categories">
+		<h2>Categories</h2>
+
 		@foreach($categories as $category)
 			@include('resources.categories.teaser', compact('category'))
 		@endforeach
-	</div>
+	</section>
 
-@endsection
-
-@section('footer')
-	@include('partials.footer')
 @endsection
