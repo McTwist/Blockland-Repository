@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use PDOException;
 use RuntimeException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -46,8 +47,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if($e instanceof RuntimeException)
+        if($e instanceof RuntimeException && $e->getMessage() === "No supported encrypter found. The cipher and / or key length are invalid.")
             return view('errors.key');
+
+        if($e instanceof PDOException && $e->getMessage() === "SQLSTATE[HY000] [1049] Unknown database 'repository'")
+            return view('errors.database');
 
         return parent::render($request, $e);
     }
