@@ -11,9 +11,6 @@
 |
 */
 
-Route::get('/category/{category}', 'ViewController@category');
-Route::get('/addon/{addon}', 'ViewController@addon');
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,6 +27,14 @@ Route::group(['middleware' => ['web']], function() {
 	Route::get('/', array(
 		'uses' 	=> 'PagesController@home',
 		'as' 	=> 'pages.home'
+	));
+	Route::get('/category/{category}', array(
+		'uses' 	=> 'CategoriesController@show',
+		'as' 	=> 'categories.show'
+	));
+	Route::get('/addon/{addon}', array(
+		'uses' 	=> 'AddonController@show',
+		'as' 	=> 'addon.show'
 	));
 
 });
