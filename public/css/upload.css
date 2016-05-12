@@ -1,0 +1,59 @@
+
+input[type="text"],
+textarea
+{
+	font-size: 10px;
+	padding: 3px 5px;
+	line-height: 16px;
+}
+
+#upload
+{
+	width: 625px;
+	height: 420px;
+	font-family: "PT Sans";
+	font-size: 12px;
+	margin-bottom: 14px;
+}
+
+.upload_category .selectContainer
+{
+	width: 150px;
+	display: inline-block;
+}
+
+.upload_category span,
+.upload_title span,
+.upload_summary span,
+.upload_developers span,
+.upload_description span
+{
+	display: inline-block;
+	text-align: right;
+	width: 100px;
+	padding: 5px 4px;
+	vertical-align: top;
+}
+
+.upload_title input,
+.upload_summary input,
+.upload_developers input,
+.upload_description textarea
+{
+	width: 450px;
+}
+
+.upload_description textarea
+{
+	height: 130px;
+}
+
+.screenshots
+{
+	float: left;
+}
+
+.upload
+{
+	float: right;
+}

@@ -11,8 +11,27 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/category/{category}', 'ViewController@category');
+Route::get('/addon/{addon}', 'ViewController@addon');
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| All Routes that require some sort of Session information belong here.
+| The majority of the site content will be housed here. Typically all
+| APIs and Stateless Mechanisms should not be placed in this group.
+|
+*/
+Route::group(['middleware' => ['web']], function() {
+
+	// The Home Page
+	Route::get('/', array(
+		'uses' 	=> 'PagesController@home',
+		'as' 	=> 'pages.home'
+	));
+
 });
 
 Route::group(['middleware' => ['api']], function()

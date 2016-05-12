@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use RuntimeException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -45,6 +46,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($e instanceof RuntimeException)
+            return view('errors.key');
+
         return parent::render($request, $e);
     }
 }

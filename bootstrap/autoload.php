@@ -37,6 +37,24 @@ else {
 
 $compiledPath = __DIR__.'/cache/compiled.php';
 
-if (file_exists($compiledPath)) {
+if(file_exists($compiledPath)) {
     require $compiledPath;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Make sure an Environment File Exists
+|--------------------------------------------------------------------------
+|
+| The .env Environment File is used to make this instance of the project
+| unique with respect to the developer's custom environment. If such a
+| file does not exist, the several core features simply won't work.
+|
+*/
+
+$envPath =  __DIR__.'/../.env';
+
+if(!file_exists($envPath)) {
+	require __DIR__ . '/environment.php';
+	die();
 }

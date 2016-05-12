@@ -1,0 +1,98 @@
+
+body
+{
+	background-color: #f0f0f0;
+	color: #1a1a1a;
+}
+
+hr
+{
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #f2f2f2;
+	border-left-style: none;
+	height: 0px;
+	background: #d9d9d9;
+	margin-top: 10px;
+	margin-bottom: 21px;
+}
+
+a:link,
+a:visited,
+a:active
+{
+	font-family: "Open Sans";
+	font-size: 12px;
+	color: #000000;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #9cb212;
+	text-decoration: underline;
+}
+
+.box
+{
+	display: inline-block;
+	background-color: #ffffff;
+	box-shadow: 0px 4px 4px #b8b8b8;
+	padding: 32px;
+	width: 176px;
+}
+
+.noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.title
+{
+	font-family: "Ubuntu";
+	font-weight: bold;
+	font-size: 26px;
+	color: #6b00b2;
+	margin-left: -2px;
+}
+
+.title2
+{
+	font-family: "Ubuntu";
+	font-weight: bold;
+	font-size: 14px;
+	color: #6b00b2;
+	margin-left: -2px;
+}
+
+.over
+{
+	margin-left: -32px;
+	margin-right: -32px;
+}
+
+#navigation
+{
+	margin-top: -15px;
+	width: 100%;
+	text-align: center;
+}
+
+#navigation span
+{
+	font-size: 40px;
+	line-height: 0;
+	vertical-align: middle;
+}
+
+#footer
+{
+	font-family: Open Sans;
+	font-size: 10px;
+	line-height: 0;
+	margin-top: -5px;
+	margin-bottom: -10px;
+}
