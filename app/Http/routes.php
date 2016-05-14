@@ -43,11 +43,19 @@ Route::group(['middleware' => ['web']], function() {
 		'parameters' => 'singular'
 	]);
 
-
-	Route::get('/addon/{addon}', array(
-		'uses' 	=> 'AddonController@show',
-		'as' 	=> 'addon.show'
-	));
+	/*
+	|--------------------------------------------------------------------------
+	| Addon Routes
+	|--------------------------------------------------------------------------
+	|
+	| All Routes pertaining to Addons are defined here. These routes are
+	| prefixed by the 'addon' noun, and use the '{addon}' wildcard
+	| when necessary. The Route Names are prefixed with 'addon'.
+	|
+	*/
+	Route::resource('addon', 'AddonController@show', [
+		'except' => 'index'
+	]);
 
 });
 
