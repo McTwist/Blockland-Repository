@@ -10,7 +10,7 @@
 	<div id="addons">
 
 		@forelse($addons as $addon)
-			<a href="/addon/{{$addon->slug}}"><div>{{$addon->name}}</div></a>
+			<a href="/addon/{{ $addon->slug }}"><div>{{ $addon->name }}</div></a>
 		@empty
 			Unknown category
 		@endforelse
