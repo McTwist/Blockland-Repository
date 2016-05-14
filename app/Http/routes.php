@@ -53,7 +53,7 @@ Route::group(['middleware' => ['web']], function() {
 	| when necessary. The Route Names are prefixed with 'addon'.
 	|
 	*/
-	Route::resource('addon', 'AddonController@show', [
+	Route::resource('addon', 'AddonController', [
 		'except' => 'index'
 	]);
 
