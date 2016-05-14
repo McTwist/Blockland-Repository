@@ -13,9 +13,9 @@ namespace App\Http\Controllers;
 
 class AddonController extends Controller
 {
-	public function show()
+	public function show($id)
 	{
-		$addon = \App\Addon::find(1);
+		$addon = \App\Addon::find($id);
 
 		return view('addon', compact('addon'));
 	}
