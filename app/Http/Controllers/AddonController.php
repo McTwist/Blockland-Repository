@@ -50,8 +50,9 @@ class AddonController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show(Addon $addon)
+	public function show($addon)
 	{
+		$addon = Addon::find($addon);
 		// Show the Category Page
 		return view('resources.addon.show', compact('addon'));
 	}
