@@ -34,8 +34,12 @@ class AddonController extends Controller
 	 */
 	public function create()
 	{
+		$title = '';
+		$summary = '';
+		$developers = '';
+		$description = '';
 		// Show the Create Page for Addon
-		return view('resources.addon.create');
+		return view('resources.addon.create', compact('title', 'summary', 'developers', 'description'));
 	}
 
 	/**

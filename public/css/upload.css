@@ -7,10 +7,15 @@ textarea
 	line-height: 16px;
 }
 
+label
+{
+	font-weight: normal;
+}
+
 #upload
 {
 	width: 625px;
-	height: 420px;
+	height: 450px;
 	font-family: "PT Sans";
 	font-size: 12px;
 	margin-bottom: 14px;
@@ -22,16 +27,16 @@ textarea
 	display: inline-block;
 }
 
-.upload_category span,
-.upload_title span,
-.upload_summary span,
-.upload_developers span,
-.upload_description span
+.upload_category label,
+.upload_title label,
+.upload_summary label,
+.upload_developers label,
+.upload_description label
 {
 	display: inline-block;
 	text-align: right;
 	width: 100px;
-	padding: 5px 4px;
+	padding: 2px 4px;
 	vertical-align: top;
 }
 
