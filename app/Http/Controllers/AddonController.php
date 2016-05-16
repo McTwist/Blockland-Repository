@@ -18,6 +18,16 @@ use App\Http\Requests\Request;
 class AddonController extends Controller
 {
 	/**
+	 * Upload the Resource.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function upload(Request $request)
+	{
+		return redirect()->intended(route('addon.create'));
+	}
+	/**
 	 * Show the Form for Creating a new Resource.
 	 *
 	 * @return \Illuminate\Http\Response
