@@ -13,8 +13,8 @@
 			<span class="title">Login</span>
 			<hr>
 			<div class="username">
-				{{ Form::label('email', 'Username:') }}
-				{{ Form::text('email') }}
+				{{ Form::label('username', 'Username:') }}
+				{{ Form::text('username') }}
 			</div>
 			<div class="password">
 				{{ Form::label('password', 'Password:') }}

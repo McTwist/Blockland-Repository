@@ -31,6 +31,13 @@ class AuthController extends Controller
     protected $redirectTo = '/';
 
     /**
+     * The field to look for when logging in.
+     *
+     * @var string
+     */
+    protected $username = 'username';
+
+    /**
      * Create a new authentication controller instance.
      *
      * @return void
