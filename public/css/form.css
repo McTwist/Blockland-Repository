@@ -20,6 +20,11 @@ textarea
 	resize: vertical;
 }
 
+label
+{
+	font-weight: normal;
+}
+
 .selectContainer
 {
 	overflow: hidden;
@@ -108,6 +113,7 @@ input[type="checkbox"] + label
 	background-position: 0 0;
 	line-height: 12px;
 	cursor: pointer;
+	height: 12px;
 }
 
 input[type="checkbox"]:checked + label

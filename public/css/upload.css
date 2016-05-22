@@ -7,11 +7,6 @@ textarea
 	line-height: 16px;
 }
 
-label
-{
-	font-weight: normal;
-}
-
 #upload
 {
 	width: 625px;
