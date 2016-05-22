@@ -6,13 +6,13 @@
 
 		@if(Auth::check())
 
-			<li class="nav-item"><a href="#upload">Upload</a></li>
-			<li class="nav-item"><a href="#logout">Log Out</a></li>
+			<li class="nav-item"><a href="{{ route('addon.upload') }}">Upload</a></li>
+			<li class="nav-item"><a href="{{ route('user.logout') }}">Log Out</a></li>
 
 		@else
 
-			<li class="nav-item"><a href="#register">Register</a></li>
-			<li class="nav-item"><a href="#login">Log In</a></li>
+			<li class="nav-item"><a href="{{ route('user.register') }}">Register</a></li>
+			<li class="nav-item"><a href="{{ route('user.login') }}">Log In</a></li>
 
 		@endif
 	</ul>
