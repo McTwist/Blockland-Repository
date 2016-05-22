@@ -29,7 +29,7 @@
 			{{ Form::text('summary', $summary) }}
 		</div>
 		<div class="upload_developers">
-			{{ Form::Label('developers', 'Devleopers:') }}
+			{{ Form::Label('developers', 'Developers:') }}
 			{{ Form::text('developers', $developers) }}
 		</div>
 		<div class="upload_description">
