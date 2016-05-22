@@ -58,6 +58,38 @@ Route::group(['middleware' => ['web']], function() {
 		'except' => 'index'
 	]);
 
+	/*
+	|--------------------------------------------------------------------------
+	| User Routes
+	|--------------------------------------------------------------------------
+	|
+	| All Routes pertaining to Users are defined here. These routes are
+	| prefixed by the 'user' noun, and use the '{user}' wildcard
+	| when necessary. The Route Names are prefixed with 'user'.
+	|
+	*/
+	Route::get('/user/login', array(
+		'uses' => 'Auth\AuthController@getLogin',
+		'as' => 'user.login'
+	));
+	Route::post('/user/login', array(
+		'uses' => 'Auth\AuthController@postLogin',
+		'as' => 'user.login'
+	));
+	Route::get('/user/logout', array(
+		'uses' => 'Auth\AuthController@logout',
+		'as' => 'user.logout'
+	));
+
+	Route::get('/user/register', array(
+		'uses' => 'Auth\AuthController@getRegister',
+		'as' => 'user.register'
+	));
+	Route::post('/user/register', array(
+		'uses' => 'Auth\AuthController@postRegister',
+		'as' => 'user.register'
+	));
+
 });
 
 Route::group(['middleware' => ['api']], function()
