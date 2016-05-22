@@ -23,9 +23,9 @@
 			<div id="@yield('mainbox', 'main')" class="container box" role="document">
 				@include('partials.navigation')
 				
-				@yield('content')
+				@yield('content', view('resources.categories.index'))
 
-				@yield('footer')
+				@yield('footer', view('partials.footer'))
 			</div>
 		</div>
 	</body>
