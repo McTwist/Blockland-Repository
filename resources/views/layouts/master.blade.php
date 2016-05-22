@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<!-- Facicons -->
+		<link rel="icon" href="/favicon.ico">
+		<link rel="icon" href="/favicon_192x192.png" sizes="192x192">
+		<link rel="icon" href="/favicon_32x32.png" sizes="32x32">
+		<link rel="icon" href="/favicon_16x16.png" sizes="16x16">
+
+		<!-- Title -->
 		<title>Blockland Repository - @yield('title')</title>
+		
 		<!-- Fonts -->
 		<link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
