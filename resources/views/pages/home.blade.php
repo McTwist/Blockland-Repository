@@ -2,10 +2,6 @@
 
 @section('content')
 
-	<div class="categories">
-		@foreach($categories as $category)
-			@include('resources.categories.teaser', compact('category'))
-		@endforeach
-	</div>
+	@include('resources.categories.index')
 
 @endsection
