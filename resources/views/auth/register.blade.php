@@ -9,7 +9,7 @@
 		</div>
 		<div>
 			{{ Form::label('email', 'Email:') }}
-			{{ Form::text('email', old('email')) }}
+			{{ Form::email('email', old('email')) }}
 		</div>
 		<div>
 			{{ Form::label('password', 'Password:') }}
