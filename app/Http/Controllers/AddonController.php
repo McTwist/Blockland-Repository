@@ -68,7 +68,7 @@ class AddonController extends Controller
 	{
 		$addon = Addon::find($addon);
 		// Show the Category Page
-		return view('resources.addon.show', compact('addon'));
+		return $addon === null ? view('errors.404') : view('resources.addon.show', compact('addon'));
 	}
 
 	/**
