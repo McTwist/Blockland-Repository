@@ -8,9 +8,16 @@ class Addon extends Model
 {
 	protected $hidden = ['id', 'category_id'];
 
+	protected $fillable = ['name', 'slug', 'description'];
+
 	public function owners()
 	{
 		return $this->belongsToMany(User::class);
+	}
+
+	public function category()
+	{
+		return $this->belongsTo(Category::class);
 	}
 
 	public function authors()
@@ -47,7 +54,7 @@ class Addon extends Model
 
 	public function downloads()
 	{
-		return '';
+		return 0;
 	}
 
 	public function uploader()
