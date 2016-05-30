@@ -11,9 +11,9 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
+        'username' => $faker->name,
         'email' => $faker->safeEmail,
         'password' => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
@@ -22,6 +22,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Category::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name
+        'name' => $faker->name,
+        'icon' => 'none'
     ];
+});
+
+$factory->define(App\Models\Addon::class, function (Faker\Generator $faker) {
+	return [
+		'name' => $faker->name,
+		'slug' => str_random(10),
+		'description' => $faker->text(512)
+	];
 });
