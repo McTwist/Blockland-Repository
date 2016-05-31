@@ -12,7 +12,7 @@ class Addon extends Model
 
 	public function owners()
 	{
-		return $this->belongsToMany(User::class);
+		return $this->belongsToMany(User::class)->withTimestamps();
 	}
 
 	public function category()

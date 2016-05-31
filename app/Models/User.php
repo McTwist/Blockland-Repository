@@ -16,6 +16,6 @@ class User extends Model implements AuthenticatableContract
 
 	public function addons()
 	{
-		return $this->belongsToMany(Addon::class);
+		return $this->belongsToMany(Addon::class)->withTimestamps();
 	}
 }
