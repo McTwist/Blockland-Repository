@@ -21,10 +21,14 @@ class CreateDataTest extends TestCase
 		// Create users
 		$users = factory(App\Models\User::class, $max_users)->create()->each(function($u) use ($max_addons_per_user, $max_categories, &$categories) {
 			// Create addons
-			$u->addons()->saveMany(factory(App\Models\Addon::class, mt_rand(0, $max_addons_per_user))->create()->each(function($a) use ($max_categories, &$categories) {
+			$addons = factory(App\Models\Addon::class, mt_rand(2, $max_addons_per_user))->create()->each(function($a) use ($max_categories, &$categories) {
 				// Attach category to addon
-				$categories->random()->save([$a]);
-			}));
+				$categories->random()->addons()->save($a);
+			});
+			if (count($addons) > 1)
+				$u->addons()->saveMany($addons);
+			elseif (count($addons) > 0)
+				$u->addons()->save($addons);
 		});
 
 	    $this->assertTrue(true);
