@@ -22,9 +22,6 @@ class PagesController extends Controller
 	 */
 	public function home()
 	{
-		// Determine the Categories to be displayed on the Page
-		$categories = []; // No Categories yet!
-
-		return view('pages.home', compact('categories'));
+		return (new CategoriesController())->index();
 	}
 }
