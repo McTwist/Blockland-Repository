@@ -48,6 +48,6 @@
 	<div id="description">
 		{{ $addon->description or 'None' }}
 	</div>
-	<div id="uploader">Script_Filename.zip uploaded by {{ $addon->uploader() }}</div>
+	<div id="uploader">{{ $addon->filename() }} uploaded by {{ $addon->uploader() }}</div>
 	
 @endsection

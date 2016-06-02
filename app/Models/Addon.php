@@ -64,6 +64,11 @@ class Addon extends Model
 		return $this->owners()->first()->username;
 	}
 
+	public function filename()
+	{
+		return 'Script_Filename.zip';
+	}
+
 	public function download_link()
 	{
 		return '';
