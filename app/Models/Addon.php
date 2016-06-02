@@ -24,9 +24,10 @@ class Addon extends Model
 	{
 		// TODO: Authors is mentioned in add-on
 		// Note: This might return a string, but find a better way to use it
-		return $this->owners()->get()->implode('name', ', ');
+		return $this->owners()->get()->implode('username', ', ');
 	}
 
+	// Note: None of these below have been properly thought out
 	public function size()
 	{
 		return 0;
@@ -49,7 +50,7 @@ class Addon extends Model
 
 	public function version()
 	{
-		return '';
+		return '1.0';
 	}
 
 	public function downloads()
@@ -59,7 +60,8 @@ class Addon extends Model
 
 	public function uploader()
 	{
-		return '';
+		// TODO: Uploader should be marked
+		return $this->owners()->first()->username;
 	}
 
 	public function download_link()
