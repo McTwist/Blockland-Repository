@@ -1,5 +1,11 @@
 @extends('layouts.master')
 
+@section('stylesheets')
+
+	<link rel="stylesheet" type="text/css" href="/css/front.css">
+
+@endsection
+
 @section('content')
 
 	<section class="categories">

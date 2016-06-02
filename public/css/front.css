@@ -51,3 +51,8 @@
 	color: #9cb212;
 	text-decoration: underline;
 }
+
+.category
+{
+	display: inline-block;
+}
