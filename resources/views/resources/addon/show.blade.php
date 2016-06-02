@@ -32,11 +32,11 @@
 		</div>
 		<div class="info">
 			<span class="tell">Updated</span>
-			<span class="data">{{ $addon->updated_at }}</span>
+			<span class="data">{{ date('Y-m-d', $addon->updated_at->getTimestamp()) }}</span>
 		</div>
 		<div class="info">
 			<span class="tell">Created</span>
-			<span class="data">{{ $addon->created_at }}</span>
+			<span class="data">{{ date('Y-m-d', $addon->created_at->getTimestamp()) }}</span>
 		</div>
 	</div>
 
