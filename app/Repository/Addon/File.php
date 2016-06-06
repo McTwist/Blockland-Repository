@@ -82,6 +82,11 @@ class File
 		return $this->archive !== null;
 	}
 
+	public function Close()
+	{
+		$this->archive->close();
+	}
+
 	public function Type($lower = false)
 	{
 		return $lower ? strtolower($this->type) : $this->type;
@@ -244,7 +249,7 @@ class File
 		}
 	}
 
-	// Validate gmae mode files
+	// Validate game mode files
 	public function ValidateGameMode()
 	{
 		return $this->IsGameMode()
