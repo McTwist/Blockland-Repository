@@ -31,6 +31,13 @@ class AuthController extends Controller
     protected $redirectTo = '/';
 
     /**
+     * Where to redirect guests in need of login.
+     *
+     * @var string
+     */
+    protected $loginPath = '/user/login';
+
+    /**
      * The field to look for when logging in.
      *
      * @var string
@@ -44,7 +51,9 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware($this->guestMiddleware(), [
+            'except' => 'logout'
+        ]);
     }
 
     /**
