@@ -53,7 +53,10 @@ Route::group(['middleware' => []], function() {
 	| when necessary. The Route Names are prefixed with 'addon'.
 	|
 	*/
-	Route::post('/addon/upload', 'AddonController@upload');
+	Route::put('/addon/upload', array(
+		'uses' => 'AddonController@upload',
+		'as' => 'addon.upload'
+	));
 	Route::resource('addon', 'AddonController', [
 		'except' => 'index'
 	]);
