@@ -200,8 +200,12 @@ class AddonController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(Addon $addon)
+	public function edit(Request $request, Addon $addon)
 	{
+		if ($addon->user()->id != $request->user()->id)
+		{
+			return view('errors.403');
+		}
 		// Show the Edit Page for Addon
 		return view('resources.addon.edit', compact('addon'));
 	}
@@ -216,11 +220,14 @@ class AddonController extends Controller
 	 */
 	public function update(Request $request, Addon $addon)
 	{
-		// Update the Addon
-		$addon->fill($request->all());
+		if ($addon->user()->id == $request->user()->id)
+		{
+			// Update the Addon
+			$addon->fill($request->all());
 
-		// Save the Addon
-		$addon->save();
+			// Save the Addon
+			$addon->save();
+		}
 
 		// Redirect to the Index Page
 		return redirect()->intended(route('addon.show', $addon->id));
@@ -236,8 +243,12 @@ class AddonController extends Controller
 	public function destroy(Addon $addon)
 	{
 		$category = $addon->category_id;
-		// Delete the Addon
-		$addon->delete();
+		
+		if ($addon->user()->id == $request->user()->id)
+		{
+			// Delete the Addon
+			$addon->delete();
+		}
 
 		// Redirect to the Index Page
 		return redirect()->intended(route('categories.show', $category));
