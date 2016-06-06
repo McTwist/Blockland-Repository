@@ -109,7 +109,7 @@ class File
 
 	public function Authors($value = null)
 	{
-		return $this->description->Authors($value);
+		return (!is_string($value)) ? $this->description->Authors($value) : $this->description->AuthorsRaw($value);
 	}
 
 	public function Description($value = null)

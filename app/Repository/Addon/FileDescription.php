@@ -9,6 +9,7 @@ namespace App\Repository\Addon;
 class FileDescription
 {
 	private $title = null;
+	private $authorsRaw = null;
 	private $authors = [];
 	private $description = null;
 
@@ -31,9 +32,7 @@ class FileDescription
 			// Author
 			elseif (substr($lower, 0, 7) == 'author:')
 			{
-				$authors = preg_split('/(\,|\;| and |\&)/i', substr($line, 7));
-				array_walk($authors, function(&$value, $i) { $value = trim($value); });
-				$this->authors = $authors;
+				$this->AuthorsRaw(substr($line, 7));
 			}
 			// Description
 			else
@@ -52,14 +51,12 @@ class FileDescription
 	// Generate new description content
 	public function Generate()
 	{
-		$authors = implode(', ', $this->authors);
-
 		// Prepare the data
 		$content = '';
 		if (!empty($this->title))
 			$content .= "Title: {$this->title}".self::NL;
-		if (!empty($authors))
-			$content .= "Author: {$authors}".self::NL;
+		if (!empty($this->authorsRaw))
+			$content .= "Author: {$this->authorsRaw}".self::NL;
 		if (!empty($this->description))
 			$content .= "{$this->description}";
 
@@ -69,23 +66,40 @@ class FileDescription
 	public function Title($value = null)
 	{
 		$title = $this->title;
-		if ($value !== null)
+		if (isset($value))
 			$this->title = $value;
 		return $title;
 	}
 
-	public function Authors($value = null)
+	public function Authors(array $value = null)
 	{
 		$authors = $this->authors;
-		if ($value !== null)
-			$this->authors = (is_array($value)) ? $value : array($value);
+		if (isset($value))
+		{
+			$this->authors = $value;
+			// TODO: Maybe determine the outcome depending on input. Will make cleanup worthwile
+			$this->authorsRaw = implode(', ', $this->authors);
+		}
 		return $authors;
+	}
+
+	public function AuthorsRaw($value = null)
+	{
+		$authorsRaw = $this->authorsRaw;
+		if (isset($value))
+		{
+			$this->authorsRaw = $value;
+			$authors = preg_split('/(\,|\;| and |\&)/i', $value);
+			array_walk($authors, function(&$value, $i) { $value = trim($value); });
+			$this->authors = $authors;
+		}
+		return $authorsRaw;
 	}
 
 	public function Description($value = null)
 	{
 		$description = $this->description;
-		if ($value !== null)
+		if (isset($value))
 			$this->description = $value;
 		return $description;
 	}
