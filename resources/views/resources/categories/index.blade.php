@@ -4,7 +4,7 @@
 
 	<link rel="stylesheet" type="text/css" href="/css/front.css">
 
-@endsection
+@append
 
 @section('content')
 

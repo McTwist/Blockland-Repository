@@ -4,7 +4,7 @@
 	
 	<link rel="stylesheet" type="text/css" href="/css/upload.css">
 
-@endsection
+@append
 
 @section('mainbox', 'upload')
 

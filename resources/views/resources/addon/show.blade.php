@@ -5,7 +5,7 @@
 
 	<link rel="stylesheet" type="text/css" href="/css/view.css">
 
-@endsection
+@append
 
 @section('mainbox', 'view')
 
