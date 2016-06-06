@@ -69,6 +69,11 @@ class Addon extends Model
 		return 'Script_Filename.zip';
 	}
 
+	public function crc()
+	{
+		return '-1';
+	}
+
 	public function download_link()
 	{
 		return '';
