@@ -21,7 +21,7 @@
 | APIs and Stateless Mechanisms should not be placed in this group.
 |
 */
-Route::group(['middleware' => ['web']], function() {
+Route::group(['middleware' => []], function() {
 
 	// The Home Page
 	Route::get('/', array(
