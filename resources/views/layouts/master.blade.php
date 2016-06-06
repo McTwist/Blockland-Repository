@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<!-- Facicons -->
+		<!-- Favicons -->
 		<link rel="icon" href="/favicon.ico">
 		<link rel="icon" href="/favicon_192x192.png" sizes="192x192">
 		<link rel="icon" href="/favicon_32x32.png" sizes="32x32">
