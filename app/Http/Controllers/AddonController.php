@@ -36,6 +36,7 @@ class AddonController extends Controller
 	 * Upload the Resource.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
+	 *
 	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
 	 */
 	public function upload(Request $request)
@@ -78,6 +79,7 @@ class AddonController extends Controller
 	 * Show the Form for Creating a new Resource.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
+	 *
 	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
 	 */
 	public function create(Request $request)
@@ -98,12 +100,7 @@ class AddonController extends Controller
 
 		// TODO: Do checks, validations and generations and notify the user
 
-		$cats = Category::select('id', 'name')->get();
-		$categories = [];
-		foreach ($cats as $category)
-		{
-			$categories[(int)$category->id] = $category->name;
-		}
+		$categories = Category::listSelect();
 
 		$title = $addon->Title();
 		$summary = $addon->Description();
@@ -117,6 +114,7 @@ class AddonController extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
+	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request)
@@ -182,13 +180,13 @@ class AddonController extends Controller
 	/**
 	 * Display the specified Resource.
 	 *
-	 * @param  Addon  $addon  The specified Resource.
+	 * @param  $addon  The specified Resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($addon)
 	{
-		$addon = Addon::where('slug', $addon)->first();
+		$addon = Addon::fromSlug($addon);
 		// Show the Category Page
 		return $addon === null ? view('errors.404') : view('resources.addon.show', compact('addon'));
 	}
@@ -196,56 +194,90 @@ class AddonController extends Controller
 	/**
 	 * Show the Form for Editing the specified Resource.
 	 *
-	 * @param  Addon  $addon  The specified Resource.
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  $addon  The specified Resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit(Request $request, Addon $addon)
+	public function edit(Request $request, $addon)
 	{
-		if ($addon->user()->id != $request->user()->id)
+		$addon = Addon::fromSlug($addon);
+
+		if ($addon === null)
+		{
+			return view('errors.404');
+		}
+
+		if (!$addon->isOwner($request->user()))
 		{
 			return view('errors.403');
 		}
+
+		// Get categories
+		$categories = Category::listSelect();
+
+		$summary = $addon->description;
+		$developers = $addon->authors();
+
 		// Show the Edit Page for Addon
-		return view('resources.addon.edit', compact('addon'));
+		return view('resources.addon.edit', compact('addon', 'categories', 'summary', 'developers'));
 	}
 
 	/**
 	 * Update the specified Resource in Storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  Addon  $addon  The specified Resource.
+	 * @param  $addon  The specified Resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, Addon $addon)
+	public function update(Request $request, $addon)
 	{
-		if ($addon->user()->id == $request->user()->id)
+		$addon = Addon::fromSlug($addon);
+
+		if ($addon === null)
 		{
+			return redirect()->intended(route('pages.home'));
+		}
+
+		if ($addon->isOwner($request->user()))
+		{
+			$this->validate($request, [
+				'title' => 'required|max:64|unique:addons,name,'.$addon->id,
+				'summary' => 'required',
+				'developers' => 'required',
+				'description' => 'required'
+			]);
+
 			// Update the Addon
-			$addon->fill($request->all());
+			$addon->name = $request->input('title');
+			$addon->description = $request->input('description');
 
 			// Save the Addon
 			$addon->save();
 		}
 
 		// Redirect to the Index Page
-		return redirect()->intended(route('addon.show', $addon->id));
+		return redirect()->intended(route('addon.show', $addon->slug));
 	}
 
 	/**
 	 * Remove the specified Resource from Storage.
 	 *
-	 * @param  Addon  $addon  The specified Resource.
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  $addon  The specified Resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy(Addon $addon)
+	public function destroy(Request $request, $addon)
 	{
+		$addon = Addon::fromSlug($addon);
+
 		$category = $addon->category_id;
 		
-		if ($addon->user()->id == $request->user()->id)
+		if ($addon->isOwner($request->user()))
 		{
+			$addon->owners()->detach();
 			// Delete the Addon
 			$addon->delete();
 		}
