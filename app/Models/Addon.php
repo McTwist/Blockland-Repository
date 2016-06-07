@@ -20,6 +20,16 @@ class Addon extends Model
 		return $this->belongsTo(Category::class);
 	}
 
+	public static function fromSlug($slug)
+	{
+		return self::where('slug', $slug)->first();
+	}
+
+	public function isOwner(User $user)
+	{
+		return $this->owners()->get()->contains($user);
+	}
+
 	public function authors()
 	{
 		// TODO: Authors is mentioned in add-on
