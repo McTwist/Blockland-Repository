@@ -40,13 +40,16 @@
 					{{ Form::submit('Log In') }}
 				</div>
 			</div>
+			@if (count($errors) > 0)
+				<ul>
+					@foreach ($errors->all() as $error)
+						<li>{{ $error }}</li>
+					@endforeach
+				</ul>
+			@endif
 		{{ Form::close() }}
 	</div>
 
-	@if(count($errors) > 0)
-		@foreach($errors as $error)
-			{{ $error }}
-		@endforeach
 	@endif
 
 @endsection
