@@ -94,6 +94,33 @@ Route::group(['middleware' => []], function() {
 		'as' => 'user.register'
 	));
 
+	/*
+	|--------------------------------------------------------------------------
+	| Password Routes
+	|--------------------------------------------------------------------------
+	|
+	| All Routes pertaining to Passwords are defined here. These routes are
+	| prefixed by the 'password' noun, and use the '{token}' wildcard
+	| when necessary. The Route Names are prefixed with 'password'.
+	|
+	*/
+	Route::get('/password/email', array(
+		'uses' => 'Auth\PasswordController@getEmail',
+		'as' => 'password.email'
+	));
+	Route::post('/password/email', array(
+		'uses' => 'Auth\PasswordController@postEmail',
+		'as' => 'password.email'
+	));
+	Route::get('/password/reset/{token}', array(
+		'uses' => 'Auth\PasswordController@getReset',
+		'as' => 'password.reset'
+	));
+	Route::post('/password/reset', array(
+		'uses' => 'Auth\PasswordController@postReset',
+		'as' => 'password.reset'
+	));
+
 });
 
 Route::group(['middleware' => ['api']], function()

@@ -22,7 +22,7 @@
 			</div>
 			<div class="flowcontrol">
 				<div class="forgot">
-					<a href="#">Forgot password?</a>
+					<a href="{{ route('password.email') }}">Forgot password?</a>
 				</div>
 				<div class="remember">
 					{{ Form::checkbox('remember', 'remember', true, array('id' => 'remember_chk')) }}
