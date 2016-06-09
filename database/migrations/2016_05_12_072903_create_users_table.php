@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->string('username', 32)->unique();
             $table->string('password', 60);
             $table->string('email', 254)->unique();
-            $table->string('remember_token', 100)->unique();
+            $table->rememberToken();
             $table->integer('blockland_id')->nullable()->unsigned()->index();
             $table->timestamps();
         });
