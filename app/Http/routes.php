@@ -94,6 +94,12 @@ Route::group(['middleware' => []], function() {
 		'as' => 'user.register'
 	));
 
+	Route::get('/auth/ip', array(
+		'uses' => 'Auth\AuthController@validateAuthIp',
+		'as' => 'auth.ip',
+		'middleware' => 'api'
+	));
+
 	/*
 	|--------------------------------------------------------------------------
 	| Password Routes
