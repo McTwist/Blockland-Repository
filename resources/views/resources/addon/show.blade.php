@@ -19,6 +19,9 @@
 	<div id="download">
 		<a href="{{ $addon->download_link() }}" class="button">Download</a>
 		<span class="bytes">{{ $addon->size_bin() }}</span>
+		@if($addon->IsOwner(Auth::user()))
+			<span class="owner"><a href="{{ route('addon.edit', $addon->slug) }}">Edit</a></span>
+		@endif
 	</div>
 	<hr class="over">
 	<div class="infobox">
