@@ -127,13 +127,15 @@ class AddonController extends Controller
 			'category' => 'integer|exists:categories,id'
 		]);
 
+		$data = $request->session()->get('upload');
+
 		$category = $request->input('category');
 		$title = $request->input('title');
 		$summary = $request->input('summary');
 		$developers = $request->input('developers');
 		$description = $request->input('description');
 		// TODO: Generate a valid slug
-		$slug = rtrim(strtr(base64_encode(openssl_random_pseudo_bytes(12)), '+/', '-_'), '=');
+		$slug = str_slug(pathinfo($data['originalFilename'], PATHINFO_FILENAME), '_');
 		// Create the Resource
 		$addon = Addon::create([
 			'name' => $title,
@@ -143,8 +145,6 @@ class AddonController extends Controller
 		// Link them together
 		Category::find($category)->addons()->save($addon);
 		$request->user()->addons()->save($addon);
-
-		$data = $request->session()->get('upload');
 
 		$temp_file = storage_path(self::$temp_path).'/'.$data['filename'];
 		$save_file = storage_path(self::$repo_path).'/'.$data['originalFilename'];
