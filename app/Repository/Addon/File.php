@@ -2,20 +2,18 @@
 
 namespace App\Repository\Addon;
 
+use App\Repository\Archive\Archive;
+
 /*
  * File
  * Handles an add-on file and its content
  * Supports Greek2me's Updater add-on for easier updating
  */
 
-class File
+class File extends Archive
 {
-	private $archive = null;
-
 	private $type = null;
 	private $name = null;
-
-	private $filetype_count = [];
 
 	// description.txt
 	private $description = null;
@@ -29,17 +27,9 @@ class File
 	// rtbInfo.txt
 	private $rtbInfo = null;
 
-	const NL = "\r\n";
-
 	public function __construct($file)
 	{
-		// Read archive
-		$this->archive = new \ZipArchive();
-		if ($this->archive->open($file) !== true)
-		{
-			$this->archive = null;
-			return;
-		}
+		parent::__construct($file);
 
 		// Parse filename
 		$underscore = strpos($file, '_');
@@ -53,38 +43,15 @@ class File
 			list($this->name) = explode('.', $file);
 		}
 
-		$this->description = new FileDescription();
-		$this->version = new FileVersion();
-		$this->rtbInfo = new FileRTBInfo();
+		$this->AddFileReader('namecheck.txt', FileNamecheck::class);
+		$this->AddFileReader('description.txt', FileDescription::class);
+		$this->AddFileReader(['version.txt', 'version.json'], FileVersion::class);
+		$this->AddFileReader('rtbinfo.txt', FileRTBInfo::class);
 
-		// Read in default information if it exists
-		$this->ReadVersion();
-		$this->ReadDescription();
-		$this->ReadNamecheck();
-		$this->ReadRTB();
-
-		// Count all file types
-		for ($i = 0; $i < $this->archive->numFiles; $i++)
-		{
-			$stat = $this->archive->statIndex($i);
-			$values = explode('.', $stat['name']);
-			$ext = strtolower(end($values));
-
-			if (!isset($this->filetype_count[$ext]))
-				$this->filetype_count[$ext] = 0;
-
-			++$this->filetype_count[$ext];
-		}
-	}
-
-	public function IsOpen()
-	{
-		return $this->archive !== null;
-	}
-
-	public function Close()
-	{
-		$this->archive->close();
+		$this->namecheck = $this->GetNamecheck();
+		$this->description = $this->GetDescription();
+		$this->version = $this->GetVersion();
+		$this->rtbInfo = $this->GetRTBInfo();
 	}
 
 	public function Type($lower = false)
@@ -119,7 +86,7 @@ class File
 
 	public function Namecheck()
 	{
-		return isset($this->namecheck) ? $this->namecheck->Get() : '';
+		return isset($this->namecheck) ? $this->namecheck->Namecheck() : '';
 	}
 
 	public function Version($value = null)
@@ -148,25 +115,31 @@ class File
 		return $this->version->Repositories();
 	}
 
-	// Direct access
-	public function &GetNamecheck()
+	protected function GetNamecheck()
 	{
-		return $this->namecheck;
+		return $this->GetFile('namecheck.txt');
 	}
 
-	public function &GetDescription()
+	protected function GetDescription()
 	{
-		return $this->description;
+		return $this->GetFile('description.txt', true);
 	}
 
-	public function &GetVersion()
+	protected function GetVersion()
 	{
-		return $this->version;
+		if ($this->HaveFile('version.json'))
+		{
+			return $this->GetFile('version.json', true);
+		}
+		if ($this->HaveFile('version.txt'))
+		{
+			return $this->GetFile('version.txt', true);
+		}
 	}
 
-	public function &GetRTBInfo()
+	protected function GetRTBInfo()
 	{
-		return $this->rtbInfo;
+		return $this->GetFile('rtbinfo.txt', true);
 	}
 
 	// Validates file to contain the required data
@@ -190,24 +163,13 @@ class File
 		return $this->description->Validate();
 	}
 
-	// Read the file
-	public function ReadDescription()
-	{
-		if ($this->HaveFile('description.txt'))
-			$this->description->Read($this->ReadFile('description.txt'));
-	}
-
 	// Generate a description.txt file
 	public function GenerateDescription($overwrite = false)
 	{
 		if (!$overwrite && $this->HaveFile('description.txt'))
 			return;
 
-		$content = $this->description->Generate();
-
-		// Save it
-		if (!empty($content))
-			$this->archive->addFromString('description.txt', $content);
+		$this->SetFile($this->description);
 	}
 
 	// Validate internal namecheck file
@@ -220,22 +182,13 @@ class File
 		return $this->namecheck->Validate();
 	}
 
-	// Read the file
-	public function ReadNamecheck()
-	{
-		// Check for file that to check for
-		$namecheck = ($this->HaveFile('namecheck.txt')) ? $this->ReadFile('namecheck.txt') : '';
-		
-		$this->namecheck = new FileNamecheck($this->archive->filename, $namecheck);
-	}
-
 	// Generate a namecheck.txt file
 	public function GenerateNamecheck($overwrite = false)
 	{
 		if (!$overwrite && $this->HaveFile('namecheck.txt'))
 			return;
 
-		$this->archive->addFromString('namecheck.txt', $this->namecheck->Generate());
+		$this->SetFile($this->namecheck);
 	}
 
 	// Validate the file types in the archive
@@ -360,39 +313,6 @@ class File
 		return $this->HasFileType('mis');
 	}
 
-	// Get out all those pesky files that somehow get into every other add-on
-	public function Cleanup()
-	{
-		$this->RemoveFile('Thumbs.db'); // Windows thumbnails
-		$this->RemoveFile('.DS_Store'); // Mac folder attributes
-		$this->RemoveFile('.svn'); // SVN
-		$this->RemoveFile('.git'); // GIT
-		$this->RemoveFile('.gitignore'); // GIT ignore
-	}
-
-	private function RemoveFile($file)
-	{
-		$found = false;
-		while (($index = $this->archive->locateName($file, \ZipArchive::FL_NODIR | \ZipArchive::FL_NOCASE)) !== false)
-			$found |= $this->archive->deleteIndex($index);
-		return $found;
-	}
-
-	private function HaveFile($file)
-	{
-		return $this->archive->locateName($file, \ZipArchive::FL_NOCASE) !== false;
-	}
-
-	private function HasFileType($ext)
-	{
-		return isset($this->filetype_count[strtolower($ext)]);
-	}
-
-	private function ReadFile($file)
-	{
-		return $this->archive->getFromName($file, 0, \ZipArchive::FL_NOCASE);
-	}
-
 	// Greek2me's Updater
 	// Validate version.txt
 	public function ValidateVersion()
@@ -405,21 +325,6 @@ class File
 			return false;
 
 		return $this->version->Validate();
-	}
-
-	// Read version.txt
-	public function ReadVersion()
-	{
-		// Old version.txt format
-		if ($this->HaveFile('version.txt'))
-		{
-			$this->version->Read($this->ReadFile('version.txt'), false);
-		}
-		// New JSON format
-		elseif ($this->HaveFile('version.json'))
-		{
-			$this->version->Read($this->ReadFile('version.json'), true);
-		}
 	}
 
 	// Generate a version file
@@ -447,9 +352,12 @@ class File
 			return;
 		}
 
-		$content = $this->version->Generate($json, $pretty);
-		if (!empty($content))
-			$this->archive->addFromString($json ? 'version.json' : 'version.txt', $content);
+		if ($version_txt)
+			$this->version->ChangeFilename('version.txt');
+		if ($version_json)
+			$this->version->ChangeFilename('version.json');
+
+		$this->SetFile($this->version);
 	}
 
 	// RTB info
@@ -459,24 +367,13 @@ class File
 		return $this->rtbInfo->Validate();
 	}
 
-	// Read rtbInfo.txt
-	public function ReadRTB()
-	{
-		if ($this->HaveFile('rtbInfo.txt'))
-			$this->rtbInfo->Read($this->ReadFile('rtbInfo.txt'));
-	}
-
 	// Generate a rtbInfo file
 	public function GenerateRTB($overwrite = false)
 	{
 		if (!$overwrite && $this->HaveFile('rtbInfo.txt'))
 			return;
 
-		$content = $this->rtbInfo->Generate();
-
-		// Save it
-		if (!empty($content))
-			$this->archive->addFromString('rtbInfo.txt', $content);
+		$this->SetFile($this->rtbInfo);
 	}
 
 	// Check if RTB exists

@@ -2,11 +2,13 @@
 
 namespace App\Repository\Addon;
 
+use App\Repository\Archive\ArchiveFile;
+
 /*
  * FileDescription
  * Handles the description content
  */
-class FileDescription
+class FileDescription extends ArchiveFile
 {
 	private $title = null;
 	private $authorsRaw = null;
@@ -49,7 +51,7 @@ class FileDescription
 	}
 
 	// Generate new description content
-	public function Generate()
+	public function Write()
 	{
 		// Prepare the data
 		$content = '';

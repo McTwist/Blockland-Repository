@@ -2,26 +2,46 @@
 
 namespace App\Repository\Addon;
 
+use App\Repository\Archive\ArchiveFile;
+
 /*
  * FileVersion
  * Handles the version file
  * Greek2me's Updater
  */
-class FileVersion
+class FileVersion extends ArchiveFile
 {
 	private $version = '0.0';
 	private $channel = '*';
 	private $repositories = [];
 
+	private $is_json = true;
+	private $pretty = false;
+
 	const NL = File::NL;
 
+	public function __construct($archive_name, $filename)
+	{
+		$this->is_json = strtolower(pathinfo($filename, PATHINFO_EXTENSION)) == 'json';
+	}
+
+	public function IsJson()
+	{
+		return $this->is_json;
+	}
+
+	public function Pretty($pretty = true)
+	{
+		$this->pretty = $pretty;
+	}
+
 	// Read version
-	public function Read($content, $json)
+	public function Read($content)
 	{
 		$this->repositories = [];
 
 		// Old version.txt format
-		if (!$json)
+		if (!$this->IsJson())
 		{
 			// Split up the lines into an array
 			$lines = preg_split('/$\R?^/m', $content);
@@ -112,14 +132,14 @@ class FileVersion
 
 	// Generate a version file
 	// Pretty only works with JSON
-	public function Generate($json = true, $pretty = true)
+	public function Write()
 	{
 		// Check a couple of restrainments
 		if (empty($this->version) || empty($this->channel) || count($this->repositories) == 0)
 			return '';
 
 		// Old version
-		if (!$json)
+		if (!$this->IsJson())
 		{
 			// Prepare data
 			$content  = "version {$this->version}".self::NL;
@@ -155,7 +175,7 @@ class FileVersion
 			}
 
 			// Generate content
-			$content = json_encode($data, ($pretty ? JSON_PRETTY_PRINT : 0) | JSON_UNESCAPED_SLASHES);
+			$content = json_encode($data, ($this->pretty ? JSON_PRETTY_PRINT : 0) | JSON_UNESCAPED_SLASHES);
 		}
 
 		return $content;

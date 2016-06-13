@@ -2,12 +2,14 @@
 
 namespace App\Repository\Addon;
 
+use App\Repository\Archive\ArchiveFile;
+
 /*
  * FileRTBInfo
  * Handles the rtbinfo file
  * Return To Blockland
  */
-class FileRTBInfo
+class FileRTBInfo extends ArchiveFile
 {
 	private $id = '';
 	private $icon = '';
@@ -65,7 +67,7 @@ class FileRTBInfo
 	}
 
 	// Generate new description content
-	public function Generate()
+	public function Write()
 	{
 		// I can't let you do that
 		if (!$this->Validate())
