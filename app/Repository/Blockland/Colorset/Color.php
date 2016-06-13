@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Colorset;
+namespace App\Repository\Blockland\Colorset;
 
 class Color
 {

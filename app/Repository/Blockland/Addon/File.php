@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\Addon;
+namespace App\Repository\Blockland\Addon;
 
 use App\Repository\Archive\Archive;
 

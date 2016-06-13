@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Addon;
 use App\Models\Category;
-use App\Repository\Addon\File as AddonFile;
+use App\Repository\Blockland\Addon\File as AddonFile;
 
 /*
 |--------------------------------------------------------------------------
