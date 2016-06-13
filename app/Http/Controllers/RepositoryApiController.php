@@ -26,6 +26,10 @@ class RepositoryApiController extends Controller
 		{
 			return $this->repository($request->get('repo'), $pretty);
 		}
+		elseif ($request->has('dl'))
+		{
+			return $this->download($request->get('dl'));
+		}
 		else
 		{
 			return $this->repository('', $pretty);
@@ -58,6 +62,15 @@ class RepositoryApiController extends Controller
 		$addons = Addon::all();
 		$obj = self::ObjectFromArray($addons);
 		return self::json($obj, isset($pretty) || self::IsPretty($data));
+	}
+
+	// Download the mod specified
+	public function download($data)
+	{
+		$mod = self::ExtractData($data, $data);
+		$addon = Addon::where('slug', $mod)->first();
+		return response('Under construction: '.$addon->name);
+		//return response()->download($addon->file(), $addon->filename(), 'application/zip');
 	}
 
 	// Extract data and attributes from string

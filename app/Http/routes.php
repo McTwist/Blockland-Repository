@@ -134,6 +134,7 @@ Route::group(['middleware' => ['api']], function()
 	Route::get('/api', 'RepositoryApiController@home');
 	Route::get('/api/mods/{mods}', 'RepositoryApiController@mods');
 	Route::get('/api/mod/{mod}', 'RepositoryApiController@mod');
+	Route::get('/api/mod/{mod}.zip', 'RepositoryApiController@download');
 	Route::get('/api/repo/{repo}', 'RepositoryApiController@repository');
 	// Catch-all
 	Route::get('/api/{null}', 'RepositoryApiController@home');

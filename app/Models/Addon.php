@@ -86,6 +86,6 @@ class Addon extends Model
 
 	public function download_link()
 	{
-		return '';
+		return '/api/mod/'.$this->slug.'.zip';
 	}
 }
