@@ -42,7 +42,7 @@ class AddonController extends Controller
 	public function upload(Request $request)
 	{
 		$this->validate($request, [
-			'addon' => 'required|mimes:zip'
+			'addon' => 'required|mimes:zip|min:512|max:52428800'
 		]);
 
 		if (!$request->session()->has('upload'))
