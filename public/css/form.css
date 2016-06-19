@@ -5,6 +5,7 @@
 input[type="text"],
 input[type="email"],
 input[type="password"],
+button,
 textarea,
 select,
 .selectContainer,
@@ -43,6 +44,7 @@ label
 }
 
 input[type="submit"],
+button,
 .fileContainer,
 a.button
 {
@@ -58,12 +60,14 @@ a.button
 }
 
 input[type="submit"],
+button,
 a.button
 {
 	border: 0;
 }
 
 input[type="submit"]:active,
+button:active,
 a.button:active
 {
 	background: linear-gradient(#480077, #6a00b0);
