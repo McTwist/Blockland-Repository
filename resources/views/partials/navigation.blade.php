@@ -6,6 +6,7 @@
 
 		@if(Auth::check())
 
+			<li class="nav-item"><a href="{{ route('user.show') }}">Profile ({{ Auth::user()->username }})</a></li>
 			<li class="nav-item"><a href="#" onclick="showUpload()">Upload</a></li>
 			<li class="nav-item"><a href="{{ route('user.logout') }}">Log Out</a></li>
 

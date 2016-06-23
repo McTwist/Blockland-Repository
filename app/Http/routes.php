@@ -94,6 +94,21 @@ Route::group(['middleware' => []], function() {
 		'as' => 'user.register'
 	));
 
+	Route::get('/user/show/{user?}', array(
+		'uses' => 'UserController@show',
+		'as' => 'user.show'
+	));
+	Route::get('/user/edit', array(
+		'uses' => 'UserController@edit',
+		'as' => 'user.edit',
+		'middleware' => 'auth'
+	));
+	Route::put('/user/update', array(
+		'uses' => 'UserController@update',
+		'as' => 'user.update',
+		'middleware' => 'auth'
+	));
+
 	Route::get('/auth/ip', array(
 		'uses' => 'Auth\AuthController@validateAuthIp',
 		'as' => 'auth.ip',
