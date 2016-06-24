@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 
 use App\Models\User;
-use App\Repository\BlocklandAuthentication;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -87,53 +86,5 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
-    }
-
-    /**
-     * Verify user through IP and name
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
-     */
-    public function validateAuthIP(Request $request)
-    {
-        $data = [];
-        if ($request->has('name'))
-        {
-            // TOOD: Check cache in own database to avoid hammering
-
-            $bl_id = BlocklandAuthentication::CheckAuthServer($request->input('name'));
-
-            if ($bl_id === null)
-            {
-                $data['msg'] = 'Unable to authenticate';
-                $data['code'] = 'NO_SERVER';
-            }
-            elseif ($bl_id === false)
-            {
-                $data['msg'] = 'Invalid';
-                $data['code'] = 'INVALID';
-            }
-            else
-            {
-                $data['msg'] = 'Verified';
-                $data['code'] = 'VERIFIED';
-            }
-        }
-        else
-        {
-            $data['msg'] = 'Missing required "name" field';
-            $data['code'] = 'MISSING_FIELD';
-        }
-
-
-        if ($request->ajax())
-        {
-            return response()->json((object)$data);
-        }
-        else
-        {
-            return response($data['msg']);
-        }
     }
 }

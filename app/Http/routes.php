@@ -110,9 +110,9 @@ Route::group(['middleware' => []], function() {
 	));
 
 	Route::get('/auth/ip', array(
-		'uses' => 'Auth\AuthController@validateAuthIp',
+		'uses' => 'UserController@validateAuthIp',
 		'as' => 'auth.ip',
-		'middleware' => 'api'
+		'middleware' => ['api', 'auth']
 	));
 
 	/*

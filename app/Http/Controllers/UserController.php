@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\BlocklandUser;
+use App\Repository\BlocklandAuthentication;
 
 class UserController extends Controller
 {
@@ -66,6 +68,86 @@ class UserController extends Controller
 		$user->save();
 
 		return redirect()->intended(route('user.edit'));
+	}
+
+	/**
+	 * Verify user through IP and name
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return Response
+	 */
+	public function validateAuthIP(Request $request)
+	{
+		$this->validate($request, [
+			'id' => 'required|min:0|max:999999',
+			'name' => 'required|max:24'
+			]);
+
+		$data = [];
+		if ($request->has('name'))
+		{
+			$id = $request->input('id');
+			$name = $request->input('name');
+
+			$blockland_user = BlocklandUser::where('id', $id)->orderBy('updated_at')->first();
+
+			if (is_object($blockland_user) && $blockland_user->name == $name)
+				$bl_id = $id;
+			else
+				$bl_id = BlocklandAuthentication::CheckAuthServer($name);
+
+			if ($bl_id === null)
+			{
+				$data['msg'] = 'Unable to authenticate';
+				$data['code'] = 'NO_SERVER';
+			}
+			elseif ($bl_id === false)
+			{
+				$data['msg'] = 'Invalid ip';
+				$data['code'] = 'INVALID';
+			}
+			else
+			{
+				if ($id != $bl_id)
+				{
+					$data['msg'] = 'Invalid name and id';
+					$data['code'] = 'INVALID';
+				}
+				else
+				{
+					$data['msg'] = 'Verified';
+					$data['code'] = 'VERIFIED';
+
+					$id = $bl_id;
+
+					if (!is_object($blockland_user))
+						$blockland_user = new BlocklandUser(compact(['id', 'name']));
+					elseif ($blockland_user->name != $name)
+						$blockland_user->name = $name;
+
+					$blockland_user->save();
+
+					$user = $request->user();
+					$user->blockland_id = $id;
+					$user->save();
+				}
+			}
+		}
+		else
+		{
+			$data['msg'] = 'Missing required "name" field';
+			$data['code'] = 'MISSING_FIELD';
+		}
+
+
+		if ($request->ajax())
+		{
+			return response()->json((object)$data);
+		}
+		else
+		{
+			return response($data['msg']);
+		}
 	}
 }
 
