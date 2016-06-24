@@ -21,4 +21,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		return $this->belongsToMany(Addon::class)->withTimestamps();
 	}
+
+	public function blockland_user()
+	{
+		return $this->hasMany(BlocklandUser::class, 'id', 'blockland_id');
+	}
+
+	public function bl_id()
+	{
+		$blockland_user = $this->blockland_user();
+		if (is_null($blockland_user))
+			return '';
+		else
+			return $blockland_user->first()->id;
+	}
+
+	public function bl_name()
+	{
+		$blockland_user = $this->blockland_user();
+		if (is_null($blockland_user))
+			return '';
+		else
+			return $blockland_user->first()->name;
+	}
 }
