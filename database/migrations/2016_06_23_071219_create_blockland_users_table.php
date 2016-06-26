@@ -12,13 +12,13 @@ class CreateBlocklandUsersTable extends Migration
 	 */
 	public function up()
 	{
-	Schema::create('blockland_users', function (Blueprint $table)
-	{
-		$table->integer('id')->index();
-		$table->string('name', 24)->index();
-		$table->timestamps();
-		$table->primary(array('id', 'name'));
-	});
+		Schema::create('blockland_users', function (Blueprint $table)
+		{
+			$table->integer('id')->index();
+			$table->string('name', 24)->index();
+			$table->timestamps();
+			$table->primary(array('id', 'name'));
+		});
 	}
 
 	/**
