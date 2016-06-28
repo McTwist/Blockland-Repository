@@ -106,8 +106,32 @@ class RepositoryApiController extends Controller
 		$obj->id = $addon->slug;
 		$obj->description = $addon->description;
 		$obj->channels = [];
-		// TODO: Next sprint, add channels
+		// Channels
+		foreach ($addon->channels() as $channel)
+		{
+			$obj->channels[] = self::ObjectFromChannel($channel);
+		}
 
+		return $obj;
+	}
+
+	// Get object out from channel
+	static private function ObjectFromChannel(Channel $channel)
+	{
+		$obj = new \stdClass;
+		$obj->name = $channel->name;
+		$obj->id = $channel->slug;
+		$obj->version = '1.0';
+
+		if (!empty($channel->description))
+			$obj->description = $channel->description;
+
+		$restart_required = $channel->restart_required();
+		if (!empty($restart_required))
+			$obj->restart_required = $restart_required;
+
+		$obj->file = '';
+		$obj->changelog = '';
 		return $obj;
 	}
 
