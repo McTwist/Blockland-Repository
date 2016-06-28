@@ -10,6 +10,11 @@ class Addon extends Model
 
 	protected $fillable = ['name', 'slug', 'description'];
 
+	public function channels()
+	{
+		return $this->hasMany(Channel::class);
+	}
+
 	public function owners()
 	{
 		return $this->belongsToMany(User::class)->withTimestamps();
