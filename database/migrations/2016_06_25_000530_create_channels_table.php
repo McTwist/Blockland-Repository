@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChannels extends Migration
+class CreateChannelsTable extends Migration
 {
     /**
      * Run the migrations.
