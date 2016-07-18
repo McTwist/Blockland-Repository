@@ -40,6 +40,7 @@
 		@yield('scripts.footer')
 
 		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script type="text/javascript">if (!window.jQuery) { document.write('<script src="/js/jquery.min.js"><\/script>'); }</script>
 		@yield('scripts')
 	</body>
 </html>
