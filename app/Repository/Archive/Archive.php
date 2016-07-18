@@ -1,7 +1,15 @@
 <?php
 namespace App\Repository\Archive;
 
-
+/*
+|--------------------------------------------------------------------------
+| Archive
+|--------------------------------------------------------------------------
+|
+| Handles an archive and all its content. Applies easy functionality to
+| access each file. Parsing and modification is done through ArchiveFile
+|
+*/
 class Archive
 {
 	protected $archive_name = '';
@@ -12,6 +20,7 @@ class Archive
 	private $filetype_readers = [];
 	private $file_readers = [];
 
+	// Convenient common newline
 	const NL = "\r\n";
 
 	public function __construct($file)
@@ -39,29 +48,32 @@ class Archive
 	}
 
 	// Add file reader
-	// type - Extension of the file type
+	// file - File to find
 	// reader - Class name for reader
-	public function AddFileReader($type, $reader)
+	public function AddFileReader($file, $reader)
 	{
-		if (!empty($type) && class_exists($reader) && is_subclass_of($reader, ArchiveFile::class))
+		if (!empty($file) && class_exists($reader) && is_subclass_of($reader, ArchiveFile::class))
 		{
-			if (is_array($type))
+			if (is_array($file))
 			{
-				$types = array_map('strtolower', $type);
-				foreach($types as $type)
+				$files = array_map('strtolower', $file);
+				foreach($files as $file)
 				{
-					$this->file_readers[$type] = $reader;
+					$this->file_readers[$file] = $reader;
 				}
 			}
 			else
 			{
-				$type = strtolower($type);
-				$this->file_readers[$type] = $reader;
+				$file = strtolower($file);
+				$this->file_readers[$file] = $reader;
 			}
 		}
 	}
 
-	public function AddfileTypeReader($type, $reader)
+	// Add file type reader
+	// type - Extension of the file type
+	// reader - Class name for reader
+	public function AddFileTypeReader($type, $reader)
 	{
 		if (!empty($type) && class_exists($reader) && is_subclass_of($reader, ArchiveFile::class))
 		{
@@ -92,22 +104,24 @@ class Archive
 
 		$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
-		$type = '';
+		$reader = ArchiveFile::class;
 
+		// Read a file
 		if (array_key_exists($file, $this->file_readers))
 		{
-			$type = $this->file_readers[$file];
+			$reader = $this->file_readers[$file];
 		}
+		// Read a type
 		elseif (array_key_exists($ext, $this->filetype_readers))
 		{
-			$type = $this->filetype_readers[$ext];
+			$reader = $this->filetype_readers[$ext];
 		}
 		elseif (!$force_object)
 		{
 			return $content;
 		}
 		
-		$reader = new $type($this->archive_name, $file);
+		$reader = new $reader($this->archive_name, $file);
 		$reader->Read($content);
 		return $reader;
 	}

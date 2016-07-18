@@ -5,6 +5,7 @@ class ArchiveFile
 {
 	protected $archive = '';
 	protected $filename = '';
+	private $content = '';
 
 	public function __construct($archive_name, $filename)
 	{
@@ -24,11 +25,12 @@ class ArchiveFile
 
 	public function Read($content)
 	{
+		$this->content = $content;
 	}
 
 	public function Write()
 	{
-		return '';
+		return $this->content;
 	}
 
 	public function Validate()
