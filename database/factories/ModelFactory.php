@@ -28,9 +28,10 @@ $factory->define(App\Models\Category::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\Addon::class, function (Faker\Generator $faker) {
+    $name = $faker->name;
 	return [
-		'name' => $faker->name,
-		'slug' => str_random(10),
+		'name' => $name,
+		'slug' => str_slug($name, '_'),
 		'description' => $faker->text(512)
 	];
 });
