@@ -35,3 +35,11 @@ $factory->define(App\Models\Addon::class, function (Faker\Generator $faker) {
 		'description' => $faker->text(512)
 	];
 });
+
+$factory->define(App\Models\Channel::class, function (Faker\Generator $faker) {
+	return [
+		'name' => 'release',
+		'slug' => str_random(10),
+		'description' => $faker->text(512)
+	];
+});
