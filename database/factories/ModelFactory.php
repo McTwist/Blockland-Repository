@@ -12,23 +12,23 @@
 */
 
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
-    return [
-        'username' => $faker->name,
-        'email' => $faker->safeEmail,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
-    ];
+	return [
+		'username' => $faker->name,
+		'email' => $faker->safeEmail,
+		'password' => bcrypt(str_random(10)),
+		'remember_token' => str_random(10),
+	];
 });
 
 $factory->define(App\Models\Category::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->name,
-        'icon' => 'none'
-    ];
+	return [
+		'name' => $faker->name,
+		'icon' => 'none'
+	];
 });
 
 $factory->define(App\Models\Addon::class, function (Faker\Generator $faker) {
-    $name = $faker->name;
+	$name = $faker->name;
 	return [
 		'name' => $name,
 		'slug' => str_slug($name, '_'),
