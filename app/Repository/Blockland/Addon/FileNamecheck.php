@@ -15,6 +15,7 @@ class FileNamecheck extends ArchiveFile
 
 	public function __construct($archive_name, $filename)
 	{
+		parent::__construct($archive_name, $filename);
 		$this->filebase = basename($archive_name, '.zip');
 	}
 

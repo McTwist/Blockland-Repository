@@ -22,7 +22,19 @@ class FileVersion extends ArchiveFile
 
 	public function __construct($archive_name, $filename)
 	{
-		$this->is_json = strtolower(pathinfo($filename, PATHINFO_EXTENSION)) == 'json';
+		parent::__construct($archive_name, $filename);
+		$this->CheckJson();
+	}
+
+	public function ChangeFilename($new_name)
+	{
+		parent::ChangeFileName($new_name);
+		$this->CheckJson();
+	}
+
+	private function CheckJson()
+	{
+		$this->is_json = strtolower(pathinfo($this->Filename(), PATHINFO_EXTENSION)) == 'json';
 	}
 
 	public function IsJson()

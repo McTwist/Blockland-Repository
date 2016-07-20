@@ -334,6 +334,7 @@ class File extends Archive
 		$version_txt = $this->HaveFile('version.txt');
 		$version_json = $this->HaveFile('version.json');
 
+		// Create a new one
 		if (!$this->version->Validate())
 			return;
 
@@ -345,6 +346,8 @@ class File extends Archive
 				$this->RemoveFile('version.txt');
 			if ($version_json)
 				$this->RemoveFile('version.json');
+			$version_txt = !$json;
+			$version_json = $json;
 		}
 		// Have it already, so don't do anything
 		elseif ($version_txt || $version_json)
