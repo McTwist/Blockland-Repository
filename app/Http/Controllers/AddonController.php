@@ -145,6 +145,13 @@ class AddonController extends Controller
 		// Link them together
 		Category::find($category)->addons()->save($addon);
 		$request->user()->addons()->save($addon);
+		// Create channel
+		$channel = Channel::Create([
+			'name' => 'release',
+			'slug' => $slug,
+			'description' => $description
+		]);
+		$addon->channels()->save($channel);
 
 		$temp_file = storage_path(self::$temp_path).'/'.$data['filename'];
 		$save_file = storage_path(self::$repo_path).'/'.$data['originalFilename'];
