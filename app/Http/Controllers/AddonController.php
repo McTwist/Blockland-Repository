@@ -104,7 +104,7 @@ class AddonController extends Controller
 
 		$title = $addon->Title();
 		$summary = $addon->Description();
-		$developers = implode(', ', $addon->Authors());
+		$developers = $addon->Authors();
 		$description = $addon->Description();
 		// Show the Create Page for Addon
 		return view('resources.addon.create', compact('title', 'summary', 'developers', 'description', 'categories'));
