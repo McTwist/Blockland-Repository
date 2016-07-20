@@ -24,6 +24,7 @@ class CreateDataTest extends TestCase
 			$addons = factory(App\Models\Addon::class, mt_rand(2, $max_addons_per_user))->create()->each(function($a) use ($max_categories, &$categories) {
 				// Attach category to addon
 				$categories->random()->addons()->save($a);
+				$a->channels()->save(factory(App\Models\Channel::class)->create());
 			});
 			if (count($addons) > 1)
 				$u->addons()->saveMany($addons);
