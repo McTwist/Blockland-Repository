@@ -170,7 +170,8 @@ class Archive
 
 	protected function HasFileType($ext)
 	{
-		return isset($this->filetype_count[strtolower($ext)]);
+		$ext = strtolower($ext);
+		return isset($this->filetype_count[$ext]) && $this->filetype_count[$ext] > 0;
 	}
 
 	protected function ReadFile($file)
