@@ -148,13 +148,111 @@ class File extends Archive
 		return $this->ValidateDescription()
 			&& $this->ValidateNamecheck()
 			&& $this->ValidateVersion()
-			&& $this->ValidateScripts();
+			&& $this->ValidateScripts()
+			&& $this->HasRequiredFiles();
 	}
 
+	// Script validator
 	public function ValidateScripts()
 	{
+		// Needs to be executed
+		if ($this->CanExecute())
+			return false;
 		// TODO: Go through all scripts and verify that they are correct
 		return true;
+	}
+
+	// Checks if the needed files to call this an add-on is there
+	public function HasRequiredFiles()
+	{
+		$valid = $this->ValidateType();
+		if ($valid !== null)
+			return $valid;
+
+		// Try to determine what it really is
+
+		// Game Mode
+		if ($this->IsGameMode())
+		{
+			// Due to its existence, it is always a game mode, validate it
+			return $this->ValidateGameMode();
+		}
+
+		// No script files
+		if (!$this->HasScripts())
+		{
+			// Daycycle
+			if ($this->HasDaycycle())
+				return true;
+			// Ground
+			if ($this->HasGround())
+				return true;
+			// Water
+			if ($this->HasWater())
+				return true;
+			// Sky
+			if ($this->HasAtmosphere() && $this->HasSkyboxTexture())
+				return true;
+			// Invalid add-on
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	// Check if the type has the correct files internally
+	public function ValidateType()
+	{
+		// These are the known types and what they contain. However,
+		// only a few of them is guarenteed to be named this way
+		// This system is only used to guess
+		switch ($this->Type(true))
+		{
+		case 'bot':
+		case 'event': // Assumed
+		case 'script': // Assumed
+			return $this->IsServer() || $this->IsClient();
+		case 'brick':
+			return $this->IsServer() && $this->HasFileType('blb');
+		case 'client':
+			return $this->IsClient();
+		case 'daycycle':
+			return $this->HasDaycycle();
+		case 'decal': // Confirmed
+		case 'face': // Confirmed
+			// TODO: Check for image sizes
+			return $this->HaveFolder('thumbs') && $this->HasFileType('png');
+		case 'emote':
+		case 'sound':
+			return $this->IsServer() && $this->HasSound();
+		case 'gamemode': // Confirmed
+			return $this->ValidateGameMode();
+		case 'ground':
+			return $this->HasGround();
+		// Note: server.cs is only required as the add-on may use other mods resources
+		case 'item':
+		case 'light':
+		case 'particle':
+		case 'player':
+		case 'projectile':
+		case 'server':
+		case 'tool':
+		case 'vehicle':
+		case 'weapon':
+			return $this->IsServer();
+		case 'print': // Confirmed
+			// server.cs is required, but rarely used
+			// TODO: Check for image sizes
+			return $this->IsServer() && $this->HaveFolder('icons') && $this->HaveFolder('prints') && $this->HasFileType('png');
+		case 'sky':
+			return $this->HasAtmosphere() && $this->HasSkyboxTexture();
+		case 'water':
+			return $this->HasWater();
+		}
+		// It's a custom one, so ignore it
+		return null;
 	}
 
 	// Validate internal description file
@@ -209,14 +307,14 @@ class File extends Archive
 			&& $this->HaveColorset()
 			&& $this->HaveFile('description.txt')
 			&& $this->HaveFile('save.bls')
-			&& $this->HaveFile('preview.jpg')
+			&& $this->HaveFile('preview.jpg') 
 			&& $this->HaveFile('thumb.jpg');
 	}
 
 	// A small check to see if people have included code, but no file to execute it from
 	public function CanExecute()
 	{
-		return !$this->IsClient() && !$this->IsServer() && $this->HasFileType('cs');
+		return !$this->IsClient() && !$this->IsServer() && $this->HasScripts();
 	}
 
 	public function IsClient()
@@ -237,6 +335,16 @@ class File extends Archive
 	public function HaveColorset()
 	{
 		return $this->HaveFile('colorset.txt');
+	}
+
+	public function HasScripts()
+	{
+		return $this->HasFileType('cs');
+	}
+
+	public function HasGUI()
+	{
+		return $this->HasFileType('gui');
 	}
 
 	public function HasBricks()
@@ -283,6 +391,21 @@ class File extends Archive
 	public function HasSkyboxTexture()
 	{
 		return $this->HasFileType('dml');
+	}
+
+	public function HasDaycycle()
+	{
+		return $this->HasFileType('daycycle');
+	}
+
+	public function HasGround()
+	{
+		return $this->HasFileType('ground');
+	}
+
+	public function HasWater()
+	{
+		return $this->HasFileType('water');
 	}
 
 	// Deprecated file types
