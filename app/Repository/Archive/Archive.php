@@ -160,7 +160,12 @@ class Archive
 
 	protected function HaveFile($file)
 	{
-		return $this->archive->locateName($file, \ZipArchive::FL_NOCASE) !== false;
+		return $this->archive->locateName($file, \ZipArchive::FL_NOCASE | \ZipArchive::FL_NODIR) !== false;
+	}
+
+	protected function HaveFolder($folder)
+	{
+		return !$this->HaveFile($folder) && $this->archive->locateName($folder, \ZipArchive::FL_NOCASE) !== false;
 	}
 
 	protected function HasFileType($ext)
