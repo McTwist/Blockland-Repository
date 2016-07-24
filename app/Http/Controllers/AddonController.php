@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Addon;
 use App\Models\Category;
 use App\Repository\Blockland\Addon\File as AddonFile;
+use App\Jobs\VerifyAddon;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,8 @@ class AddonController extends Controller
 			$data['originalFilename'] = $originalName;
 
 			$request->session()->flash('upload', $data);
+
+			//$this->dispatchFrom(VerifyAddon::class, ['file' => $tmpName]);
 		}
 
 		// Decide where to go
