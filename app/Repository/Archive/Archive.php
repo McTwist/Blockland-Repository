@@ -158,6 +158,19 @@ class Archive
 		return $found;
 	}
 
+	protected function RemoveFolder($folder)
+	{
+		if (!$this->HaveFolder($folder))
+			return;
+		$len = strlen($folder);
+		$found = false;
+		for ($i = 0; $i < $this->archive->numFiles; $i++)
+			if (substr($this->archive->getNameIndex($i), 0, $len) == $folder)
+				$found |= $this->archive->deleteIndex($i);
+		$this->CountFileTypes();
+		return $found;
+	}
+
 	protected function HaveFile($file)
 	{
 		return $this->archive->locateName($file, \ZipArchive::FL_NOCASE | \ZipArchive::FL_NODIR) !== false;
