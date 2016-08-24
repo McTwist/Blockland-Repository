@@ -42,6 +42,7 @@ class Archive
 		return $this->archive !== null;
 	}
 
+	// Save and close the archive
 	public function Close()
 	{
 		$this->archive->close();
@@ -144,8 +145,9 @@ class Archive
 	{
 		$this->RemoveFile('Thumbs.db'); // Windows thumbnails
 		$this->RemoveFile('.DS_Store'); // Mac folder attributes
-		$this->RemoveFile('.svn'); // SVN
-		$this->RemoveFile('.git'); // GIT
+		$this->RemoveFolder('__MACOSX'); // Mac folder
+		$this->RemoveFolder('.svn'); // SVN
+		$this->RemoveFolder('.git'); // GIT
 		$this->RemoveFile('.gitignore'); // GIT ignore
 	}
 
