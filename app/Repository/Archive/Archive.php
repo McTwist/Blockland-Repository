@@ -165,6 +165,8 @@ class Archive
 
 	protected function HaveFolder($folder)
 	{
+		if (substr($folder, -1) != '/')
+			$folder .= '/';
 		return !$this->HaveFile($folder) && $this->archive->locateName($folder, \ZipArchive::FL_NOCASE) !== false;
 	}
 
