@@ -211,7 +211,6 @@ class File extends Archive
 		switch ($this->Type(true))
 		{
 		case 'bot':
-		case 'event': // Assumed
 		case 'script': // Assumed
 			return $this->IsServer() || $this->IsClient();
 		case 'brick':
@@ -232,6 +231,7 @@ class File extends Archive
 		case 'ground':
 			return $this->HasGround();
 		// Note: server.cs is only required as the add-on may use other mods resources
+		case 'event': // Assumed
 		case 'item':
 		case 'light':
 		case 'particle':
