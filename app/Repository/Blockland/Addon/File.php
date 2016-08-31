@@ -31,16 +31,18 @@ class File extends Archive
 	{
 		parent::__construct($file);
 
+		$base = basename($file, '.zip');
+
 		// Parse filename
-		$underscore = strpos($file, '_');
+		$underscore = strpos($base, '_');
 		if ($underscore !== false)
 		{
-			$this->type = substr($file, 0, $underscore);
-			list($this->name) = explode('.', substr($file, $underscore + 1));
+			$this->type = substr($base, 0, $underscore);
+			$this->name = substr($base, $underscore + 1);
 		}
 		else
 		{
-			list($this->name) = explode('.', $file);
+			$this->name = $base;
 		}
 
 		$this->AddFileReader('namecheck.txt', FileNamecheck::class);
