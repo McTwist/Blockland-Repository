@@ -23,12 +23,12 @@ class ArchiveFile
 		$this->filename = $new_name;
 	}
 
-	public function Read($content)
+	public function Set($content)
 	{
 		$this->content = $content;
 	}
 
-	public function Write()
+	public function Get()
 	{
 		return $this->content;
 	}

@@ -19,7 +19,7 @@ class FileNamecheck extends ArchiveFile
 		$this->filebase = basename($archive_name, '.zip');
 	}
 
-	public function Read($content)
+	public function Set($content)
 	{
 		$this->namecheck = $content;
 	}
@@ -31,7 +31,7 @@ class FileNamecheck extends ArchiveFile
 	}
 
 	// Generate a new namecheck
-	public function Write()
+	public function Get()
 	{
 		// Ignore everything and just add the filename as it should be
 		return $this->namecheck = $this->filebase;

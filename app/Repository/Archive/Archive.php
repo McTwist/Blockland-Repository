@@ -123,7 +123,7 @@ class Archive
 		}
 		
 		$reader = new $reader($this->archive_name, $file);
-		$reader->Read($content);
+		$reader->Set($content);
 		return $reader;
 	}
 

@@ -18,7 +18,7 @@ class FileDescription extends ArchiveFile
 	const NL = File::NL;
 
 	// Read the description information
-	public function Read($content)
+	public function Set($content)
 	{
 		// Split it into suitable pieces
 		$lines = preg_split('/$\R?^/m', $content);
@@ -51,7 +51,7 @@ class FileDescription extends ArchiveFile
 	}
 
 	// Generate new description content
-	public function Write()
+	public function Get()
 	{
 		// Prepare the data
 		$content = '';

@@ -48,7 +48,7 @@ class FileVersion extends ArchiveFile
 	}
 
 	// Read version
-	public function Read($content)
+	public function Set($content)
 	{
 		$this->repositories = [];
 
@@ -144,7 +144,7 @@ class FileVersion extends ArchiveFile
 
 	// Generate a version file
 	// Pretty only works with JSON
-	public function Write()
+	public function Get()
 	{
 		// Check a couple of restrainments
 		if (empty($this->version) || empty($this->channel) || count($this->repositories) == 0)

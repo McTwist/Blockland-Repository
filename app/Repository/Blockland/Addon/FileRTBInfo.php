@@ -21,7 +21,7 @@ class FileRTBInfo extends ArchiveFile
 	const NL = "\r\n";
 
 	// Read the info
-	public function Read($content)
+	public function Set($content)
 	{
 		// Split it into suitable pieces
 		$lines = preg_split('/$\R?^/m', $content);
@@ -67,7 +67,7 @@ class FileRTBInfo extends ArchiveFile
 	}
 
 	// Generate new description content
-	public function Write()
+	public function Get()
 	{
 		// I can't let you do that
 		if (!$this->Validate())
