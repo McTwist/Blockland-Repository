@@ -131,7 +131,13 @@ class Archive
 	public function SetFile($obj)
 	{
 		if ($obj instanceof ArchiveFile)
-			$this->WriteFile($obj->Filename(), $obj->Write());
+		{
+			// Remove old file
+			if ($obj->Filename() != $obj->PreviousFilename())
+				$this->RemoveFile($obj->PreviousFilename());
+
+			$this->WriteFile($obj->Filename(), $obj->Get());
+		}
 	}
 
 	// Validates file to contain the required data
