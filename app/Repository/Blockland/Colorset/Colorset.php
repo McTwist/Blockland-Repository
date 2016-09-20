@@ -86,6 +86,9 @@ class Colorset
 	}
 
 	// Calculate distance for direct values
+	// Note: Not all of these take in account of alpha value
+	// Note2: A comparison was made, but it was a tough choice.
+	// To resemble Blockland, that version could be used to keep consistency
 	public function FindClosestColorValue(Color $color)
 	{
 		return $this->FindClosestColor($color, 'self::DistanceBlockland');
@@ -93,12 +96,12 @@ class Colorset
 
 	public function FindClosestColorProportion(Color $color)
 	{
-		return $this->FindClosestColor($color, 'self::DistanceCorrect');
+		return $this->FindClosestColor($color, 'self::DistanceSimplified');
 	}
 
 	public function FindClosestColorProportion2(Color $color)
 	{
-		return $this->FindClosestColor($color, 'self::DistanceCorrect2');
+		return $this->FindClosestColor($color, 'self::DistanceCIE76');
 	}
 
 	public function FindClosestColorBest(Color $color)
@@ -140,20 +143,23 @@ class Colorset
 		return $found;
 	}
 
+	// Mix together the three most promising algorithms
 	private static function DistanceAll(Color $a, Color $b)
 	{
-		return self::DistanceCorrect2($a, $b) +
+		return self::DistanceCIE76($a, $b) +
 			self::DistanceCIE94($a, $b) +
 			self::DistanceCIEDE2000($a, $b);
 	}
 
+	// This is how Blockland does it
 	private static function DistanceBlockland(Color $a, Color $b)
 	{
 		$adiff = pow($a->AF() - $b->AF(), 2);
 		return (pow($a->RF() - $b->RF(), 2) + pow($a->GF() - $b->GF(), 2) + pow($a->BF() - $b->BF(), 2)) + $adiff;
 	}
 
-	private static function DistanceCorrect(Color $a, Color $b)
+	// Simplified LAB version
+	private static function DistanceSimplified(Color $a, Color $b)
 	{
 		list($aL, $aa, $ab) = self::RGB2LAB($a->RF(), $a->GF(), $a->BF());
 		list($bL, $ba, $bb) = self::RGB2LAB($b->RF(), $b->GF(), $b->BF());
@@ -166,7 +172,8 @@ class Colorset
 		return ($Ldiff + $adiff + $bdiff) + $alphadiff;
 	}
 
-	private static function DistanceCorrect2(Color $a, Color $b)
+	// https://en.wikipedia.org/wiki/Color_difference#CIE76
+	private static function DistanceCIE76(Color $a, Color $b)
 	{
 		list($aL, $aa, $ab) = self::RGB2LAB($a->RF(), $a->GF(), $a->BF());
 		list($bL, $ba, $bb) = self::RGB2LAB($b->RF(), $b->GF(), $b->BF());
@@ -175,6 +182,7 @@ class Colorset
 		return sqrt((pow($aL - $bL, 2) + pow($aa - $ba, 2) + pow($ab - $bb, 2)));
 	}
 
+	// https://en.wikipedia.org/wiki/Color_difference#CIE94
 	private static function DistanceCIE94(Color $a, Color $b)
 	{
 		list($aL, $aa, $ab) = self::RGB2LAB($a->RF(), $a->GF(), $a->BF());
@@ -212,6 +220,7 @@ class Colorset
 		return $final;
 	}
 
+	// https://en.wikipedia.org/wiki/Color_difference#CIEDE2000
 	private static function DistanceCIEDE2000(Color $a, Color $b)
 	{
 		list($aL, $aa, $ab) = self::RGB2LAB($a->RF(), $a->GF(), $a->BF());
@@ -328,6 +337,7 @@ class Colorset
 		return $deltaE;
 	}
 
+	// A simple conversion from RGB to LAB
 	private function RGB2LAB($r, $g, $b)
 	{
 		// To XYZ
