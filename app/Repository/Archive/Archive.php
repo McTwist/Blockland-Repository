@@ -205,7 +205,7 @@ class Archive
 	// Write to file if not empty
 	protected function WriteFile($file, $content)
 	{
-		if (!empty($content))
+		if ($content !== null && !empty($content))
 		{
 			$this->archive->addFromString($file, $content);
 			$this->CountFileTypes();
