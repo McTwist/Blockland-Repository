@@ -49,6 +49,8 @@ class File extends Archive
 		$this->AddFileReader('description.txt', FileDescription::class);
 		$this->AddFileReader(['version.txt', 'version.json'], FileVersion::class);
 		$this->AddFileReader('rtbinfo.txt', FileRTBInfo::class);
+		$this->AddFileTypeReader(['atmosphere', 'daycycle', 'ground', 'water'], FileConfig::class);
+		$this->AddFileReader('gamemode.txt', FileConfig::class);
 
 		$this->namecheck = $this->GetNamecheck();
 		$this->description = $this->GetDescription();
