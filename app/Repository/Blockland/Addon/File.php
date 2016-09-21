@@ -414,10 +414,16 @@ class File extends Archive
 
 	public function HasDeprecatedFiles()
 	{
-		return $this->HasFileType('dif') // Models for interiors
+		return $this->HasInteriors()
 			|| $this->HasTerrain()
 			|| $this->HasLight()
 			|| $this->HasMission();
+	}
+
+	// Interior files. dts may be used instead
+	public function HasInteriors()
+	{
+		return $this->HasFileType('dif');
 	}
 
 	// Terrain files. dts may be used instead
