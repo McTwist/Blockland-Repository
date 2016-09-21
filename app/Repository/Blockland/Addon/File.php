@@ -164,6 +164,13 @@ class File extends Archive
 		return true;
 	}
 
+	// Get out some extra files
+	public function Cleanup()
+	{
+		parent::Cleanup();
+		$this->RemoveFile('rtbcontent.txt'); // RTB cache file
+	}
+
 	// Checks if the needed files to call this an add-on is there
 	public function HasRequiredFiles()
 	{
