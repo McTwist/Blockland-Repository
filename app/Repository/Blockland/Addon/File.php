@@ -51,6 +51,15 @@ class File extends Archive
 		$this->AddFileReader('rtbinfo.txt', FileRTBInfo::class);
 		$this->AddFileTypeReader(['atmosphere', 'daycycle', 'ground', 'water'], FileConfig::class);
 		$this->AddFileReader('gamemode.txt', FileConfig::class);
+		// These are to be added
+		// png, jpg
+		// dts
+		// dsq
+		// bls
+		// blb
+		// cs, gui
+		// dml
+		// ogg, wav
 
 		$this->namecheck = $this->GetNamecheck();
 		$this->description = $this->GetDescription();
