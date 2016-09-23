@@ -127,6 +127,16 @@ class Archive
 		return $reader;
 	}
 
+	// Get file to read, without object
+	public function GetFileRaw($file)
+	{
+		$file = strtolower($file);
+		if (!$this->HaveFile($file))
+			return false;
+
+		return $this->ReadFile($file);
+	}
+
 	// Set file to archive
 	public function SetFile($obj)
 	{
