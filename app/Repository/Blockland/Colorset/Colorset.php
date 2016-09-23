@@ -369,7 +369,7 @@ class Colorset
 		return array($L, $a, $b);
 	}
 
-	public function printImage($bg = true, $file = null)
+	public function PrintImage($bg = true, $file = null)
 	{
 		if (!extension_loaded('gd'))
 			return;
@@ -390,16 +390,16 @@ class Colorset
 		imagesavealpha($img, true);
 
 		// Fill with background
-		if ($bg)
+		if ($bg === false)
 		{
-			$back = imagecreatefrompng('img/back_colorset.png');
-			imagesettile($img, $back);
-			imagefilledrectangle($img, 0, 0, $width, $height, IMG_COLOR_TILED);
-			imagedestroy($back);
+			imagefill($img, 0, 0, imagecolorallocatealpha($img, 0, 0, 0, 127));
 		}
 		else
 		{
-			imagefill($img, 0, 0, imagecolorallocatealpha($img, 0, 0, 0, 127));
+			$back = imagecreatefrompng($bg === true ? storage_path('app/public/back_colorset.png') : $bg);
+			imagesettile($img, $back);
+			imagefilledrectangle($img, 0, 0, $width, $height, IMG_COLOR_TILED);
+			imagedestroy($back);
 		}
 
 		$x = 0;
@@ -434,7 +434,7 @@ class Colorset
 			$x += $block_width;
 		}
 
-		if ($file == null)
+		if ($file === null)
 		{
 			header('Content-type:image/png');
 			imagepng($img);
