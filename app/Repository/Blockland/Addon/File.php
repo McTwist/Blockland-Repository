@@ -227,7 +227,7 @@ class File extends Archive
 	public function ValidateType()
 	{
 		// These are the known types and what they contain. However,
-		// only a few of them is guarenteed to be named this way
+		// only a few of them is guaranteed to be named this way
 		// This system is only used to guess
 		switch ($this->Type(true))
 		{
