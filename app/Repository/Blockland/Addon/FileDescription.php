@@ -20,6 +20,8 @@ class FileDescription extends ArchiveFile
 	// Read the description information
 	public function Set($content)
 	{
+		$this->description = '';
+		
 		// Split it into suitable pieces
 		$lines = preg_split('/$\R?^/m', $content);
 
@@ -88,9 +90,9 @@ class FileDescription extends ArchiveFile
 	public function AuthorsRaw($value = null)
 	{
 		$authorsRaw = $this->authorsRaw;
-		if (isset($value))
+		if (!empty($value))
 		{
-			$this->authorsRaw = $value;
+			$this->authorsRaw = trim($value);
 			$authors = preg_split('/(\,|\;| and |\&)/i', $value);
 			array_walk($authors, function(&$value, $i) { $value = trim($value); });
 			$this->authors = $authors;
