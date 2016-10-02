@@ -167,6 +167,7 @@ class Archive
 		$this->RemoveFile('.gitignore'); // GIT ignore
 	}
 
+	// Remove all files with this name
 	protected function RemoveFile($file)
 	{
 		$found = false;
@@ -176,6 +177,7 @@ class Archive
 		return $found;
 	}
 
+	// Remove folder and everything in it
 	protected function RemoveFolder($folder)
 	{
 		if (!$this->HaveFolder($folder))
