@@ -12,7 +12,12 @@ use App\Repository\Blockland\Colorset\Colorset;
  */
 class FileColorset extends ArchiveFile
 {
-	private $colorset = new Colorset();
+	private $colorset = null;
+
+	public function __construct()
+	{
+		$this->colorset = new Colorset();
+	}
 
 	// Read colorset
 	public function Set($content)
