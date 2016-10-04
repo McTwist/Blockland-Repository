@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Addon;
+use App\Models\Channel;
 use App\Models\Category;
 use App\Repository\Blockland\Addon\File as AddonFile;
 use App\Jobs\VerifyAddon;
@@ -93,10 +94,12 @@ class AddonController extends Controller
 			return redirect()->intended(route('pages.home'));
 		}
 		$data = $request->session()->get('upload');
+		$error = $request->session()->get('error', array());
 		$request->session()->reflash();
 
-		$addon = new AddonFile(storage_path(self::$temp_path).'/'.$data['filename']);
-		if (!$addon->IsOpen())
+		// Ensure its existence
+		$addon_file = new AddonFile(storage_path(self::$temp_path).'/'.$data['filename']);
+		if (!$addon_file->IsOpen())
 		{
 			return redirect()->intended(route('pages.home'));
 		}
@@ -105,12 +108,14 @@ class AddonController extends Controller
 
 		$categories = Category::listSelect();
 
-		$title = $addon->Title();
-		$summary = $addon->Description();
-		$developers = $addon->Authors();
-		$description = $addon->Description();
+		$title = $addon_file->Title();
+		$summary = $addon_file->Description();
+		$developers = $addon_file->Authors('');
+		$description = $addon_file->Description();
+		$channel = $addon_file->Channel();
+		$version = $addon_file->Version();
 		// Show the Create Page for Addon
-		return view('resources.addon.create', compact('title', 'summary', 'developers', 'description', 'categories'));
+		return view('resources.addon.create', compact('title', 'summary', 'developers', 'description', 'categories', 'channel', 'version', 'error'));
 	}
 
 	/**
@@ -132,12 +137,17 @@ class AddonController extends Controller
 
 		$data = $request->session()->get('upload');
 
+		// Get all inputs
 		$category = $request->input('category');
 		$title = $request->input('title');
 		$summary = $request->input('summary');
 		$developers = $request->input('developers');
 		$description = $request->input('description');
+		$channel = $request->input('channel');
+		$version = $request->input('version');
+
 		// TODO: Generate a valid slug
+		// Note: A valid slug is depending on the status on the add-on. Private is a string id instead
 		$slug = str_slug(pathinfo($data['originalFilename'], PATHINFO_FILENAME), '_');
 		// Create the Resource
 		$addon = Addon::create([
@@ -149,12 +159,12 @@ class AddonController extends Controller
 		Category::find($category)->addons()->save($addon);
 		$request->user()->addons()->save($addon);
 		// Create channel
-		$channel = Channel::Create([
-			'name' => 'release',
+		$channel_obj = Channel::Create([
+			'name' => $channel,
 			'slug' => $slug,
 			'description' => $description
 		]);
-		$addon->channels()->save($channel);
+		$addon->channels()->save($channel_obj);
 
 		$temp_file = storage_path(self::$temp_path).'/'.$data['filename'];
 		$save_file = storage_path(self::$repo_path).'/'.$data['originalFilename'];
@@ -169,11 +179,15 @@ class AddonController extends Controller
 				$file->Authors($developers);
 			if ($file->Description() != $summary)
 				$file->Description($summary);
+			if ($file->Channel() != $channel)
+				$file->Channel($channel);
+			if ($file->Version() != $version)
+				$file->Version($version);
 			// Save changes!
 			$file->GenerateDescription(true);
 			$file->GenerateNamecheck(true);
+			$file->GenerateVersion(true, true, true);
 			$file->Cleanup();
-			// TODO: Update version with correct information
 		}
 		// Save archive!
 		$file->Close();
@@ -288,6 +302,8 @@ class AddonController extends Controller
 		if ($addon->isOwner($request->user()))
 		{
 			$addon->owners()->detach();
+			// Delete related channels
+			$addon->channels()->delete();
 			// Delete the Addon
 			$addon->delete();
 		}

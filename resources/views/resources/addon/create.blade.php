@@ -36,6 +36,19 @@
 			{{ Form::Label('description', 'Description:') }}
 			{{ Form::textarea('description', $description) }}
 		</div>
+		<div class="upload_channel">
+			{{ Form::Label('channel', 'Channel:') }}
+			{{ Form::text('channel', $channel) }}
+		</div>
+		<div class="upload_version">
+			{{ Form::Label('version', 'Version:') }}
+			{{ Form::text('version', $version) }}
+		</div>
+		<div class="upload_error">
+			@foreach($error as $err)
+				<div>{{ $err['message'] }}</div>
+			@endforeach
+		</div>
 		<hr class="over">
 		<span class="title2">Screenshots</span>
 		<br>
