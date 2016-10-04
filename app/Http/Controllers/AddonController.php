@@ -32,6 +32,11 @@ class AddonController extends Controller
 		$this->middleware('auth', [
 			'except' => 'show'
 		]);
+
+		// Make sure repo folder is created
+		$path = storage_path(self::$repo_path);
+		if (!file_exists($path))
+			mkdir($path);
 	}
 
 	/**
