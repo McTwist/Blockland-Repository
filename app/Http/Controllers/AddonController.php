@@ -44,7 +44,7 @@ class AddonController extends Controller
 	public function upload(Request $request)
 	{
 		$this->validate($request, [
-			'addon' => 'required|mimes:zip|min:512|max:52428800' // 50MiB
+			'addon' => 'required|mimes:zip|min:1|max:50000' // 50MB
 		]);
 
 		if (!$request->session()->has('upload'))
@@ -193,7 +193,7 @@ class AddonController extends Controller
 		$file->Close();
 
 		// Move to correct place
-		//@rename($temp_file, $save_file);
+		@rename($temp_file, $save_file);
 		// Note: Removes for now, but fix later
 		//unlink($temp_file);
 
