@@ -34,12 +34,6 @@ class VerifyAddon extends Job implements ShouldQueue
 	{
 		$addon = new AddonFile($this->file);
 
-		// Initial validation
-		if ($addon->Validate())
-		{
-			return;
-		}
-
 		// Invidual validations
 		if (!$addon->ValidateDescription())
 		{
@@ -48,6 +42,7 @@ class VerifyAddon extends Job implements ShouldQueue
 
 		if (!$addon->ValidateNamecheck())
 		{
+			// Create the file
 			$addon->GenerateNamecheck(true);
 		}
 
@@ -64,6 +59,11 @@ class VerifyAddon extends Job implements ShouldQueue
 		if (!$addon->ValidateScripts())
 		{
 			// TODO: Let the user know that the scripts is invalid(Unable to compile; Dangerous functionality; etc)
+		}
+
+		if (!$addon->HasRequiredFiles())
+		{
+			// TODO: 
 		}
 
 		// TODO: Mark as finished
