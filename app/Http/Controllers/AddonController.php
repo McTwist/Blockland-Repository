@@ -57,17 +57,64 @@ class AddonController extends Controller
 			$file = $request->file('addon');
 
 			$originalName = $file->getClientOriginalName();
-			$tmpName = time().'.temp.'.$originalName;
-			$name = time().'.'.$originalName;
+			$tmpName = 'temp.'.$originalName;
+			$name = $originalName;
 
 			$file->move(storage_path(self::$temp_path), $name);
 
 			// Store data to be used
-			$data = [];
-			$data['filename'] = $name;
-			$data['originalFilename'] = $originalName;
+			$data = array(
+				'filename' => $name,
+				'originalFilename' => $originalName
+			);
 
 			$request->session()->flash('upload', $data);
+
+			// Verify the addon
+			$addon_file = new AddonFile(storage_path(self::$temp_path).'/'.$name);
+
+			$errors = array();
+
+			// Invidual validations
+			if (!$addon_file->ValidateDescription())
+			{
+				// TODO: Check what's wrong
+				$errors[] = array('code' => 'INVALID_DESC', 'message' => 'Description is not valid');
+			}
+
+			if (!$addon_file->ValidateNamecheck())
+			{
+				// Create the file
+				$addon_file->GenerateNamecheck(true);
+			}
+
+			if (!$addon_file->ValidateVersion())
+			{
+				$addon_file->GenerateVersion(true);
+
+				if (!$addon_file->ValidateVersion())
+				{
+					// TODO: Let the user fix it
+					$errors[] = array('code' => 'FIX_VERSION', 'message' => 'Was not able to fix the version file');
+				}
+			}
+
+			if (!$addon_file->ValidateScripts())
+			{
+				// TODO: Let the user know that the scripts is invalid(Unable to compile; Dangerous functionality; etc)
+				$errors[] = array('code' => 'INVALID_SCRIPTS', 'message' => 'Scripts are not valid');
+			}
+
+			if (!$addon_file->HasRequiredFiles())
+			{
+				// TODO: Let the user know that files are missing
+				$errors[] = array('code' => 'INVALID_ADDON', 'message' => $addon_file->Type().' type is in need of more files to be valid');
+			}
+
+			$addon_file->Close();
+
+			if (count($errors))
+				$request->session()->flash('error', $errors);
 
 			//$this->dispatchFrom(VerifyAddon::class, ['file' => $tmpName]);
 		}
