@@ -13,7 +13,7 @@ class CreateDataTest extends TestCase
 	 */
 	public function testCreateModels()
 	{
-		$max_categories = 10;
+		/*$max_categories = 10;
 		$max_users = 10;
 		$max_addons_per_user = 5;
 		// Create categories
@@ -30,7 +30,7 @@ class CreateDataTest extends TestCase
 				$u->addons()->saveMany($addons);
 			elseif (count($addons) > 0)
 				$u->addons()->save($addons);
-		});
+		});*/
 
 	    $this->assertTrue(true);
 	}
