@@ -12,7 +12,8 @@ class CreateAddonUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('addon_user', function (Blueprint $table) {
+        Schema::create('addon_user', function (Blueprint $table)
+        {
             $table->integer('addon_id')->unsigned()->index();
             $table->integer('user_id')->unsigned()->index();
             $table->primary(['addon_id', 'user_id']);
