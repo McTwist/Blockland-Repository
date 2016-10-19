@@ -27,11 +27,11 @@ class File extends Archive
 	// rtbInfo.txt
 	private $rtbInfo = null;
 
-	public function __construct($file)
+	public function __construct($file, $realfile=null)
 	{
 		parent::__construct($file);
 
-		$base = basename($file, '.zip');
+		$base = basename(($realfile === null ? $file : $realfile), '.zip');
 
 		// Parse filename
 		$underscore = strpos($base, '_');
