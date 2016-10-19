@@ -48,6 +48,13 @@ class Archive
 		$this->archive->close();
 	}
 
+	// Undo all changes and close the archive
+	public function Abort()
+	{
+		$this->archive->unchangeAll();
+		$this->archive->close();
+	}
+
 	// Add file reader
 	// file - File to find
 	// reader - Class name for reader
