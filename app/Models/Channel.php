@@ -89,10 +89,9 @@ class Channel extends Model
 	 *
 	 * @return App\Model\Version
 	 */
-	public function version()
+	public function getVersionAttribute()
 	{
-		// TODO: Break out the Collection
-		return $this->versions()->where('default', 1)->first();
+		return $this->versions()->default()->first();
 	}
 
 	/**
@@ -103,6 +102,19 @@ class Channel extends Model
 	public function users()
 	{
 		return $this->belongsToMany(User::class)->withTimestamps();
+	}
+
+	//////////////
+	//* Scopes *//
+	//////////////
+	/**
+	 * Returns the default Channels.
+	 *
+	 * @return Builder
+	 */
+	public function scopeDefault($query)
+	{
+		return $query->where('default', true);
 	}
 
 	// Note: Under development

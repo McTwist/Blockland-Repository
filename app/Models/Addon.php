@@ -71,10 +71,9 @@ class Addon extends Model
 	 *
 	 * @return App\Models\Channel
 	 */
-	public function channel()
+	public function getChannelAttribute()
 	{
-		// TODO: Break out the collection
-		return $this->channels()->where('default', true)->first();
+		return $this->channels()->default()->first();
 	}
 
 	/**
@@ -92,15 +91,15 @@ class Addon extends Model
 	 *
 	 * @return App\Models\Version
 	 */
-	public function version()
+	public function getVersionAttribute()
 	{
-		return $this->channel()->version();
+		return $this->channel->version;
 	}
 
 	/**
 	 * Returns the Users that this Addon belongs to.
 	 *
-	 * @return App\Models\Version
+	 * @return Relationship
 	 */
 	public function owners()
 	{

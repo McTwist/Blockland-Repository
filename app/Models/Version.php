@@ -84,4 +84,17 @@ class Version extends Model
 	{
 		return $this->morphOne(File::class, 'link');
 	}
+
+	//////////////
+	//* Scopes *//
+	//////////////
+	/**
+	 * Returns the default Versions.
+	 *
+	 * @return Builder
+	 */
+	public function scopeDefault($query)
+	{
+		return $query->where('default', true);
+	}
 }
