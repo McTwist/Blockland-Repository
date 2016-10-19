@@ -178,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         //App\Providers\HelperServiceProvider::class,
+        App\Validation\ValidationServiceProvider::class,
 
     ],
 
@@ -229,6 +230,8 @@ return [
 
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
+        'AddonValidator' => App\Validation\Addon\Facade::class,
 
     ],
 
