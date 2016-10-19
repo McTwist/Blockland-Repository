@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\Addon;
 use App\Models\Channel;
 use App\Models\Category;
+use App\Models\File as FileModel;
 use App\Repository\Blockland\Addon\File as AddonFile;
 use App\Jobs\VerifyAddon;
+use Storage;
+use AddonValidator;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,21 +25,12 @@ use App\Jobs\VerifyAddon;
 */
 class AddonController extends Controller
 {
-	// File locations
-	private static $temp_path = 'app/tmp';
-	private static $repo_path = 'app/repo';
-
 	public function __construct()
 	{
 		// Limiting everything on the addon
 		$this->middleware('auth', [
 			'except' => 'show'
 		]);
-
-		// Make sure repo folder is created
-		$path = storage_path(self::$repo_path);
-		if (!file_exists($path))
-			mkdir($path);
 	}
 
 	/**
@@ -56,21 +50,7 @@ class AddonController extends Controller
 		{
 			$file = $request->file('addon');
 
-			$originalName = $file->getClientOriginalName();
-			$tmpName = 'temp.'.$originalName;
-			$name = $originalName;
-
-			$file->move(storage_path(self::$temp_path), $name);
-
-			// Store data to be used
-			$data = array(
-				'filename' => $name,
-				'originalFilename' => $originalName
-			);
-
-			$request->session()->flash('upload', $data);
-
-			// Verify the addon
+			/*// Verify the addon
 			$addon_file = new AddonFile(storage_path(self::$temp_path).'/'.$name);
 
 			$errors = array();
@@ -114,7 +94,30 @@ class AddonController extends Controller
 			$addon_file->Close();
 
 			if (count($errors))
-				$request->session()->flash('error', $errors);
+				$request->session()->flash('error', $errors);*/
+
+			// Move to a better storage
+			$path = $file->store('', 'temp');
+
+			// Validate addon
+			// TODO: Put into a job instead
+			// Note: Maybe not needed as it will just complicate it for the user
+			$validator = AddonValidator::make(Storage::disk('temp')->getDriver()->getAdapter()->getPathPrefix().$path);
+
+			if ($validator->fails())
+				$this->throwValidatorException($request, $validator);
+
+			$data = [
+				'path' => $path,
+				'original' => $file->getClientOriginalName(),
+				'attributes' => [
+					'display_name' => basename($file->getClientOriginalName(), '.zip'),
+					'size' => $file->getClientSize(),
+					'extension' => $file->guessClientExtension(),
+					'mime' => $file->getClientMimeType()
+				]
+			];
+			$request->session()->flash('upload', $data);
 
 			//$this->dispatchFrom(VerifyAddon::class, ['file' => $tmpName]);
 		}
@@ -149,8 +152,11 @@ class AddonController extends Controller
 		$error = $request->session()->get('error', array());
 		$request->session()->reflash();
 
+		$temp_file = storage_path('app\\temp\\').$data['path'];
+		$original = $data['original'];
+
 		// Ensure its existence
-		$addon_file = new AddonFile(storage_path(self::$temp_path).'/'.$data['filename']);
+		$addon_file = new AddonFile($temp_file, $original);
 		if (!$addon_file->IsOpen())
 		{
 			return redirect()->intended(route('pages.home'));
@@ -160,6 +166,7 @@ class AddonController extends Controller
 
 		$categories = Category::listSelect();
 
+		// TODO: Use the addon directly instead of values, making this easier to change
 		$title = $addon_file->Title();
 		$summary = $addon_file->Description();
 		$developers = $addon_file->Authors('');
@@ -190,6 +197,7 @@ class AddonController extends Controller
 		$data = $request->session()->get('upload');
 
 		// Get all inputs
+		// TODO: Make it possible to send this into the addon directly
 		$category = $request->input('category');
 		$title = $request->input('title');
 		$summary = $request->input('summary');
@@ -198,9 +206,12 @@ class AddonController extends Controller
 		$channel = $request->input('channel');
 		$version = $request->input('version');
 
+		// Make the file model
+		$file_obj = FileModel::import($data['path'], $data['attributes']);
+
 		// TODO: Generate a valid slug
 		// Note: A valid slug is depending on the status on the add-on. Private is a string id instead
-		$slug = str_slug(pathinfo($data['originalFilename'], PATHINFO_FILENAME), '_');
+		$slug = str_slug($file_obj->display_name, '_');
 		// Create the Resource
 		$addon = Addon::create([
 			'name' => $title,
@@ -209,20 +220,31 @@ class AddonController extends Controller
 		]);
 		// Link them together
 		Category::find($category)->addons()->save($addon);
-		$request->user()->addons()->save($addon);
-		// Create channel
-		$channel_obj = Channel::Create([
-			'name' => $channel,
-			'slug' => $slug,
-			'description' => $description
-		]);
-		$addon->channels()->save($channel_obj);
 
-		$temp_file = storage_path(self::$temp_path).'/'.$data['filename'];
-		$save_file = storage_path(self::$repo_path).'/'.$data['originalFilename'];
+		// Save file with the Addon
+		$addon->version()->file()->save($file_obj);
+
+		// Attach to user
+		$addon->owners()->save($request->user());
+		//$request->user()->addons()->save($addon);
+
+		// Update channel with newer data
+		$channel_obj = $addon->channel();
+		if (!empty($channel))
+			$channel_obj->name = $channel;
+		$channel_obj->slug = $slug;
+		$channel_obj->save();
+
+		// Update version with newer data
+		$version_obj = $channel_obj->version();
+		if (!empty($version))
+			$version_obj->name = $version;
+		$version_obj->save();
+
+		$temp_file = storage_path('app\\uploads\\').$file_obj->path;
 
 		// Update addon data
-		$file = new AddonFile($temp_file);
+		$file = new AddonFile($temp_file, $file_obj->download_name);
 		if ($file->IsOpen())
 		{
 			if ($file->Title() != $title)
@@ -243,11 +265,6 @@ class AddonController extends Controller
 		}
 		// Save archive!
 		$file->Close();
-
-		// Move to correct place
-		@rename($temp_file, $save_file);
-		// Note: Removes for now, but fix later
-		//unlink($temp_file);
 
 		// Redirect to the addon page
 		return redirect()->intended(route('addon.show', $addon->slug));
@@ -354,8 +371,6 @@ class AddonController extends Controller
 		if ($addon->isOwner($request->user()))
 		{
 			$addon->owners()->detach();
-			// Delete related channels
-			$addon->channels()->delete();
 			// Delete the Addon
 			$addon->delete();
 		}

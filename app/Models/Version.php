@@ -49,14 +49,6 @@ class Version extends Model
 		{
 			$version->file()->delete();
 		});
-
-		/*static::updating(function($version)
-		{
-			if ($version->isDirty('default') && $version->getOriginal('default') != $version->default)
-			{
-
-			}
-		});*/
 	}
 
 	/////////////////////

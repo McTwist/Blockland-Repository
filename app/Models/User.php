@@ -7,38 +7,89 @@ use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Notifications\Notifiable as NotifiableTrait;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
 	use AuthenticatableTrait;
 	use CanResetPasswordTrait;
+	use NotifiableTrait;
 
+	//////////////////
+	//* Attributes *//
+	//////////////////
+	/**
+	 * The Attributes that are hidden.
+	 *
+	 * @var string
+	 */
 	protected $hidden = ['id', 'email', 'password'];
 
+	/**
+	 * The Attributes that are allowed to be Mass Assigned.
+	 *
+	 * @var array
+	 */
 	protected $fillable = ['username', 'email', 'password'];
 
+	/////////////////////
+	//* Relationships *//
+	/////////////////////
+	/**
+	 * Returns the Addons that this User has.
+	 *
+	 * @return Relationship
+	 */
 	public function addons()
 	{
 		return $this->belongsToMany(Addon::class)->withTimestamps();
 	}
 
-	public function blockland_user()
+	/**
+	 * Returns the Channels that this User has.
+	 *
+	 * @return Relationship
+	 */
+	public function channels()
 	{
-		return $this->hasMany(BlocklandUser::class, 'id', 'blockland_id');
+		return $this->belongsToMany(Channel::class)->withTimestamps();
 	}
 
-	public function bl_id()
+	/**
+	 * Returns the BlocklandUser that this User has.
+	 *
+	 * @return Relationship
+	 */
+	public function blockland_user()
 	{
-		$blockland_user = $this->blockland_user();
+		return $this->hasOne(BlocklandUser::class, 'id', 'blockland_id');
+	}
+
+	///////////////////////////
+	//* Attribute Overrides *//
+	///////////////////////////
+	/**
+	 * Gets the BL_ID belonging to this User.
+	 *
+	 * @return int
+	 */
+	public function getBlIdAttribute()
+	{
+		$blockland_user = $this->blockland_user;
 		if (is_null($blockland_user))
-			return '';
+			return 0;
 		else
 			return $blockland_user->first()->id;
 	}
 
-	public function bl_name()
+	/**
+	 * Get the BL Name belonging to this user
+	 *
+	 * @return string
+	 */
+	public function getBlNameAttribute()
 	{
-		$blockland_user = $this->blockland_user();
+		$blockland_user = $this->blockland_user;
 		if (is_null($blockland_user))
 			return '';
 		else

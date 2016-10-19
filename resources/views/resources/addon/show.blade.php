@@ -14,11 +14,11 @@
 	<div id="title">
 		<span class="title">{{ $addon->name }}</span>
 		<span class="subtitle">by {{ $addon->authors() }}</span>
-		<span class="summary">{{ $addon->summary() }}</span>
+		<span class="summary">{{ $addon->summary }}</span>
 	</div>
 	<div id="download">
-		<a href="{{ $addon->download_link() }}" class="button">Download</a>
-		<span class="bytes">{{ $addon->size_bin() }}</span>
+		<a href="{{ $addon->download_link }}" class="button">Download</a>
+		<span class="bytes">{{ $addon->size_bin }}</span>
 		@if(Auth::user() && $addon->IsOwner(Auth::user()))
 			<span class="extra">PUBLIC <a href="{{ route('addon.edit', $addon->slug) }}">Edit</a></span>
 		@endif
@@ -27,11 +27,11 @@
 	<div class="infobox">
 		<div class="info">
 			<span class="tell">Version</span>
-			<span class="data">{{ $addon->version() }}</span>
+			<span class="data">{{ $addon->version_name }}</span>
 		</div>
 		<div class="info">
 			<span class="tell">Downloads</span>
-			<span class="data">{{ $addon->downloads() }}</span>
+			<span class="data">{{ $addon->downloads }}</span>
 		</div>
 		<div class="info">
 			<span class="tell">Updated</span>
@@ -51,6 +51,6 @@
 	<div id="description">
 		{{ $addon->description or 'None' }}
 	</div>
-	<div id="uploader">{{ $addon->filename() }} uploaded by {{ $addon->uploader() }}</div>
+	<div id="uploader">{{ $addon->filename }} uploaded by {{ $addon->uploader }}</div>
 	
 @endsection
