@@ -49,8 +49,8 @@
 
 	<hr class="over">
 	<div id="description">
-		{{ $addon->description or 'None' }}
+		{!! $addon->description_html or 'None' !!}
 	</div>
-	<div id="uploader">{{ $addon->filename }} uploaded by {{ $addon->uploader }}</div>
+	<div id="uploader">{{ $addon->filename }} uploaded by {{ $addon->uploader->username }}</div>
 	
 @endsection
