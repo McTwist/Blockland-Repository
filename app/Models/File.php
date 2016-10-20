@@ -340,4 +340,14 @@ class File extends Model
 	{
 		return $this->morphTo();
 	}
+
+	/**
+	 * Returns the User that uploaded this Version.
+	 *
+	 * @return Relationship
+	 */
+	public function uploader()
+	{
+		return $this->belongsTo(User::class, 'uploader_id', null, 'users');
+	}
 }

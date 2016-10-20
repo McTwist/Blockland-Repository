@@ -65,6 +65,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		return $this->hasOne(BlocklandUser::class, 'id', 'blockland_id');
 	}
 
+	/**
+	 * Returns the Files that this User has uploaded.
+	 *
+	 * @return Relationship
+	 */
+	public function uploaded()
+	{
+		return $this->hasMany(File::class, 'uploader_id');
+	}
+
+
 	///////////////////////////
 	//* Attribute Overrides *//
 	///////////////////////////

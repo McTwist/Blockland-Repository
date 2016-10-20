@@ -170,6 +170,9 @@ class AddonController extends Controller
 		// Make the file model
 		$file_obj = FileModel::import($data['path'], $data['attributes']);
 
+		// Associate with user
+		$file_obj->uploader()->associate($request->user());
+
 		// TODO: Generate a valid slug
 		// Note: A valid slug is depending on the status on the add-on. Private is a string id instead
 		$slug = str_slug($file_obj->display_name, '_');

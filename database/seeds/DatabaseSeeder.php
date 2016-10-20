@@ -75,6 +75,7 @@ class DatabaseSeeder extends Seeder
 		{
 			// Make file
 			$file = factory(App\Models\File::class)->make();
+			$file->uploader()->associate($v->addon->owners->first());
 			// ... save file
 			$v->file()->save($file);
 		}

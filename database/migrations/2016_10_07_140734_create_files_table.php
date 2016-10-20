@@ -21,6 +21,7 @@ class CreateFilesTable extends Migration
 			$table->string('extension', 16); // Size is larger, but in this case we keep it like this
 			$table->string('mime', 32)->nullable();
 			$table->morphs('link');
+			$table->integer('uploader_id')->unsigned()->index();
 			$table->timestamps();
 		});
 	}
