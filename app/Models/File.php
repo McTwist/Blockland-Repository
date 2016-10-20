@@ -154,6 +154,17 @@ class File extends Model
 	{
 		return $this->disk->delete($this->path);
 	}
+	
+	/**
+	 * Creates a Copy of this File in Temp Storage.
+	 *
+	 * @return string
+	 */
+	public function createTempFile()
+	{
+		// Add to Temp Storage
+		return Storage::disk('temp')->put($this->path, $this->contents);
+	}
 
 	/**
 	 * Returns the Contents of this File.
