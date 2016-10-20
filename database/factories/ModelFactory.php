@@ -11,6 +11,9 @@
 |
 */
 
+$addonFaker = Faker\Factory::create();
+$addonFaker->addProvider(new App\Repository\AddonFakerFacade($addonFaker));
+
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(App\Models\User::class, function (Faker\Generator $faker)
 {
@@ -45,7 +48,7 @@ $factory->define(App\Models\Addon::class, function (Faker\Generator $faker)
 $factory->define(App\Models\Channel::class, function (Faker\Generator $faker)
 {
 	return [
-		'name' => $faker->randomElements(['debug', 'test'])[0],
+		'name' => $faker->randomElement(['debug', 'test']),
 		'slug' => str_random(10),
 		'description' => $faker->text(512),
 	];
@@ -60,11 +63,12 @@ $factory->define(App\Models\Version::class, function (Faker\Generator $faker)
 });
 
 $factory->define(App\Models\File::class, function (Faker\Generator $faker)
+	use(&$addonFaker)
 {
 	return [
-		'display_name' => $faker->slug(10),
-		'path' => $faker->md5.'.zip',
-		'size' => $faker->numberBetween(1000, 50000000),
+		'display_name' => $addonFaker->addon_name,
+		'path' => $addonFaker->md5.'.zip',
+		'size' => $addonFaker->numberBetween(1000, 50000000),
 		'extension' => 'zip',
 		'mime' => 'application/zip',
 	];
