@@ -10,7 +10,7 @@
 		@forelse($category->addons()->get() as $addon)
 			<a href="{{ route('addon.show', $addon->slug) }}"><div>{{ $addon->name }}</div></a>
 		@empty
-			Unknown category
+			Empty category
 		@endforelse
 
 	</div>
