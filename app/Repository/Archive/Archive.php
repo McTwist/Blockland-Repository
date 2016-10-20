@@ -26,17 +26,30 @@ class Archive
 	public function __construct($file)
 	{
 		$this->archive_name = $file;
-		// Read archive
-		$this->archive = new \ZipArchive();
-		if ($this->archive->open($file) !== true)
-		{
-			$this->archive = null;
-			return;
-		}
-
-		$this->CountFileTypes();
 	}
 
+	public function __destruct()
+	{
+		// It is a rule to not save anything unless explicitly said so
+		if ($this->IsOpen())
+			$this->Abort();
+	}
+
+	// Open a file to be read
+	public function Open($file)
+	{
+		$archive = new \ZipArchive;
+		if ($archive->open($file) !== true)
+			return false;
+
+		$this->archive = $archive;
+
+		$this->CountFileTypes();
+
+		return true;
+	}
+
+	// Check if archive is open
 	public function IsOpen()
 	{
 		return $this->archive !== null;
@@ -46,13 +59,14 @@ class Archive
 	public function Close()
 	{
 		$this->archive->close();
+		$this->archive = null;
 	}
 
 	// Undo all changes and close the archive
 	public function Abort()
 	{
 		$this->archive->unchangeAll();
-		$this->archive->close();
+		$this->Close();
 	}
 
 	// Add file reader
@@ -105,7 +119,7 @@ class Archive
 	public function GetFile($file, $force_object = false)
 	{
 		$file = strtolower($file);
-		if (!$this->HaveFile($file) && !$force_object)
+		if (!$this->HasFile($file) && !$force_object)
 			return null;
 
 		$content = $this->ReadFile($file);
@@ -138,7 +152,7 @@ class Archive
 	public function GetFileRaw($file)
 	{
 		$file = strtolower($file);
-		if (!$this->HaveFile($file))
+		if (!$this->HasFile($file))
 			return false;
 
 		return $this->ReadFile($file);
@@ -187,7 +201,7 @@ class Archive
 	// Remove folder and everything in it
 	protected function RemoveFolder($folder)
 	{
-		if (!$this->HaveFolder($folder))
+		if (!$this->HasFolder($folder))
 			return;
 		$len = strlen($folder);
 		$found = false;
@@ -198,16 +212,16 @@ class Archive
 		return $found;
 	}
 
-	protected function HaveFile($file)
+	protected function HasFile($file)
 	{
 		return $this->archive->locateName($file, \ZipArchive::FL_NOCASE | \ZipArchive::FL_NODIR) !== false;
 	}
 
-	protected function HaveFolder($folder)
+	protected function HasFolder($folder)
 	{
 		if (substr($folder, -1) != '/')
 			$folder .= '/';
-		return !$this->HaveFile($folder) && $this->archive->locateName($folder, \ZipArchive::FL_NOCASE) !== false;
+		return !$this->HasFile($folder) && $this->archive->locateName($folder, \ZipArchive::FL_NOCASE) !== false;
 	}
 
 	protected function HasFileType($ext)

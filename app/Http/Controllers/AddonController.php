@@ -46,81 +46,42 @@ class AddonController extends Controller
 			'addon' => 'required|mimes:zip|min:1|max:50000' // 50MB
 		]);
 
-		if (!$request->session()->has('upload'))
+		// Remove previous one
+		if ($request->session()->has('upload'))
 		{
-			$file = $request->file('addon');
-
-			/*// Verify the addon
-			$addon_file = new AddonFile(storage_path(self::$temp_path).'/'.$name);
-
-			$errors = array();
-
-			// Invidual validations
-			if (!$addon_file->ValidateDescription())
-			{
-				// TODO: Check what's wrong
-				$errors[] = array('code' => 'INVALID_DESC', 'message' => 'Description is not valid');
-			}
-
-			if (!$addon_file->ValidateNamecheck())
-			{
-				// Create the file
-				$addon_file->GenerateNamecheck(true);
-			}
-
-			if (!$addon_file->ValidateVersion())
-			{
-				$addon_file->GenerateVersion(true);
-
-				if (!$addon_file->ValidateVersion())
-				{
-					// TODO: Let the user fix it
-					$errors[] = array('code' => 'FIX_VERSION', 'message' => 'Was not able to fix the version file');
-				}
-			}
-
-			if (!$addon_file->ValidateScripts())
-			{
-				// TODO: Let the user know that the scripts is invalid(Unable to compile; Dangerous functionality; etc)
-				$errors[] = array('code' => 'INVALID_SCRIPTS', 'message' => 'Scripts are not valid');
-			}
-
-			if (!$addon_file->HasRequiredFiles())
-			{
-				// TODO: Let the user know that files are missing
-				$errors[] = array('code' => 'INVALID_ADDON', 'message' => $addon_file->Type().' type is in need of more files to be valid');
-			}
-
-			$addon_file->Close();
-
-			if (count($errors))
-				$request->session()->flash('error', $errors);*/
-
-			// Move to a better storage
-			$path = $file->store('', 'temp');
-
-			// Validate addon
-			// TODO: Put into a job instead
-			// Note: Maybe not needed as it will just complicate it for the user
-			$validator = AddonValidator::make(Storage::disk('temp')->getDriver()->getAdapter()->getPathPrefix().$path);
-
-			if ($validator->fails())
-				$this->throwValidatorException($request, $validator);
-
-			$data = [
-				'path' => $path,
-				'original' => $file->getClientOriginalName(),
-				'attributes' => [
-					'display_name' => basename($file->getClientOriginalName(), '.zip'),
-					'size' => $file->getClientSize(),
-					'extension' => $file->guessClientExtension(),
-					'mime' => $file->getClientMimeType()
-				]
-			];
-			$request->session()->flash('upload', $data);
-
-			//$this->dispatchFrom(VerifyAddon::class, ['file' => $tmpName]);
+			Storage::disk('temp')->remove($request->session()->get('upload')['path']);
+			// Clear from session while we're at it
+			$request->session()->forget('upload');
 		}
+
+		$file = $request->file('addon');
+
+		// Move to a better storage
+		$path = $file->store('', 'temp');
+
+		// Validate addon
+		// TODO: Put into a job instead
+		// Note: Maybe not needed as it will just complicate it for the user
+		$validator = AddonValidator::make(temp_path($path), $file->getClientOriginalName());
+
+		// Don't throw an exception. Instead, pass it to the user and try to assist by fixing it ourselves.
+		if ($validator->fails())
+			$this->throwValidationException($request, $validator);
+
+		// Flash the data for next request
+		$data = [
+			'path' => $path,
+			'original' => $file->getClientOriginalName(),
+			'attributes' => [
+				'display_name' => basename($file->getClientOriginalName(), '.zip'),
+				'size' => $file->getClientSize(),
+				'extension' => $file->guessClientExtension(),
+				'mime' => $file->getClientMimeType()
+			]
+		];
+		$request->session()->flash('upload', $data);
+
+		//$this->dispatchFrom(VerifyAddon::class, ['file' => $tmpName]);
 
 		// Decide where to go
 		if ($request->ajax())
@@ -156,8 +117,8 @@ class AddonController extends Controller
 		$original = $data['original'];
 
 		// Ensure its existence
-		$addon_file = new AddonFile($temp_file, $original);
-		if (!$addon_file->IsOpen())
+		$addon_file = new AddonFile($original);
+		if (!$addon_file->Open($temp_file))
 		{
 			return redirect()->intended(route('pages.home'));
 		}
@@ -243,8 +204,8 @@ class AddonController extends Controller
 		$temp_file = storage_path('app\\uploads\\').$file_obj->path;
 
 		// Update addon data
-		$file = new AddonFile($temp_file, $file_obj->download_name);
-		if ($file->IsOpen())
+		$file = new AddonFile($file_obj->download_name);
+		if ($file->Open($temp_file))
 		{
 			if ($file->Title() != $title)
 				$file->Title($title);

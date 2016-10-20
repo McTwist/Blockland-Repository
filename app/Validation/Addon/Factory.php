@@ -13,8 +13,8 @@ class Factory
 		$this->translator = $translator;
 	}
 
-	public function make($path)
+	public function make($path, $realname=null)
 	{
-		return new Validator($this->translator, $path);
+		return new Validator($this->translator, $path, $realname);
 	}
 }

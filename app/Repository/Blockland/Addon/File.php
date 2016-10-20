@@ -27,11 +27,11 @@ class File extends Archive
 	// rtbInfo.txt
 	private $rtbInfo = null;
 
-	public function __construct($file, $realfile=null)
+	public function __construct($file)
 	{
 		parent::__construct($file);
 
-		$base = basename(($realfile === null ? $file : $realfile), '.zip');
+		$base = basename($file, '.zip');
 
 		// Parse filename
 		$underscore = strpos($base, '_');
@@ -61,11 +61,18 @@ class File extends Archive
 		// cs, gui
 		// dml
 		// ogg, wav
+	}
+
+	public function Open($file)
+	{
+		$bool = parent::Open($file);
 
 		$this->namecheck = $this->GetNamecheck();
 		$this->description = $this->GetDescription();
 		$this->version = $this->GetVersion();
 		$this->rtbInfo = $this->GetRTBInfo();
+
+		return $bool;
 	}
 
 	public function Type($lower = false)
@@ -141,11 +148,11 @@ class File extends Archive
 
 	protected function GetVersion()
 	{
-		if ($this->HaveFile('version.json'))
+		if ($this->HasFile('version.json'))
 		{
 			return $this->GetFile('version.json', true);
 		}
-		if ($this->HaveFile('version.txt'))
+		if ($this->HasFile('version.txt'))
 		{
 			return $this->GetFile('version.txt', true);
 		}
@@ -243,7 +250,7 @@ class File extends Archive
 		case 'decal': // Confirmed
 		case 'face': // Confirmed
 			// TODO: Check for image sizes
-			return $this->HaveFolder('thumbs') && $this->HasFileType('png');
+			return $this->HasFolder('thumbs') && $this->HasFileType('png');
 		case 'emote':
 		case 'sound':
 			return $this->IsServer() && $this->HasSound();
@@ -266,7 +273,7 @@ class File extends Archive
 		case 'print': // Confirmed
 			// server.cs is required, but rarely used
 			// TODO: Check for image sizes
-			return $this->IsServer() && $this->HaveFolder('icons') && $this->HaveFolder('prints') && $this->HasFileType('png');
+			return $this->IsServer() && $this->HasFolder('icons') && $this->HasFolder('prints') && $this->HasFileType('png');
 		case 'sky':
 			return $this->HasAtmosphere() && $this->HasSkyboxTexture();
 		case 'water':
@@ -285,17 +292,23 @@ class File extends Archive
 	// Generate a description.txt file
 	public function GenerateDescription($overwrite = false)
 	{
-		if (!$overwrite && $this->HaveFile('description.txt'))
+		if (!$overwrite && $this->HasFile('description.txt'))
 			return;
 
 		$this->SetFile($this->description);
+	}
+
+	// Check if namecheck exists
+	public function HasNamecheck()
+	{
+		return $this->HasFile('namecheck.txt');
 	}
 
 	// Validate internal namecheck file
 	public function ValidateNamecheck()
 	{
 		// Check for file that to check for
-		if (!$this->HaveFile('namecheck.txt'))
+		if (!$this->HasNamecheck())
 			return true;
 
 		return $this->namecheck->Validate();
@@ -304,7 +317,7 @@ class File extends Archive
 	// Generate a namecheck.txt file
 	public function GenerateNamecheck($overwrite = false)
 	{
-		if (!$overwrite && $this->HaveFile('namecheck.txt'))
+		if (!$overwrite && $this->HasNamecheck())
 			return;
 
 		$this->SetFile($this->namecheck);
@@ -326,10 +339,10 @@ class File extends Archive
 	{
 		return $this->IsGameMode()
 			&& $this->HaveColorset()
-			&& $this->HaveFile('description.txt')
-			&& $this->HaveFile('save.bls')
-			&& $this->HaveFile('preview.jpg') 
-			&& $this->HaveFile('thumb.jpg');
+			&& $this->HasFile('description.txt')
+			&& $this->HasFile('save.bls')
+			&& $this->HasFile('preview.jpg') 
+			&& $this->HasFile('thumb.jpg');
 	}
 
 	// A small check to see if people have included code, but no file to execute it from
@@ -340,22 +353,22 @@ class File extends Archive
 
 	public function IsClient()
 	{
-		return $this->HaveFile('client.cs');
+		return $this->HasFile('client.cs');
 	}
 
 	public function IsServer()
 	{
-		return $this->HaveFile('server.cs');
+		return $this->HasFile('server.cs');
 	}
 
 	public function IsGameMode()
 	{
-		return $this->HaveFile('gamemode.txt');
+		return $this->HasFile('gamemode.txt');
 	}
 
 	public function HaveColorset()
 	{
-		return $this->HaveFile('colorset.txt');
+		return $this->HasFile('colorset.txt');
 	}
 
 	public function HasScripts()
@@ -467,8 +480,8 @@ class File extends Archive
 	// Validate version.txt
 	public function ValidateVersion()
 	{
-		$version_txt = $this->HaveFile('version.txt');
-		$version_json = $this->HaveFile('version.json');
+		$version_txt = $this->HasFile('version.txt');
+		$version_json = $this->HasFile('version.json');
 
 		// Only allow one file
 		if ($version_txt && $version_json)
@@ -481,8 +494,8 @@ class File extends Archive
 	// Pretty only works with JSON
 	public function GenerateVersion($overwrite = false, $json = true, $pretty = true)
 	{
-		$version_txt = $this->HaveFile('version.txt');
-		$version_json = $this->HaveFile('version.json');
+		$version_txt = $this->HasFile('version.txt');
+		$version_json = $this->HasFile('version.json');
 
 		// Create a new one
 		if (!$this->version->Validate())
@@ -523,7 +536,7 @@ class File extends Archive
 	// Generate a rtbInfo file
 	public function GenerateRTB($overwrite = false)
 	{
-		if (!$overwrite && $this->HaveFile('rtbInfo.txt'))
+		if (!$overwrite && $this->HasFile('rtbInfo.txt'))
 			return;
 
 		$this->SetFile($this->rtbInfo);
@@ -532,7 +545,7 @@ class File extends Archive
 	// Check if RTB exists
 	public function HaveRTB()
 	{
-		return $this->HaveFile('rtbInfo.txt');
+		return $this->HasFile('rtbInfo.txt');
 	}
 
 	// Remove RTB
