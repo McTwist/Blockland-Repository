@@ -108,6 +108,20 @@ class Channel extends Model
 	//* Attribute Overrides *//
 	///////////////////////////
 	/**
+	 * Set the default attribute.
+	 * You can only set this to true.
+	 *
+	 * @return void
+	 */
+	public function setDefaultAttribute($bool)
+	{
+		if ($bool)
+		{
+			$this->makeDefault();
+		}
+	}
+
+	/**
 	 * Get which Version requires the client to restart.
 	 * Note: Under development
 	 *
@@ -129,5 +143,31 @@ class Channel extends Model
 	public function scopeDefault($query)
 	{
 		return $query->where('default', true);
+	}
+
+	/////////////////
+	//* Utilities *//
+	/////////////////
+	/**
+	 * Makes the Channel default
+	 *
+	 * @return void
+	 */
+	public function makeDefault()
+	{
+		if ($this->default)
+			return;
+
+		// Remove default from old Channel
+		$channel = $this->addon->channel;
+		if ($channel)
+		{
+			$channel->attributes['default'] = false;
+			$channel->save();
+		}
+
+		// Add default to this Channel
+		$this->attributes['default'] = true;
+		$this->save();
 	}
 }

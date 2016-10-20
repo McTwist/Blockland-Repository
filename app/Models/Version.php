@@ -85,6 +85,23 @@ class Version extends Model
 		return $this->morphOne(File::class, 'link');
 	}
 
+	///////////////////////////
+	//* Attribute Overrides *//
+	///////////////////////////
+	/**
+	 * Set the default attribute.
+	 * You can only set this to true.
+	 *
+	 * @return void
+	 */
+	public function setDefaultAttribute($bool)
+	{
+		if ($bool)
+		{
+			$this->makeDefault();
+		}
+	}
+
 	//////////////
 	//* Scopes *//
 	//////////////
@@ -96,5 +113,31 @@ class Version extends Model
 	public function scopeDefault($query)
 	{
 		return $query->where('default', true);
+	}
+
+	/////////////////
+	//* Utilities *//
+	/////////////////
+	/**
+	 * Makes the Version default
+	 *
+	 * @return void
+	 */
+	public function makeDefault()
+	{
+		if ($this->default)
+			return;
+
+		// Remove default from old Version
+		$version = $this->channel->version;
+		if ($version)
+		{
+			$version->attributes['default'] = false;
+			$version->save();
+		}
+
+		// Add default to this Version
+		$this->attributes['default'] = true;
+		$this->save();
 	}
 }
