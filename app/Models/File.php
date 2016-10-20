@@ -22,6 +22,13 @@ class File extends Model
 	protected $table = 'files';
 
 	/**
+	 * The Attributes that are hidden.
+	 *
+	 * @var string
+	 */
+	protected $hidden = ['id', 'uploader_id', 'link_id', 'link_type'];
+
+	/**
 	 * The Attributes that are allowed to be Mass Assigned.
 	 *
 	 * @var array
@@ -187,14 +194,7 @@ class File extends Model
 	 */
 	public function getMimeType()
 	{
-		if ($this->disk->has($this->path))
-		{
-			return $this->disk->mimeType($this->path);
-		}
-		elseif (Storage::disk('temp')->has($this->path))
-		{
-			return Storage::disk('temp')->mimeType($this->path);
-		}
+		return $this->disk->mimeType($this->path);
 	}
 
 	///////////////////////////
@@ -207,7 +207,7 @@ class File extends Model
 	 */
 	public function getDiskAttribute()
 	{
-		return Storage::disk('uploads');
+		return Storage::disk('uploads')->has($this->path) ? Storage::disk('uploads') : Storage::disk('temp');
 	}
 
 	/**

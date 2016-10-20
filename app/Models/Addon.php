@@ -136,7 +136,7 @@ class Addon extends Model
 	 */
 	public function isOwner(User $user)
 	{
-		return $this->owners()->get()->contains($user);
+		return $this->owners->contains($user);
 	}
 
 	/**
@@ -148,13 +148,14 @@ class Addon extends Model
 	{
 		// TODO: Authors is mentioned in add-on
 		// Note: This might return a string, but find a better way to use it
-		return $this->owners()->get()->implode('username', ', ');
+		// Note2: Should come from cache table
+		return $this->owners->implode('username', ', ');
 	}
 
 	///////////////////////////
 	//* Attribute Overrides *//
 	///////////////////////////
-	// Note: None of these below have been properly thought out
+	// Note: All attributes should later on read from default version or defined slug
 	/**
 	 * Get the size of the Addon
 	 *
@@ -162,7 +163,7 @@ class Addon extends Model
 	 */
 	public function getSizeAttribute()
 	{
-		return 0;
+		return $this->version->file->size;
 	}
 
 	/**
@@ -185,9 +186,25 @@ class Addon extends Model
 		return static::formatBytesBin($this->size);
 	}
 
+	/**
+	 * Get the summary of the Addon.
+	 *
+	 * @return string
+	 */
 	public function getSummaryAttribute()
 	{
-		return '';
+		// TODO: Read from cache table
+		return 'SUMMARY NOT DONE';
+	}
+
+	/**
+	 * Get the description to be displayed on site.
+	 *
+	 * @return string
+	 */
+	public function getDescriptionHtmlAttribute()
+	{
+		return nl2br(e($this->description));
 	}
 
 	/**
@@ -197,24 +214,28 @@ class Addon extends Model
 	 */
 	public function getVersionNameAttribute()
 	{
-		return $this->version()->name;
+		return $this->version->name;
 	}
 
 	/**
 	 * Get amounts of downloads of the Addon.
 	 *
-	 * @return string
+	 * @return int
 	 */
 	public function getDownloadsAttribute()
 	{
+		// TODO: Read from statistics table
 		return 0;
 	}
 
+	/**
+	 * Get the User uploader of the Addon.
+	 *
+	 * @return App\Models\User
+	 */
 	public function getUploaderAttribute()
 	{
-		// TODO: Uploader should be marked
-		//return $this->owners()->first()->username;
-		return '';
+		return $this->version->file->uploader;
 	}
 
 	/**
@@ -224,7 +245,7 @@ class Addon extends Model
 	 */
 	public function getFilenameAttribute()
 	{
-		return 'Script_Filename.zip';
+		return $this->version->file->download_name;
 	}
 
 	/**
@@ -237,6 +258,11 @@ class Addon extends Model
 		return '-1';
 	}
 
+	/**
+	 * Get the download link of the Addon.
+	 *
+	 * @return string
+	 */
 	public function getDownloadLinkAttribute()
 	{
 		return '/api/mod/'.$this->slug.'.zip';

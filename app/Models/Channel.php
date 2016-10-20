@@ -47,7 +47,7 @@ class Channel extends Model
 		// Deleting the model
 		static::deleting(function($channel)
 		{
-			$channel->versions()->delete();
+			$channel->versions->delete();
 		});
 
 		// Model was created
@@ -104,6 +104,20 @@ class Channel extends Model
 		return $this->belongsToMany(User::class)->withTimestamps();
 	}
 
+	///////////////////////////
+	//* Attribute Overrides *//
+	///////////////////////////
+	/**
+	 * Get which Version requires the client to restart.
+	 * Note: Under development
+	 *
+	 * @return unknown|null
+	 */
+	public function getRestartRequiredAttribute()
+	{
+		return null;
+	}
+
 	//////////////
 	//* Scopes *//
 	//////////////
@@ -115,11 +129,5 @@ class Channel extends Model
 	public function scopeDefault($query)
 	{
 		return $query->where('default', true);
-	}
-
-	// Note: Under development
-	public function restart_required()
-	{
-		return null;
 	}
 }

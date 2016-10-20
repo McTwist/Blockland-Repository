@@ -222,21 +222,20 @@ class AddonController extends Controller
 		Category::find($category)->addons()->save($addon);
 
 		// Save file with the Addon
-		$addon->version()->file()->save($file_obj);
+		$addon->version->file()->save($file_obj);
 
 		// Attach to user
 		$addon->owners()->save($request->user());
-		//$request->user()->addons()->save($addon);
 
 		// Update channel with newer data
-		$channel_obj = $addon->channel();
+		$channel_obj = $addon->channel;
 		if (!empty($channel))
 			$channel_obj->name = $channel;
 		$channel_obj->slug = $slug;
 		$channel_obj->save();
 
 		// Update version with newer data
-		$version_obj = $channel_obj->version();
+		$version_obj = $channel_obj->version;
 		if (!empty($version))
 			$version_obj->name = $version;
 		$version_obj->save();
@@ -370,7 +369,9 @@ class AddonController extends Controller
 		
 		if ($addon->isOwner($request->user()))
 		{
+			// Remove all owners
 			$addon->owners()->detach();
+
 			// Delete the Addon
 			$addon->delete();
 		}
