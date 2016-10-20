@@ -34,6 +34,8 @@ class VerifyAddon extends Job implements ShouldQueue
 	{
 		$addon = new AddonFile($this->file);
 
+		$addon->Open($this->file);
+
 		// Invidual validations
 		if (!$addon->ValidateDescription())
 		{
