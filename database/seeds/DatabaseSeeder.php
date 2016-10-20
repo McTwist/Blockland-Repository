@@ -12,7 +12,19 @@ class DatabaseSeeder extends Seeder
 	public function run()
 	{
 		echo "Seeding database\n";
-		
+
+		$this->populateDebug();
+	}
+
+	/**
+	 * Populate debug information
+	 *
+	 * @return void
+	 */
+	public function populateDebug()
+	{
+		if (!env('APP_DEBUG'))
+			return;
 		$max_categories = 10;
 		$max_users = 10;
 		$max_addons_per_user = 5;
