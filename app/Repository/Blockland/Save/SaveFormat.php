@@ -170,7 +170,7 @@ class SaveFormat implements \Iterator
 	private static function GetString($str)
 	{
 		$list = explode('" ', $str, 2);
-		$list[0] = mb_convert_encoding($list[0], 'UTF-8', 'Windows-1251');
+		$list[0] = bl_convert_encoding($list[0]);
 		return $list;
 	}
 
