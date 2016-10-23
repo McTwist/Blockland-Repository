@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
 		{
 			$this->call(DebugSeeder::class);
 		}
+
+		$this->call(BlacklistSeeder::class);
 	}
 }
