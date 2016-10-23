@@ -95,6 +95,21 @@ class Channel extends Model
 	}
 
 	/**
+	 * Sets the default Version that this Channel has.
+	 *
+	 * @return void
+	 */
+	public function setVersionAttribute($version)
+	{
+		if ($version->default)
+			return;
+		if (!$this->versions()->contains($version))
+			return;
+		
+		$version->makeDefault();
+	}
+
+	/**
 	 * Returns the Users that may access this Channel.
 	 *
 	 * @return Relationship

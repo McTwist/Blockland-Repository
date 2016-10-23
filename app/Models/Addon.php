@@ -77,6 +77,21 @@ class Addon extends Model
 	}
 
 	/**
+	 * Sets the default Channel that this Addon has.
+	 *
+	 * @return void
+	 */
+	public function setChannelAttribute($channel)
+	{
+		if ($channel->default)
+			return;
+		if (!$this->channels()->contains($channel))
+			return;
+		
+		$channel->makeDefault();
+	}
+
+	/**
 	 * Returns the Versions that this Addon has.
 	 *
 	 * @return Relationship
