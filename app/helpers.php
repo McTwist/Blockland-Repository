@@ -44,3 +44,18 @@ if (!function_exists('temp_path'))
 		return path(Storage::disk('temp')->getAdapter()->getPathPrefix(), $path);
 	}
 }
+
+if (!function_exists('bl_convert_encoding'))
+{
+	/**
+	 * Returns a converted string from Blockland encoding to UTF-8.
+	 *
+	 * @param  string  $str
+	 *
+	 * @return string
+	 */
+	function bl_convert_encoding($str)
+	{
+		return mb_convert_encoding($str, 'UTF-8', 'Windows-1252');
+	}
+}
