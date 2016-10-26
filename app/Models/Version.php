@@ -85,6 +85,16 @@ class Version extends Model
 		return $this->morphOne(File::class, 'link');
 	}
 
+	/**
+	 * Returns the VersionCache that this Version has.
+	 *
+	 * @return Relationship
+	 */
+	public function cache()
+	{
+		return $this->hasOne(VersionCache::class);
+	}
+
 	///////////////////////////
 	//* Attribute Overrides *//
 	///////////////////////////

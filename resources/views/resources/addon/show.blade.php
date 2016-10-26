@@ -13,7 +13,7 @@
 
 	<div id="title">
 		<span class="title">{{ $addon->name }}</span>
-		<span class="subtitle">by {{ $addon->authors() }}</span>
+		<span class="subtitle">by {{ $addon->authors }}</span>
 		<span class="summary">{{ $addon->summary }}</span>
 	</div>
 	<div id="download">

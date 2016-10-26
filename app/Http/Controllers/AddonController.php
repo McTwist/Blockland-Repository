@@ -8,6 +8,7 @@ use App\Models\Addon;
 use App\Models\Channel;
 use App\Models\Category;
 use App\Models\File as FileModel;
+use App\Models\VersionCache;
 use App\Repository\Blockland\Addon\File as AddonFile;
 use App\Jobs\VerifyAddon;
 use Storage;
@@ -208,6 +209,12 @@ class AddonController extends Controller
 		if (!empty($version))
 			$version_obj->name = $version;
 		$version_obj->save();
+
+		// Add to cache
+		$cache = new VersionCache;
+		$cache->version()->associate($version_obj);
+		$cache->refresh();
+		$cache->save();
 
 		$temp_file = storage_path('app\\uploads\\').$file_obj->path;
 

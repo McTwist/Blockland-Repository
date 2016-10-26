@@ -30,11 +30,11 @@
 		</div>
 		<div class="user_bl_id">
 			{{ Form::label('bl_id', 'Blockland ID:') }}
-			{{ Form::number('bl_id', $user->bl_id(), ['id' => 'blockland_id', 'style' => 'width: 80px']) }}
+			{{ Form::number('bl_id', $user->bl_id, ['id' => 'blockland_id', 'style' => 'width: 80px']) }}
 			{{ Form::label('bl_name', 'Blockland Name:') }}
-			{{ Form::text('bl_name', $user->bl_name(), ['id' => 'blockland_name', 'style' => 'width: 100px']) }}
+			{{ Form::text('bl_name', $user->bl_name, ['id' => 'blockland_name', 'style' => 'width: 100px']) }}
 			{{ Form::button('Verify', ['onclick' => 'verify_ip()']) }}
-			{{ Form::text('bl_name', '', ['readonly', 'id' => 'blockland_msg']) }}
+			{{ Form::text('verify', '', ['readonly', 'id' => 'blockland_msg']) }}
 		</div>
 		<hr class="over">
 		<br>

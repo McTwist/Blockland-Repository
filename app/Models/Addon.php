@@ -154,19 +154,6 @@ class Addon extends Model
 		return $this->owners->contains($user);
 	}
 
-	/**
-	 * Returns the Users that made this Addon.
-	 *
-	 * @return string
-	 */
-	public function authors()
-	{
-		// TODO: Authors is mentioned in add-on
-		// Note: This might return a string, but find a better way to use it
-		// Note2: Should come from cache table
-		return $this->owners->implode('username', ', ');
-	}
-
 	///////////////////////////
 	//* Attribute Overrides *//
 	///////////////////////////
@@ -208,8 +195,7 @@ class Addon extends Model
 	 */
 	public function getSummaryAttribute()
 	{
-		// TODO: Read from cache table
-		return 'SUMMARY NOT DONE';
+		return ($cache = $this->version->cache) ? $cache->summary : '';
 	}
 
 	/**
@@ -220,6 +206,16 @@ class Addon extends Model
 	public function getDescriptionHtmlAttribute()
 	{
 		return nl2br(e($this->description));
+	}
+
+	/**
+	 * Returns the authors that made this Addon.
+	 *
+	 * @return string
+	 */
+	public function getAuthorsAttribute()
+	{
+		return ($cache = $this->version->cache) ? $cache->authors : '';
 	}
 
 	/**
@@ -270,7 +266,7 @@ class Addon extends Model
 	 */
 	public function getCrcAttribute()
 	{
-		return '-1';
+		return ($cache = $this->version->cache) ? $cache->crc : '';
 	}
 
 	/**
