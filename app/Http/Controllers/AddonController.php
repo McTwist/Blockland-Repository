@@ -72,7 +72,8 @@ class AddonController extends Controller
 
 		// Don't throw an exception. Instead, pass it to the user and try to assist by fixing it ourselves.
 		if ($validator->fails())
-			$this->throwValidationException($request, $validator);
+			//$this->throwValidationException($request, $validator);
+			$request->session()->flash('upload', $validator->all());
 
 		// Flash the data for next request
 		$data = [
@@ -119,7 +120,7 @@ class AddonController extends Controller
 		$error = $request->session()->get('error', array());
 		$request->session()->reflash();
 
-		$temp_file = storage_path('app\\temp\\').$data['path'];
+		$temp_file = temp_path($data['path']);
 		$original = $data['original'];
 
 		// Ensure its existence
@@ -173,6 +174,33 @@ class AddonController extends Controller
 		$channel = $request->input('channel');
 		$version = $request->input('version');
 
+		// TODO: Verify the values
+
+		$temp_file = temp_path($data['path']);
+
+		// Update addon data
+		$file = new AddonFile($data['attributes']['display_name'].'.zip');
+		if ($file->Open($temp_file))
+		{
+			if ($file->Title() != $title)
+				$file->Title($title);
+			if ($file->Authors() != $developers)
+				$file->Authors($developers);
+			if ($file->Description() != $summary)
+				$file->Description($summary);
+			if ($file->Channel() != $channel)
+				$file->Channel($channel);
+			if ($file->Version() != $version)
+				$file->Version($version);
+			// Save changes!
+			$file->GenerateDescription(true);
+			$file->GenerateNamecheck(true);
+			$file->GenerateVersion(true, true, true);
+			$file->Cleanup();
+		}
+		// Save archive!
+		$file->Close();
+
 		// Make the file model
 		$file_obj = FileModel::import($data['path'], $data['attributes']);
 
@@ -215,31 +243,6 @@ class AddonController extends Controller
 		$cache->version()->associate($version_obj);
 		$cache->refresh();
 		$cache->save();
-
-		$temp_file = storage_path('app\\uploads\\').$file_obj->path;
-
-		// Update addon data
-		$file = new AddonFile($file_obj->download_name);
-		if ($file->Open($temp_file))
-		{
-			if ($file->Title() != $title)
-				$file->Title($title);
-			if ($file->Authors() != $developers)
-				$file->Authors($developers);
-			if ($file->Description() != $summary)
-				$file->Description($summary);
-			if ($file->Channel() != $channel)
-				$file->Channel($channel);
-			if ($file->Version() != $version)
-				$file->Version($version);
-			// Save changes!
-			$file->GenerateDescription(true);
-			$file->GenerateNamecheck(true);
-			$file->GenerateVersion(true, true, true);
-			$file->Cleanup();
-		}
-		// Save archive!
-		$file->Close();
 
 		// Redirect to the addon page
 		return redirect()->intended(route('addon.show', $addon->slug));
