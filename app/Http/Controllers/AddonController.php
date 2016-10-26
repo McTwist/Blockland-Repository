@@ -25,6 +25,11 @@ use AddonValidator;
 */
 class AddonController extends Controller
 {
+	/**
+	 * Create a new controller instance.
+	 *
+	 * @return void
+	 */
 	public function __construct()
 	{
 		// Limiting everything on the addon

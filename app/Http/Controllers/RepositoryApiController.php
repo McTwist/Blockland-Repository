@@ -10,7 +10,13 @@ use App\Models\Addon;
 
 class RepositoryApiController extends Controller
 {
-	// Default page with GET method
+	/**
+	 * Default page with GET method.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 *
+	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
+	 */
 	public function home(Request $request)
 	{
 		$pretty = isset($request->pretty);
@@ -36,7 +42,14 @@ class RepositoryApiController extends Controller
 		}
 	}
 
-	// Display all mods in a list
+	/**
+	 * Display all mods in a list.
+	 *
+	 * @param  string $data
+	 * @param  bool   $pretty
+	 *
+	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
+	 */
 	public function mods($data, $pretty = null)
 	{
 		$mods = self::ExtractData($data, $data);
@@ -46,7 +59,14 @@ class RepositoryApiController extends Controller
 		return self::json($obj, isset($pretty) || self::IsPretty($data));
 	}
 
-	// Display only one mod
+	/**
+	 * Display only one mod.
+	 *
+	 * @param  string $data
+	 * @param  bool   $pretty
+	 *
+	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
+	 */
 	public function mod($data, $pretty = null)
 	{
 		$mod = self::ExtractData($data, $data);
@@ -55,7 +75,14 @@ class RepositoryApiController extends Controller
 		return self::json($obj, isset($pretty) || self::IsPretty($data));
 	}
 
-	// Display a certain repository and all its add-ons
+	/**
+	 * Display a certain repository and all its add-ons.
+	 *
+	 * @param  string $data
+	 * @param  bool   $pretty
+	 *
+	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
+	 */
 	public function repository($data, $pretty = null)
 	{
 		$repo = self::ExtractData($data, $data);
@@ -64,7 +91,13 @@ class RepositoryApiController extends Controller
 		return self::json($obj, isset($pretty) || self::IsPretty($data));
 	}
 
-	// Download the mod specified
+	/**
+	 * Download the mod specified.
+	 *
+	 * @param  string $data
+	 *
+	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
+	 */
 	public function download($data)
 	{
 		$mod = self::ExtractData($data, $data);
@@ -73,21 +106,40 @@ class RepositoryApiController extends Controller
 		//return response()->download($addon->file(), $addon->filename(), 'application/zip');
 	}
 
-	// Extract data and attributes from string
-	private static function ExtractData($data, &$attributes)
+	/**
+	 * Extract data and attributes from string.
+	 *
+	 * @param  string $data
+	 * @param  array  $attributes
+	 *
+	 * @return string
+	 */
+	protected static function ExtractData($data, &$attributes)
 	{
 		$attributes = explode('&', $data);
 		return array_shift($attributes);
 	}
 
-	// Check if data is pretty
-	private static function IsPretty(array $data)
+	/**
+	 * Check if data is pretty.
+	 *
+	 * @param  array  $data
+	 *
+	 * @return bool
+	 */
+	protected static function IsPretty(array $data)
 	{
 		return count($data) > 0 && in_array('pretty', $data);
 	}
 
-	// Get object out from array of addons
-	static private function ObjectFromArray($addons)
+	/**
+	 * Get object out from array of addons.
+	 *
+	 * @param  array  $addons
+	 *
+	 * @return stdClass
+	 */
+	private static function ObjectFromArray($addons)
 	{
 		$obj = new \stdClass;
 		$obj->addons = [];
@@ -98,8 +150,14 @@ class RepositoryApiController extends Controller
 		return $obj;
 	}
 
-	// Get object out from addon
-	static private function ObjectFromAddon(Addon $addon)
+	/**
+	 * Get object out from addon.
+	 *
+	 * @param  Addon  $addon
+	 *
+	 * @return stdClass
+	 */
+	private static function ObjectFromAddon(Addon $addon)
 	{
 		$obj = new \stdClass;
 		$obj->name = $addon->name;
@@ -115,8 +173,14 @@ class RepositoryApiController extends Controller
 		return $obj;
 	}
 
-	// Get object out from channel
-	static private function ObjectFromChannel(Channel $channel)
+	/**
+	 * Get object out from channel.
+	 *
+	 * @param  Channel  $channel
+	 *
+	 * @return stdClass
+	 */
+	private static function ObjectFromChannel(Channel $channel)
 	{
 		$obj = new \stdClass;
 		$obj->name = $channel->name;
@@ -135,12 +199,27 @@ class RepositoryApiController extends Controller
 		return $obj;
 	}
 
-	static private function json($data, $pretty = false)
+	/**
+	 * Respond with json data.
+	 *
+	 * @param  array $data
+	 * @param  bool  $pretty
+	 *
+	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
+	 */
+	protected static function json($data, $pretty = false)
 	{
 		return response()->json((object)$data, 200, array(), self::json_flags($pretty));
 	}
 
-	static private function json_flags($pretty = false)
+	/**
+	 * Prepare json flags.
+	 *
+	 * @param  bool  $pretty
+	 *
+	 * @return int
+	 */
+	protected static function json_flags($pretty = false)
 	{
 		return ($pretty ? JSON_PRETTY_PRINT : 0) | JSON_UNESCAPED_SLASHES;
 	}

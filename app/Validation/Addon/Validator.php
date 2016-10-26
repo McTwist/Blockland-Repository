@@ -66,6 +66,11 @@ class Validator implements ValidatorBase
 	 */
 	protected $failedRules = [];
 
+	/**
+	 * Create a new validator instance.
+	 *
+	 * @return void
+	 */
 	public function __construct(TranslatorInterface $translator, $path, $realname=null)
 	{
 		$this->translator = $translator;
@@ -73,6 +78,11 @@ class Validator implements ValidatorBase
 		$this->realname = $realname;
 	}
 
+	/**
+	 * Determine if the data passes the validation rules.
+	 *
+	 * @return bool
+	 */
 	public function passes()
 	{
 		$this->messages = new MessageBag;

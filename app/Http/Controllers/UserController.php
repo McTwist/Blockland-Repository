@@ -10,12 +10,12 @@ use App\Repository\BlocklandAuthentication;
 
 class UserController extends Controller
 {
-	
-	/*public function show(Request $request)
-	{
-		return $this->show($request->user());
-	}*/
-
+	/**
+	 * Display the User.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
+	 */
 	public function show($user = null)
 	{
 		if (!is_object($user))
@@ -32,12 +32,23 @@ class UserController extends Controller
 		return view('auth.show', compact('user'));
 	}
 
+	/**
+	 * Edit the User.
+	 *
+	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
+	 */
 	public function edit()
 	{
 		$user = auth()->user();
 		return view('auth.edit', compact('user'));
 	}
 
+	/**
+	 * Update the User.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
+	 */
 	public function update(Request $request)
 	{
 		$this->validate($request, [
