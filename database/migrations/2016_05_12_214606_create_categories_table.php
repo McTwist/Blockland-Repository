@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
 			// Attributes
 			$table->string('name', 32)->unique();
 			$table->string('icon', 32)->nullable();
+			$table->string('tags')->default('');
 
 			// Revision Tracking
 			$table->timestamps();

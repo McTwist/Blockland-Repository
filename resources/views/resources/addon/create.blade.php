@@ -17,7 +17,7 @@
 		<div class="upload_category">
 			{{ Form::Label('category', 'Category:') }}
 			<div class="selectContainer">
-				{{ Form::select('category', $categories) }}
+				{{ Form::select('category', $categories, $category) }}
 			</div>
 		</div>
 		<div class="upload_title">

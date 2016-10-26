@@ -133,6 +133,7 @@ class AddonController extends Controller
 		// TODO: Do checks, validations and generations and notify the user
 
 		$categories = Category::listSelect();
+		$category = Category::getByTag($addon_file->Type());
 
 		// TODO: Use the addon directly instead of values, making this easier to change
 		$title = $addon_file->Title();
@@ -142,7 +143,7 @@ class AddonController extends Controller
 		$channel = $addon_file->Channel();
 		$version = $addon_file->Version();
 		// Show the Create Page for Addon
-		return view('resources.addon.create', compact('title', 'summary', 'developers', 'description', 'categories', 'channel', 'version', 'error'));
+		return view('resources.addon.create', compact('title', 'summary', 'developers', 'description', 'categories', 'category', 'channel', 'version', 'error'));
 	}
 
 	/**

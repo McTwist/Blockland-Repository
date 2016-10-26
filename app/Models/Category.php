@@ -21,7 +21,7 @@ class Category extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'icon'];
+	protected $fillable = ['name', 'icon', 'tags'];
 
 	/////////////////////
 	//* Relationships *//
@@ -53,5 +53,18 @@ class Category extends Model
 			$categories[(int)$category->id] = $category->name;
 		}
 		return $categories;
+	}
+
+	/**
+	 * Get id of category by tag.
+	 *
+	 * @param string $tag_name
+	 * @return int
+	 */
+	public static function getByTag($tag_name)
+	{
+		$tag_name = strtolower($tag_name);
+		$tags = self::select('id')->where('tags', 'like', "%{$tag_name}%")->first();
+		return $tags ? $tags->id : null;
 	}
 }
