@@ -54,7 +54,7 @@ class UserController extends Controller
 		$this->validate($request, [
 			'username' => 'required|max:32|unique:users',
 			'email' => 'email|max:254|unique:users',
-			'bl_id' => 'integer|min:0|max:999999' // Yes, Badspot may register if he wants to
+			'bl_id' => 'integer|min:1|max:999999' // Yes, Badspot may register if he wants to
 		]);
 
 		$data = [];
@@ -82,7 +82,7 @@ class UserController extends Controller
 	}
 
 	/**
-	 * Verify user through IP and name
+	 * Verify user through IP and name.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return Response
@@ -90,14 +90,14 @@ class UserController extends Controller
 	public function validateAuthIP(Request $request)
 	{
 		$this->validate($request, [
-			'id' => 'required|min:0|max:999999',
+			'id' => 'required|integer|min:1|max:999999',
 			'name' => 'required|max:24'
-			]);
+		]);
 
 		$data = [];
-		if ($request->has('name'))
+		$id = $request->input('id', 0);
+		if ($request->has('name') && $id > 0 && $id <= 999999)
 		{
-			$id = $request->input('id');
 			$name = $request->input('name');
 
 			$blockland_user = BlocklandUser::where('id', $id)->orderBy('updated_at')->first();
@@ -146,7 +146,7 @@ class UserController extends Controller
 		}
 		else
 		{
-			$data['msg'] = 'Missing required "name" field';
+			$data['msg'] = 'Missing required field';
 			$data['code'] = 'MISSING_FIELD';
 		}
 
