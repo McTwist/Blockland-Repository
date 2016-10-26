@@ -102,8 +102,8 @@ class RepositoryApiController extends Controller
 	{
 		$mod = self::ExtractData($data, $data);
 		$addon = Addon::where('slug', $mod)->first();
-		return response('Under construction: '.$addon->name);
-		//return response()->download($addon->file(), $addon->filename(), 'application/zip');
+		//return response('Under construction: '.$addon->name);
+		return $addon->version->file->download();
 	}
 
 	/**

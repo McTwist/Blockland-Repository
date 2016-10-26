@@ -19,8 +19,8 @@ use Illuminate\Http\Request;
 
 Route::get('/', 'RepositoryApiController@home');
 Route::get('/mods/{mods}', 'RepositoryApiController@mods');
-Route::get('/mod/{mod}', 'RepositoryApiController@mod');
 Route::get('/mod/{mod}.zip', 'RepositoryApiController@download');
+Route::get('/mod/{mod}', 'RepositoryApiController@mod');
 Route::get('/repo/{repo}', 'RepositoryApiController@repository');
 // Catch-all
 Route::get('/{null}', 'RepositoryApiController@home');
