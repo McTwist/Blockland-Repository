@@ -177,29 +177,9 @@ class AddonController extends Controller
 
 		// TODO: Verify the values
 
-		$temp_file = temp_path($data['path']);
-
-		// Update addon data
-		$file = new AddonFile($data['original']);
-		if ($file->Open($temp_file))
-		{
-			$file->Title($title);
-			$file->Authors($developers);
-			$file->Description($summary);
-			$file->Channel($channel);
-			$file->Version($version);
-
-			// Set repository url
-			$file->SetRepository(url('api'), 'json', $slug);
-
-			// Save changes!
-			$file->GenerateDescription(true);
-			$file->GenerateNamecheck(true);
-			$file->GenerateVersion(true, true, true);
-			$file->Cleanup();
-		}
-		// Save archive!
-		$file->Close();
+		// TODO: Generate a valid slug
+		// Note: A valid slug is depending on the status on the add-on. Private is a string id instead
+		$slug = str_slug($data['attributes']['display_name'], '_');
 
 		// Create the Resource
 		$addon = Addon::create([
@@ -231,7 +211,7 @@ class AddonController extends Controller
 		$cache->version()->associate($version_obj);
 		$cache->summary = $summary;
 		$cache->authors = $developers;
-		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertTo32(crc32(file_get_contents($temp_file)));
+		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertTo32(crc32(file_get_contents(temp_path($data['path']))));
 		$cache->save();
 
 		// Make the file model
@@ -242,6 +222,9 @@ class AddonController extends Controller
 
 		// Save file with the Addon
 		$addon->version->file()->save($file_obj);
+
+		// Flush data to file
+		$addon->flush();
 
 		// Redirect to the addon page
 		return redirect()->intended(route('addon.show', $addon->slug));
@@ -324,7 +307,6 @@ class AddonController extends Controller
 
 			// Save the Addon
 			$addon->push();
-			//dd($addon->version->cache);
 		}
 
 		// Redirect to the Index Page

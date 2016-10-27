@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Repository\Blockland\Addon\File as AddonFile;
+
 class Addon extends Model
 {
 	//////////////////
@@ -152,6 +154,57 @@ class Addon extends Model
 	public function isOwner(User $user)
 	{
 		return $this->owners->contains($user);
+	}
+
+	/**
+	 * Updates the File with data from Addon and its relations.
+	 *
+	 * @return bool
+	 */
+	public function flush()
+	{
+		// Get needed models
+		$channel = $this->channel;
+		$version = $this->version;
+		$cache = $version->cache;
+		$file = $version->file;
+
+		if (!$file->createTempFile())
+			return false;
+
+		// Load the addon
+		$addon = new AddonFile($file->download_name);
+
+		if (!$addon->Open(temp_path($file->path)))
+		{
+			$file->deleteTempFile();
+			return false;
+		}
+
+		// Set internal data info
+		$addon->Title($this->name);
+		$addon->Authors($cache->authors);
+		$addon->Description($cache->summary);
+		$addon->Channel($channel->name);
+		$addon->Version($version->name);
+
+		// Set repository info
+		$addon->SetRepository(url('api'), 'json', $this->slug);
+
+		$addon->Cleanup();
+
+		$addon->Close();
+
+		// Update crc value
+		$crc = Blacklist\AddonCrcBlacklist::convertTo32(crc32($file->getTempContents()));
+		$cache->crc = $crc;
+		$cache->save();
+
+		// Send to storage
+		$file->saveTempFile();
+		$file->deleteTempFile();
+
+		return true;
 	}
 
 	///////////////////////////
