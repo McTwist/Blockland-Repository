@@ -165,6 +165,16 @@ class File extends Model
 		// Add to Temp Storage
 		return Storage::disk('temp')->put($this->path, $this->contents);
 	}
+	
+	/**
+	 * Saves this File from Temp Storage.
+	 *
+	 * @return string
+	 */
+	public function saveTempFile()
+	{
+		$this->contents = $this->getTempContents();
+	}
 
 	/**
 	 * Returns the Contents of this File.
@@ -205,7 +215,7 @@ class File extends Model
 	 */
 	public function getMimeType()
 	{
-		return $this->disk->has($this->path) ? $disk->mimeType($this->path) : '';
+		return $this->disk->has($this->path) ? $this->disk->mimeType($this->path) : '';
 	}
 
 	///////////////////////////
