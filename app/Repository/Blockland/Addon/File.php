@@ -75,6 +75,16 @@ class File extends Archive
 		return $bool;
 	}
 
+	public function Close()
+	{
+		$this->SetFile($this->namecheck);
+		$this->SetFile($this->description);
+		$this->SetFile($this->version);
+		$this->SetFile($this->rtbInfo);
+
+		return parent::Close();
+	}
+
 	public function Type($lower = false)
 	{
 		return $lower ? strtolower($this->type) : $this->type;
