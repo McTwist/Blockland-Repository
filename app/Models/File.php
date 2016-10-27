@@ -205,8 +205,7 @@ class File extends Model
 	 */
 	public function getMimeType()
 	{
-		if ($disk = $this->disk)
-			return $disk->mimeType($this->path);
+		return $this->disk->has($this->path) ? $disk->mimeType($this->path) : '';
 	}
 
 	///////////////////////////
@@ -219,11 +218,7 @@ class File extends Model
 	 */
 	public function getDiskAttribute()
 	{
-		if (Storage::disk('uploads')->has($this->path))
-			return Storage::disk('uploads');
-		elseif (Storage::disk('temp')->has($this->path))
-			return Storage::disk('temp');
-		return null;
+		return Storage::disk('uploads');
 	}
 
 	/**
