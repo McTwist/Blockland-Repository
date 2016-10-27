@@ -22,19 +22,19 @@
 		</div>
 		<div class="upload_title">
 			{{ Form::Label('title', 'Title:') }}
-			{{ Form::text('title', $title) }}
+			{{ Form::text('title', $title, ['required']) }}
 		</div>
 		<div class="upload_summary">
 			{{ Form::Label('summary', 'Summary:') }}
-			{{ Form::text('summary', $summary) }}
+			{{ Form::text('summary', $summary, ['required']) }}
 		</div>
 		<div class="upload_developers">
 			{{ Form::Label('developers', 'Developers:') }}
-			{{ Form::text('developers', $developers) }}
+			{{ Form::text('developers', $developers, ['required']) }}
 		</div>
 		<div class="upload_description">
 			{{ Form::Label('description', 'Description:') }}
-			{{ Form::textarea('description', $description) }}
+			{{ Form::textarea('description', $description, ['required']) }}
 		</div>
 		<div class="upload_channel">
 			{{ Form::Label('channel', 'Channel:') }}
