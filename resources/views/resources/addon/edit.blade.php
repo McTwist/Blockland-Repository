@@ -26,11 +26,11 @@
 		</div>
 		<div class="upload_summary">
 			{{ Form::Label('summary', 'Summary:') }}
-			{{ Form::text('summary', $summary) }}
+			{{ Form::text('summary', $addon->summary) }}
 		</div>
 		<div class="upload_developers">
 			{{ Form::Label('developers', 'Developers:') }}
-			{{ Form::text('developers', $developers) }}
+			{{ Form::text('developers', $addon->authors) }}
 		</div>
 		<div class="upload_description">
 			{{ Form::Label('description', 'Description:') }}
