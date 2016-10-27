@@ -48,6 +48,7 @@ class Version extends Model
 		static::deleting(function($version)
 		{
 			$version->file->delete();
+			$version->cache->delete();
 		});
 	}
 
