@@ -199,6 +199,17 @@ class Addon extends Model
 	}
 
 	/**
+	 * Set the summary of the Addon.
+	 *
+	 * @return void
+	 */
+	public function setSummaryAttribute($summary)
+	{
+		if ($cache = $this->version->cache)
+			$cache->update(['summary' => $summary]);
+	}
+
+	/**
 	 * Get the description to be displayed on site.
 	 *
 	 * @return string
@@ -216,6 +227,17 @@ class Addon extends Model
 	public function getAuthorsAttribute()
 	{
 		return ($cache = $this->version->cache) ? $cache->authors : '';
+	}
+
+	/**
+	 * Sets the authors that made this Addon.
+	 *
+	 * @return void
+	 */
+	public function setAuthorsAttribute($authors)
+	{
+		if ($cache = $this->version->cache)
+			$cache->update(['authors' => $authors]);
 	}
 
 	/**
