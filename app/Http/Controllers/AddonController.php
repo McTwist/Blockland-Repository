@@ -180,19 +180,18 @@ class AddonController extends Controller
 		$temp_file = temp_path($data['path']);
 
 		// Update addon data
-		$file = new AddonFile($data['attributes']['display_name'].'.zip');
+		$file = new AddonFile($data['original']);
 		if ($file->Open($temp_file))
 		{
-			if ($file->Title() != $title)
-				$file->Title($title);
-			if ($file->Authors() != $developers)
-				$file->Authors($developers);
-			if ($file->Description() != $summary)
-				$file->Description($summary);
-			if ($file->Channel() != $channel)
-				$file->Channel($channel);
-			if ($file->Version() != $version)
-				$file->Version($version);
+			$file->Title($title);
+			$file->Authors($developers);
+			$file->Description($summary);
+			$file->Channel($channel);
+			$file->Version($version);
+
+			// Set repository url
+			$file->SetRepository(url('api'), 'json', $slug);
+
 			// Save changes!
 			$file->GenerateDescription(true);
 			$file->GenerateNamecheck(true);
@@ -202,15 +201,6 @@ class AddonController extends Controller
 		// Save archive!
 		$file->Close();
 
-		// Make the file model
-		$file_obj = FileModel::import($data['path'], $data['attributes']);
-
-		// Associate with user
-		$file_obj->uploader()->associate($request->user());
-
-		// TODO: Generate a valid slug
-		// Note: A valid slug is depending on the status on the add-on. Private is a string id instead
-		$slug = str_slug($file_obj->display_name, '_');
 		// Create the Resource
 		$addon = Addon::create([
 			'name' => $title,
@@ -219,9 +209,6 @@ class AddonController extends Controller
 		]);
 		// Link them together
 		Category::find($category)->addons()->save($addon);
-
-		// Save file with the Addon
-		$addon->version->file()->save($file_obj);
 
 		// Attach to user
 		$addon->owners()->save($request->user());
@@ -242,8 +229,19 @@ class AddonController extends Controller
 		// Add to cache
 		$cache = new VersionCache;
 		$cache->version()->associate($version_obj);
-		$cache->refresh();
+		$cache->summary = $summary;
+		$cache->authors = $developers;
+		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertTo32(crc32(file_get_contents($temp_file)));
 		$cache->save();
+
+		// Make the file model
+		$file_obj = FileModel::import($data['path'], $data['attributes']);
+
+		// Associate with user
+		$file_obj->uploader()->associate($request->user());
+
+		// Save file with the Addon
+		$addon->version->file()->save($file_obj);
 
 		// Redirect to the addon page
 		return redirect()->intended(route('addon.show', $addon->slug));
@@ -288,11 +286,8 @@ class AddonController extends Controller
 		// Get categories
 		$categories = Category::listSelect();
 
-		$summary = $addon->description;
-		$developers = $addon->authors();
-
 		// Show the Edit Page for Addon
-		return view('resources.addon.edit', compact('addon', 'categories', 'summary', 'developers'));
+		return view('resources.addon.edit', compact('addon', 'categories'));
 	}
 
 	/**
@@ -324,9 +319,12 @@ class AddonController extends Controller
 			// Update the Addon
 			$addon->name = $request->input('title');
 			$addon->description = $request->input('description');
+			$addon->summary = $request->input('summary');
+			$addon->authors = $request->input('developers');
 
 			// Save the Addon
-			$addon->save();
+			$addon->push();
+			//dd($addon->version->cache);
 		}
 
 		// Redirect to the Index Page
