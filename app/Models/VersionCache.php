@@ -38,7 +38,7 @@ class VersionCache extends Model
 	/**
 	 * Updates the VersionCache with data from File.
 	 *
-	 * @return void
+	 * @return bool
 	 */
 	public function refresh()
 	{
