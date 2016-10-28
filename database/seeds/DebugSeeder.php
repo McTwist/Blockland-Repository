@@ -65,12 +65,5 @@ class DebugSeeder extends Seeder
 			// ... save file
 			$v->file()->save($file);
 		}
-
-		// Admin
-		$user = App\Models\User::create([
-			'username' => 'admin',
-			'email' => 'admin@example.com',
-			'password' => bcrypt('password'),
-		]);
 	}
 }
