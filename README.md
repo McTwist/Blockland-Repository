@@ -27,7 +27,7 @@ wget https://github.com/McTwist/Blockland-Repository/archive/master.zip
 Update Laravel.
 
 ```bash
-composer update
+composer install
 composer dump-autoload
 ```
 
@@ -80,7 +80,7 @@ Password: password
 Whenever you pull a new version from the repo, you ought to do the following to make sure that everything is merged properly.
 
 ```
-composer update
+composer install
 composer dump-autoload
 php artisan optimize
 php artisan migrate
