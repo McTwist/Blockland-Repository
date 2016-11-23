@@ -94,6 +94,11 @@ class Colorset
 		return $this->FindClosestColor($color, 'self::DistanceBlockland');
 	}
 
+	public function FindClosestColorPaint(Color $color)
+	{
+		return $this->FindClosestColor($color, 'self::DistancePaint');
+	}
+
 	public function FindClosestColorProportion(Color $color)
 	{
 		return $this->FindClosestColor($color, 'self::DistanceSimplified');
@@ -156,6 +161,14 @@ class Colorset
 	{
 		$adiff = pow($a->AF() - $b->AF(), 2);
 		return (pow($a->RF() - $b->RF(), 2) + pow($a->GF() - $b->GF(), 2) + pow($a->BF() - $b->BF(), 2)) + $adiff;
+	}
+
+	// Ported version made by Space Guy
+	private static function DistancePaint(Color $a, Color $b)
+	{
+		$dist = (pow($a->RF() - $b->RF(), 2) + pow($a->GF() - $b->GF(), 2) + pow($a->BF() - $b->BF(), 2));
+		$dista = abs($a->AF() - $b->AF());
+		return ($dista > 0.3) ? PHP_INT_MAX : $dist;
 	}
 
 	// Simplified LAB version
