@@ -1,0 +1,127 @@
+/*
+ * Input/Form stylesheet
+ */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+button,
+textarea,
+select,
+.selectContainer,
+.selectContainer select
+{
+	font-family: "Open Sans";
+	border: 1px solid #cccccc;
+	background: linear-gradient(#fafafa, #ffffff);
+	color: #1a1a1a;
+}
+
+textarea
+{
+	resize: vertical;
+}
+
+label
+{
+	font-weight: normal;
+}
+
+.selectContainer
+{
+	overflow: hidden;
+}
+
+.selectContainer select
+{
+	width: 97%;
+	border: 0;
+	background: transparent;
+	padding: 1px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	background: url('/img/dropdown_arrow.png') no-repeat right;
+}
+
+input[type="submit"],
+button,
+.fileContainer,
+a.button
+{
+	font-family: "Ubuntu";
+	font-weight: bold;
+	font-size: 11px;
+	color: #f2f2f2;
+	padding: 5px 14px;
+	background-color: #6b00b2;
+	background: linear-gradient(#8933c1, #6b00b2);
+	box-shadow: 0px 2px 4px 0px #a8a8a8;
+	cursor: pointer;
+}
+
+input[type="submit"],
+button,
+a.button
+{
+	border: 0;
+}
+
+input[type="submit"]:active,
+button:active,
+a.button:active
+{
+	background: linear-gradient(#480077, #6a00b0);
+}
+
+a.button:hover
+{
+	text-decoration: none;
+}
+
+.fileContainer
+{
+	overflow: hidden;
+	text-align: center;
+}
+
+.fileContainer:active
+{
+	background: linear-gradient(#480077, #6a00b0);
+}
+
+.fileContainer [type="file"]
+{
+	opacity: 0;
+	border: 0;
+	position: absolute;
+	left: -5000px;
+	top: -5000px;
+}
+
+input[type="checkbox"]
+{
+	width: 12px;
+	height: 12px;
+	margin: 0;
+	padding: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+input[type="checkbox"] + label
+{
+	display: inline-block;
+	margin-left: -16px;
+	padding-left: 16px;
+	background-image: url('/img/checkbox.png');
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	line-height: 12px;
+	cursor: pointer;
+	height: 12px;
+}
+
+input[type="checkbox"]:checked + label
+{
+	background-position: 0px -12px;
+}

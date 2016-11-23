@@ -1,0 +1,119 @@
+
+#view
+{
+	width: 600px;
+	text-align: left;
+}
+
+#title
+{
+	display: inline-block;
+}
+
+.title
+{
+	display: block;
+}
+
+.subtitle
+{
+	display: block;
+	font-family: PT Sans;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.summary
+{
+	display: block;
+	font-family: PT Sans;
+	font-style: italic;
+	font-size: 14px;
+}
+
+#download
+{
+	float: right;
+	display: inline;
+}
+
+#download a
+{
+	display: inline;
+}
+
+.bytes
+{
+	display: block;
+	font-family: Ubuntu;
+	font-size: 12px;
+	line-height: 40px;
+	text-align: center;
+}
+
+.infobox
+{
+	margin-top: -10px;
+	display: block;
+	width: 600px;
+	height: 43px;
+}
+
+.info
+{
+	float: left;
+	border-left: 1px solid #d9d9d9;
+	border-right: 1px solid #f2f2f2;
+}
+
+.infobox .info:last-child
+{
+	border-right: 0 none;
+}
+
+.infobox .info:first-child
+{
+	border-left: 0 none;
+}
+
+.info
+{
+	font-family: Ubuntu;
+	text-align: center;
+	display: inline-block;
+	width: 145px;
+	margin: 0px;
+}
+
+.info .tell
+{
+	font-weight: normal;
+	font-size: 12px;
+	display: block;
+}
+
+.info .data
+{
+	font-weight: bold;
+	font-size: 14px;
+	display: block;
+}
+
+#description
+{
+	font-family: Open Sans;
+	font-size: 12px;
+}
+
+#uploader
+{
+	font-family: Open Sans;
+	font-style: italic;
+	font-size: 10px;
+	float: right;
+}
+
+#uploader a
+{
+	font-size: 10px;
+}

@@ -1,0 +1,23 @@
+.title
+{
+	font-family: "Ubuntu";
+	font-weight: bold;
+	font-size: 26px;
+	color: #6b00b2;
+	margin-left: -2px;
+}
+
+.title2
+{
+	font-family: "Ubuntu";
+	font-weight: bold;
+	font-size: 14px;
+	color: #6b00b2;
+	margin-left: -2px;
+}
+
+.over
+{
+	margin-left: -32px;
+	margin-right: -32px;
+}

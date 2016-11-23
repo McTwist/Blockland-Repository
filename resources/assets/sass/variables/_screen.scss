@@ -1,0 +1,16 @@
+// Portrait Phone
+$screen-xs-min: 480px !default;
+
+// Landscape Phone / Portrait Tablet
+$screen-sm-min: 768px !default;
+
+// Landscape Table / Laptop
+$screen-md-min: 992px !default;
+
+// Desktop
+$screen-lg-min: 1200px !default;
+
+// Maximum Sizes for Media Queries
+$screen-xs-max: ($screen-sm-min - 1) !default;
+$screen-sm-max: ($screen-md-min - 1) !default;
+$screen-md-max: ($screen-lg-min - 1) !default;

@@ -1,0 +1,101 @@
+#login
+{
+	width: 405px;
+	height: 278px;
+	box-shadow: 0px 24px 64px 4px #808080;
+}
+
+.flowcontrol
+{
+	overflow: visible;
+	height: 32px;
+}
+
+.username
+{
+	font-family: "PT Sans";
+	font-size: 12px;
+	margin-bottom: 14px;
+}
+
+.username input
+{
+	font-size: 12px;
+	width: 235px;
+	height: 20px;
+	padding-left: 6px;
+	float: right;
+}
+
+.password
+{
+	font-family: "PT Sans";
+	font-size: 12px;
+	margin-bottom: 26px;
+}
+
+.password input
+{
+	font-weight: bold;
+	font-size: 12px;
+	width: 235px;
+	height: 20px;
+	padding-left: 6px;
+	float: right;
+}
+
+.forgot
+{
+	text-transform: uppercase;
+	margin-bottom: 11px;
+	float: left;
+}
+
+.register
+{
+	text-transform: uppercase;
+	float: left;
+}
+
+.remember
+{
+	font-family: "PT Sans";
+	font-size: 10px;
+	float: right;
+	margin-bottom: 11px;
+	width: 80px;
+}
+
+.close
+{
+	float: left;
+	padding-left: 66px;
+	line-height: 29px;
+}
+
+.close a
+{
+	font-family: "PT Sans";
+	font-weight: bold;
+	font-size: 11px;
+	color: #6b00b2;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+.close a:active
+{
+	text-decoration: none;
+	color: #6b00b2;
+	/* Webkit only text gradient */
+	background: -webkit-linear-gradient(#25003d, #6b00b2);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.login
+{
+	float: right;
+	overflow: visible;
+}
+
