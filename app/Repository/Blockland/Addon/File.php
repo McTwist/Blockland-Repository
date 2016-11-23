@@ -284,8 +284,8 @@ class File extends Archive
 			// server.cs is required, but rarely used
 			// TODO: Check for image sizes
 			return $this->IsServer() && $this->HasFolder('icons') && $this->HasFolder('prints') && $this->HasFileType('png');
-		case 'sky':
-			return $this->HasAtmosphere() && $this->HasSkyboxTexture();
+		case 'sky': // Confirmed
+			return $this->HasAtmosphere();
 		case 'water':
 			return $this->HasWater();
 		}
