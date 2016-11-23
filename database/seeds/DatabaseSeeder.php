@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
 		{
 			$this->call(DebugSeeder::class);
 		}
+		else
+		{
+			$this->call(CategorySeeder::class);
+		}
 		
 		$this->call(UserSeeder::class);
 		$this->call(BlacklistSeeder::class);
