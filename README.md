@@ -1,29 +1,98 @@
 # Blockland Repository
-Source for Blockland Add-On Repository.
+
+Source for Blockland Repository to store Add-Ons for [Blockland](http://blockland.us/).
 
 ## DISCLAIMER
+
 **This project is still in development and should _not_ be used in production!**
 
-Feel free to request a fork.
+Due to that this project is not even in Beta, this will result in drastically changes that will break your installation if you choose to install this on your server.
 
 ## Description
+
 This project is created as an alternative for the previous closed Return To Blockland Add-On hosting site for the game Blockland. Additionally it is released with full source for anyone to download, modify and/or re-release however they like.
 
-Its current status is that it has no prototype yet. It also is only a handful people working on it on their free time.
+The intention is to create a freedom for the Blockland community of where to put their Add-Ons but also a innovative interface to make it easier to distribute Add-Ons to their users. It should also ease the communication between hosts by transferring Add-Ons between servers to ensure that Add-Ons survive if a server goes down permanently.
 
-## Plans
-For the time being, highest priority is to get out a working version that can be tested.
+## Installation
 
-Current features include:
+The project is using the framework [Laravel](https://laravel.com/) (v5.3) which should make it quite easy to install on any server with php 5.6 or above. Custom modifications is also easy due to this fact.
 
-*   Basic handling of add-ons and their internal file system along with verification
-*   Repository structure
-*   Basic API to download add-ons
-*   Compatibility towards Greek2me's [Add-On Updater](https://bitbucket.org/Greek2me/support_updater)
+First download the source to your server.
 
-Other than that, upcoming features might include:
+```bash
+wget https://github.com/McTwist/Blockland-Repository/archive/master.zip
+```
 
-*   User login and verification
-*   Script verification (As well as dependency checks)
-*   Server collaboration by exchanging add-on information between each other (More about this later)
-*   Better system for uploading an add-on and telling the user about issues
+Update Laravel.
+
+```bash
+composer update
+composer dump-autoload
+```
+
+Copy .env.example to .env and then generate a key.
+
+```bash
+php artisan key:generate
+```
+
+Make the necessary changes in .env. For production, this is an example of howthe file could look like.
+
+```env
+APP_ENV=production
+APP_KEY=base64:TAutB1p/tlH4qXs2xvQ+Yi64Kya27/Ibh50tRsC2miI=
+APP_DEBUG=false
+APP_LOG_LEVEL=debug
+APP_URL=http://example.com
+APP_TIMEZONE=Europe/Stockholm
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=repository
+DB_USERNAME=user
+DB_PASSWORD=password
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync
+```
+
+Then prepare compiled files and database with the following commands.
+
+```bash
+php artisan optimize
+php artisan migrate
+php artisan db:seed
+```
+
+The last command seeds the database with recommended categories and an admin account.
+
+```
+Username: admin
+Password: password
+```
+
+### Update
+
+Whenever you pull a new version from the repo, you ought to do the following to make sure that everything is merged properly.
+
+```
+composer update
+composer dump-autoload
+php artisan optimize
+php artisan migrate
+```
+
+There probably wont be any more seeding, so all new updates on that will either be automatically handled, or you need to make your own changes to make this work properly.
+
+
+## Current contributors
+
+* [McTwist](https://github.com/McTwist) (Development)
+* [Boom](https://github.com/Boomshicleafaunda) (Laravel Master)
+* [Demian](https://github.com/DemianWright) (Graphics, Design)
+
+
