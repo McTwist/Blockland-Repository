@@ -21,3 +21,14 @@
 	margin-left: -32px;
 	margin-right: -32px;
 }
+
+hr
+{
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #f2f2f2;
+	border-left-style: none;
+	height: 0;
+	background: #d9d9d9;
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
