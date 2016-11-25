@@ -73,7 +73,7 @@ class AddonController extends Controller
 		// Don't throw an exception. Instead, pass it to the user and try to assist by fixing it ourselves.
 		if ($validator->fails())
 			//$this->throwValidationException($request, $validator);
-			$request->session()->flash('upload', $validator->all());
+			$request->session()->flash('upload', $validator->messages());
 
 		// Flash the data for next request
 		$data = [
