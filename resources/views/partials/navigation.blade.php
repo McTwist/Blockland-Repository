@@ -14,7 +14,6 @@
 
 		@else
 
-			<li class="nav-item"><a href="{{ route('user.register') }}">Register</a></li>
 			<li class="nav-item"><a href="{{ route('user.login') }}">Log In</a></li>
 
 		@endif

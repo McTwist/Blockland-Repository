@@ -1,6 +1,6 @@
 .title
 {
-	font-family: "Ubuntu";
+	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
 	font-size: 26px;
 	color: #6b00b2;
@@ -9,7 +9,7 @@
 
 .title2
 {
-	font-family: "Ubuntu";
+	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
 	font-size: 14px;
 	color: #6b00b2;
@@ -20,4 +20,30 @@
 {
 	margin-left: -32px;
 	margin-right: -32px;
+}
+
+hr
+{
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #f2f2f2;
+	border-left-style: none;
+	height: 0;
+	background: #d9d9d9;
+	margin-top: 16px;
+	margin-bottom: 16px;
+}
+
+.nopad-l
+{
+	padding-left: 0 !important;
+}
+
+.nopad-r
+{
+	padding-right: 0 !important;
+}
+
+.uppercase
+{
+	text-transform: uppercase;
 }
