@@ -32,3 +32,18 @@ hr
 	margin-top: 16px;
 	margin-bottom: 16px;
 }
+
+.nopad-l
+{
+	padding-left: 0 !important;
+}
+
+.nopad-r
+{
+	padding-right: 0 !important;
+}
+
+.uppercase
+{
+	text-transform: uppercase;
+}
