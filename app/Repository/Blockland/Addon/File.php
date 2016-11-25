@@ -162,9 +162,13 @@ class File extends Archive
 		{
 			return $this->GetFile('version.json', true);
 		}
-		if ($this->HasFile('version.txt'))
+		elseif ($this->HasFile('version.txt'))
 		{
 			return $this->GetFile('version.txt', true);
+		}
+		else
+		{
+			return $this->GetFile('version.json', true);
 		}
 	}
 
