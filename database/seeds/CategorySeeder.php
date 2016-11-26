@@ -35,7 +35,7 @@ class CategorySeeder extends Seeder
 			['name' => 'Server Scripts', 'tag' => 'Server', 'icon' => 'category_server_scripts.png'],
 			['name' => 'Skies', 'tag' => 'Sky', 'icon' => 'category_skies.png'],
 			['name' => 'Sounds', 'tag' => 'Sound', 'icon' => 'category_sounds.png'],
-			['name' => 'SpeedKart Maps', 'tag' => 'SpeedKart', 'icon' => 'category_speedkart_maps.png'],
+			['name' => 'SpeedKart Maps', 'tag' => 'SpeedKart', 'icon' => 'category_saves_speedkart.png'],
 			['name' => 'Support Scripts', 'tag' => 'Support', 'icon' => 'category_support_scripts.png'],
 			['name' => 'Systems', 'tag' => 'System ', 'icon' => 'category_systems.png'],
 			['name' => 'Tools', 'tag' => 'Tool', 'icon' => 'category_tools.png'],
