@@ -25,6 +25,9 @@ class Addon extends Model
 	 */
 	protected $fillable = ['name', 'slug', 'description'];
 
+	// TODO: Add slug version that will determine what version to take
+	// slug_version = version | channel.version | slug_version | slug_channel.version
+
 	/////////////////////
 	//* Boot Override *//
 	/////////////////////
