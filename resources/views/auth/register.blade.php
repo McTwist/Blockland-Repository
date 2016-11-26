@@ -41,7 +41,7 @@
 		<!-- Register button -->
 		<div class="form-group">
 			<div class="col-xs-4 col-xs-offset-4">
-				{{ Form::submit('Register', ['class' => 'btn  blr-btn btn-blr-submit pull-right']) }}
+				{{ Form::submit('Register', ['class' => 'btn blr-btn btn-blr-default pull-right']) }}
 			</div>
 		</div>
 		@if (count($errors) > 0)

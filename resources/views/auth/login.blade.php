@@ -54,7 +54,7 @@
 
             <!-- Log in -->
             <div class="col-xs-3 nopad-r">
-                {{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-submit pull-right']) }}
+                {{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default pull-right']) }}
             </div>
             @if (count($errors) > 0)
                 <ul>

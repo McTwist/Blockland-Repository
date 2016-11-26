@@ -19,24 +19,31 @@
 {
 	border-color: #6b00b2;
 	outline: 0;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(189, 89, 255, .6);
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(189, 89, 255, .6);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(189, 89, 255, .6);
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(189, 89, 255, .6);
 }
 
 /* These need to be done individually for some reason. */
-.blr-form-control::-webkit-input-placeholder {
+.blr-form-control::-webkit-input-placeholder
+{
 	font-family: "PT Sans", sans-serif;
 }
 
-.blr-form-control:-moz-placeholder { /* Firefox 18- */
+/* Firefox 18- */
+.blr-form-control:-moz-placeholder
+{
 	font-family: "PT Sans", sans-serif;
 }
 
-.blr-form-control::-moz-placeholder {  /* Firefox 19+ */
+/* Firefox 19+ */
+.blr-form-control::-moz-placeholder
+{
 	font-family: "PT Sans", sans-serif;
 }
 
-.blr-form-control:-ms-input-placeholder {
+.blr-form-control:-ms-input-placeholder
+{
 	font-family: "PT Sans", sans-serif;
 }
 
@@ -86,7 +93,7 @@ a.button
 	font-size: 11px;
 	color: #f2f2f2;
 	padding: 5px 14px;
-	background: linear-gradient(#8933c1, #6b00b2) #6b00b2;
+	background: linear-gradient(#bd59ff, #6b00b2) #6b00b2;
 	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .333);
 	cursor: pointer;
 }
@@ -161,30 +168,35 @@ input[type="checkbox"]:checked + label
 	font-family: "PT Sans", sans-serif;
 }
 
-.btn-blr-submit
+.btn-blr-default
 {
 	color: #f2f2f2;
-	background: linear-gradient(#8933c1, #6b00b2) #6b00b2;
+	background-color: #6b00b2;
 	box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .333);
 	-moz-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .333);
 	-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .333);
 }
 
-.btn-blr-submit:hover,
-.btn-blr-submit:focus,
-.btn-blr-submit.focus
+.btn-blr-default:hover,
+.btn-blr-default:focus,
+.btn-blr-default.focus
 {
-	color: #e2b5ff !important;
+	color: #f2f2f2;
+	background: linear-gradient(#bd59ff, #6b00b2) #6b00b2;
+	box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .333);
+	-moz-box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .333);
+	-webkit-box-shadow: 0 3px 5px 0 rgba(0, 0, 0, .333);
 	/* Bootstrap override */
 	border: 0 !important;
 	outline: 0 !important;
 }
 
-.btn-blr-submit:active:focus,
-.btn-blr-submit:active.focus,
-.btn-blr-submit.active:focus,
-.btn-blr-submit.active.focus
+.btn-blr-default:active:focus,
+.btn-blr-default:active.focus,
+.btn-blr-default.active:focus,
+.btn-blr-default.active.focus
 {
+	color: #f2f2f2;
 	background: linear-gradient(#480077, #6a00b0);
 	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .333);
 	-moz-box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .333);
