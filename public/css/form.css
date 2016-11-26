@@ -125,8 +125,9 @@ input[type="checkbox"]
 	/*
 	 * Places the real checkbox next to the custom one.
 	 * TODO: Fake the checkbox with a span.
+	 * Breaks with responsive design.
+	 margin-left: 72px;
 	 */
-	margin-left: 34px;
 }
 
 input[type="checkbox"] + label

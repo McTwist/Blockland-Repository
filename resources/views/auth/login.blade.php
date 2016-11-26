@@ -2,69 +2,89 @@
 
 @section('stylesheets')
 
-    <link rel="stylesheet" type="text/css" href="/css/login.css">
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
 
 @endsection
 
 @section('content')
 
-    <div id="login-box" class="box">
-        {{ Form::open(array('route' => 'user.login', 'method' => 'post', 'class' => 'form-horizontal')) }}
-        <fieldset class="blr-fieldset">
-            <legend>Login</legend>
-            <hr>
-            <!-- Username -->
-            <div class="form-group">
-                {{ Form::label('username', 'Username:', ['class' => 'control-label nopad-l nopad-r col-xs-3']) }}
-                <div class="col-xs-9">
-                    {{ Form::text('username', old('username'), ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
-                </div>
-            </div>
+	<div id="login-box" class="box">
+		{{ Form::open(array('route' => 'user.login', 'method' => 'post', 'class' => 'form-horizontal')) }}
+		<fieldset class="blr-fieldset">
+			<legend>Login</legend>
+			<hr>
+			<div class="container-fluid">
+				<div class="row login-spacer-neg">
+					<!-- Username -->
+					<div class="row form-group">
+						<div class="col-sm-12 text-sm-left col-md-2">
+							{{ Form::label('username', 'Username:', ['class' => 'control-label']) }}
+						</div>
+						<div class="col-sm-12 col-md-10">
+							{{ Form::text('username', old('username'), ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+						</div>
+					</div>
 
-            <!-- Password -->
-            <div class="form-group">
-                {{ Form::label('password', 'Password:', ['class' => 'control-label nopad-l nopad-r col-xs-3']) }}
-                <div class="col-xs-9">
-                    {{ Form::password('password', ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
-                </div>
-            </div>
+					<!-- Password -->
+					<div class="row form-group">
+						<div class="col-sm-12 text-sm-left col-md-2">
+							{{ Form::label('password', 'Password:', ['class' => 'control-label']) }}
+						</div>
+						<div class="col-sm-12 col-md-10">
+							{{ Form::password('password', ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<!-- Elements in order for sm size! -->
+					<div class="col-sm-12 col-md-6 col-md-push-6">
+						<div class="row">
+							<!-- TODO: Some position tweaking required. -->
+							<!-- Remember me -->
+							<div class="col-sm-6 hug-sm-right col-md-12 login-spacer">
+								{{ Form::checkbox('remember', 'remember', true, ['id' => 'remember_chk']) }}
+								{{ Form::label('remember_chk', 'Remember me', ['class' => 'checkbox-inline blr-checkbox']) }}
+							</div>
 
-            <div class="col-xs-12 nopad-r nopad-l login-spacer">
-                <!-- Forgot password & Remember me -->
-                <div class="col-xs-6 nopad-l">
-                    <a href="{{ route('password.email') }}" class="pull-left uppercase">Forgot password?</a>
-                </div>
+							<!-- Close -->
+							<div class="col-sm-3 hug-sm-right col-md-6 login-spacer">
+								{{ Form::button('Close', ['class' => 'btn blr-btn btn-blr-close']) }}
+							</div>
 
-                <!-- Remember me -->
-                <div class="col-xs-6 nopad-r">
-                    {{ Form::checkbox('remember', 'remember', true, ['id' => 'remember_chk']) }}
-                    {{ Form::label('remember_chk', 'Remember me', ['class' => 'checkbox-inline blr-checkbox pull-right']) }}
-                </div>
-            </div>
+							<!-- Log in -->
+							<div class="col-sm-3 hug-sm-right col-md-6 login-spacer">
+								{{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default']) }}
+							</div>
+						</div>
+					</div>
 
-            <!-- Register -->
-            <div class="col-xs-6 nopad-l">
-                <a href="{{ route('user.register') }}" class="pull-left uppercase">Register an account</a>
-            </div>
+					<div class="col-sm-12 col-md-6 col-md-pull-6">
+						<div class="row">
+							<!-- Forgot password -->
+							<div class="col-sm-6 col-md-12 hug-md-left login-spacer">
+								<a href="{{ route('password.email') }}" class="uppercase">Forgot password?</a>
+							</div>
 
-            <!-- Close -->
-            <div class="col-xs-3">
-                {{ Form::button('Close', ['class' => 'btn blr-btn btn-blr-close pull-right']) }}
-            </div>
-
-            <!-- Log in -->
-            <div class="col-xs-3 nopad-r">
-                {{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default pull-right']) }}
-            </div>
-            @if (count($errors) > 0)
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
-        </fieldset>
-        {{ Form::close() }}
-    </div>
+							<!-- Register -->
+							<div class="col-sm-6 col-md-12 hug-md-left login-spacer">
+								<a href="{{ route('user.register') }}" class="pull-left uppercase">Register an
+									account</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				@if (count($errors) > 0)
+					<div class="col-xs-12">
+						<ul>
+							@foreach ($errors->all() as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+					</div>
+				@endif
+			</div>
+		</fieldset>
+		{{ Form::close() }}
+	</div>
 
 @endsection
