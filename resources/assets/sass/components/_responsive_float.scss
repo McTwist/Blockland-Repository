@@ -1,0 +1,48 @@
+.float-xs-left
+{
+	float: left;
+}
+
+.float-xs-right
+{
+	float: right;
+}
+
+@media (min-width: $screen-sm-min)
+{
+	.float-sm-left
+	{
+		float: left;
+	}
+
+	.float-sm-right
+	{
+		float: right;
+	}
+}
+
+@media (min-width: $screen-md-min)
+{
+	.float-md-left
+	{
+		float: left;
+	}
+
+	.float-md-right
+	{
+		float: right;
+	}
+}
+
+@media (min-width: $screen-lg-min)
+{
+	.float-lg-left
+	{
+		float: left;
+	}
+
+	.float-lg-right
+	{
+		float: right;
+	}
+}
