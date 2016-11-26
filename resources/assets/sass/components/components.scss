@@ -17,3 +17,25 @@
 |
 */
 @import 'categories';
+
+/*
+|--------------------------------------------------------------------------
+| Responsive Text
+|--------------------------------------------------------------------------
+|
+| Responsive text alignment.
+| Source: https://ohryan.ca/2014/08/14/set-responsive-text-alignment-bootstrap-3/
+|
+*/
+@import 'responsive_text';
+
+/*
+|--------------------------------------------------------------------------
+| Responsive Hug
+|--------------------------------------------------------------------------
+|
+| Responsive text alignment + removes padding from the element on the specified side.
+| Source: https://ohryan.ca/2014/08/14/set-responsive-text-alignment-bootstrap-3/
+|
+*/
+@import 'responsive_hug';
