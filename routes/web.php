@@ -46,7 +46,11 @@ Route::resource('categories', 'CategoriesController', [
 |
 */
 Route::get('/addon/upload', array(
-	'uses' => 'PopupController@showUploadForm'
+	'uses' => 'PopupController@getUploadAddonView'
+));
+
+Route::get('/user/login', array(
+	'uses' => 'PopupController@getLoginView'
 ));
 
 /*
@@ -77,10 +81,6 @@ Route::resource('addon', 'AddonController', [
 | when necessary. The Route Names are prefixed with 'user'.
 |
 */
-Route::get('/user/login', array(
-	'uses' => 'Auth\LoginController@showLoginForm',
-	'as' => 'user.login'
-));
 Route::post('/user/login', array(
 	'uses' => 'Auth\LoginController@login',
 	'as' => 'user.login'

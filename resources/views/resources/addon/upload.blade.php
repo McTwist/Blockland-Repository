@@ -2,7 +2,7 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
 <script type="text/javascript" src="/js/upload.js"></script>
 
-<div id="uploadBox" class="popup-box col-md-2 col-md-offset-5">
+<div id="uploadBox" class="popup-box">
 	{{ Form::open(['route' => 'addon.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
 	<fieldset class="blr-fieldset">
 		<legend>Upload Add-On</legend>

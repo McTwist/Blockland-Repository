@@ -29,3 +29,13 @@ function showUploadPopup() {
 		}
 	});
 }
+
+function showLoginPopup() {
+	$.ajax({
+		type: "GET",
+		url: '/user/login',
+		success: function (data) {
+			showPopup(data, 'login-box');
+		}
+	});
+}

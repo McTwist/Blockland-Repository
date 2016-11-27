@@ -22,7 +22,8 @@
 				</div>
 			@else
 				<div class="col-sm-2  col-sm-offset-10">
-					<a href="{{ route('user.login') }}" class="btn blr-btn btn-blr-default">Log In</a>
+					<input type="button" class="btn blr-btn btn-blr-default float-sm-right"
+						   onclick="showLoginPopup()" value="Log In"/>
 				</div>
 			@endif
 		</div>
