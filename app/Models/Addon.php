@@ -43,7 +43,8 @@ class Addon extends Model
 		// Deleting the model
 		static::deleting(function($addon)
 		{
-			$addon->channels()->delete();
+			foreach ($addon->channels as $channel)
+				$channel->delete();
 		});
 
 		// Model was created

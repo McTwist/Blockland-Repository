@@ -47,7 +47,8 @@ class Channel extends Model
 		// Deleting the model
 		static::deleting(function($channel)
 		{
-			$channel->versions->delete();
+			foreach ($channel->versions as $version)
+				$version->delete();
 		});
 
 		// Model was created
