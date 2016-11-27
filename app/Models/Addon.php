@@ -207,6 +207,7 @@ class Addon extends Model
 		// Send to storage
 		$file->saveTempFile();
 		$file->deleteTempFile();
+		$file->update();
 
 		return true;
 	}
