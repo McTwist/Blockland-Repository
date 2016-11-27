@@ -8,6 +8,7 @@
 
 @section('content')
 
+	<hr>
 	<section class="categories container-fluid nopad-l nopad-r">
 		<div class="row">
 			@foreach($categories as $category)
