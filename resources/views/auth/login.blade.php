@@ -8,7 +8,7 @@
 
 @section('content')
 
-	<div id="login-box" class="box">
+	<div id="login-box" class="popup-box">
 		{{ Form::open(array('route' => 'user.login', 'method' => 'post', 'class' => 'form-horizontal')) }}
 		<fieldset class="blr-fieldset">
 			<legend>Login</legend>

@@ -10,7 +10,7 @@
 
 @section('scripts.footer')
 	<div id="uploadBox" style="display: none; position: absolute; top: 200px; left: 50%;">
-		<div class="box" style="position: relative; left: -50%;">
+		<div class="popup-box" style="position: relative; left: -50%;">
 			<span class="title">Upload Add-On</span>
 			<hr>
 			<div class="file">

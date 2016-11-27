@@ -28,7 +28,7 @@
 		<div class="--center">
 			@include('partials.header')
 
-			<div id="@yield('mainbox', 'main')" class="container box" role="document">
+			<div id="@yield('mainbox', 'main')" class="container low-box" role="document">
 				@include('partials.navigation')
 				
 				@yield('content', view('resources.categories.index'))
