@@ -11,7 +11,7 @@ class PopupController extends Controller
 	 * Gets the view for logging in.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @return string HTML containing the view
+	 * @return string HTML containing the view or a redirect to another route
 	 */
 	public function getLoginView(Request $request)
 	{
@@ -21,7 +21,12 @@ class PopupController extends Controller
 		}
 		else
 		{
-			return view('auth.login');
+			// If user is logged in redirect to show user page instead. Cannot log in twice.
+			if (auth()->check()) {
+				return redirect()->intended(route('user.show'));
+			} else {
+				return view('auth.login');
+			}
 		}
 	}
 
