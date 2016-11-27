@@ -37,6 +37,24 @@ Route::resource('categories', 'CategoriesController', [
 
 /*
 |--------------------------------------------------------------------------
+| Popup Routes
+|--------------------------------------------------------------------------
+|
+| Routes to popup dialogs.
+| If accessed with AJAX calls returns views contained in a single div.
+| If accessed directly from the browser, a different standalone view can be delivered if it exist.
+|
+*/
+Route::get('/addon/upload', array(
+	'uses' => 'PopupController@getUploadAddonView'
+));
+
+Route::get('/user/login', array(
+	'uses' => 'PopupController@getLoginView'
+));
+
+/*
+|--------------------------------------------------------------------------
 | Addon Routes
 |--------------------------------------------------------------------------
 |
@@ -63,10 +81,6 @@ Route::resource('addon', 'AddonController', [
 | when necessary. The Route Names are prefixed with 'user'.
 |
 */
-Route::get('/user/login', array(
-	'uses' => 'Auth\LoginController@showLoginForm',
-	'as' => 'user.login'
-));
 Route::post('/user/login', array(
 	'uses' => 'Auth\LoginController@login',
 	'as' => 'user.login'
@@ -133,4 +147,3 @@ Route::post('/password/reset', array(
 	'uses' => 'Auth\ResetPasswordController@reset',
 	'as' => 'password.reset'
 ));
-

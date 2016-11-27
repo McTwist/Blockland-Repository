@@ -50,7 +50,7 @@
 .blr-btn
 {
 	font-family: "Ubuntu", sans-serif;
-	color: #f2f2f2;
+	color: #f2f2f2 !important;
 	border-radius: 0;
 	padding: 10px 20px;
 	border: 0;
@@ -60,7 +60,6 @@
  * Standard element overrides.
  */
 
-button,
 textarea,
 select,
 .selectContainer,
@@ -80,39 +79,8 @@ textarea
 label
 {
 	font-family: "PT Sans", sans-serif;
-	font-size: 14px;
+	font-size: 1em;
 	font-weight: normal;
-}
-
-button,
-.fileContainer,
-a.button
-{
-	font-family: "Ubuntu", sans-serif;
-	font-weight: bold;
-	font-size: 11px;
-	color: #f2f2f2;
-	padding: 5px 14px;
-	background: linear-gradient(#bd59ff, #6b00b2) #6b00b2;
-	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .333);
-	cursor: pointer;
-}
-
-button,
-a.button
-{
-	border: 0;
-}
-
-button:active,
-a.button:active
-{
-	background: linear-gradient(#480077, #6a00b0);
-}
-
-a.button:hover
-{
-	text-decoration: none;
 }
 
 input[type="checkbox"]
@@ -144,6 +112,13 @@ input[type="checkbox"] + label
 input[type="checkbox"]:checked + label
 {
 	background-position: 0 -12px;
+}
+
+input[type="password"]
+{
+	font-size: 1.2em;
+	font-weight: bold;
+	letter-spacing: 0.05em;
 }
 
 /*
@@ -253,17 +228,7 @@ input[type="checkbox"]:checked + label
 	background: url('/img/dropdown_arrow.png') no-repeat right;
 }
 
-.fileContainer
-{
-	overflow: hidden;
-	text-align: center;
-}
-
-.fileContainer:active
-{
-	background: linear-gradient(#480077, #6a00b0);
-}
-
+/* TODO: What is this? */
 .fileContainer [type="file"]
 {
 	opacity: 0;

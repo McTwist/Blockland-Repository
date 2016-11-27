@@ -1,27 +1,22 @@
+<link rel="stylesheet" type="text/css" href="/css/upload.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
+<script type="text/javascript" src="/js/upload.js"></script>
 
-@section('stylesheets')
-	<link rel="stylesheet" type="text/css" href="/css/upload.css">
-@append
-
-@section('scripts')
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
-	<script type="text/javascript" src="/js/upload.js"></script>
-@append
-
-@section('scripts.footer')
-	<div id="uploadBox" style="display: none; position: absolute; top: 200px; left: 50%;">
-		<div class="box" style="position: relative; left: -50%;">
-			<span class="title">Upload Add-On</span>
-			<hr>
-			<div class="file">
-				{{ Form::open(array('route' => 'addon.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data')) }}
-					<label class="fileContainer noselect" id="dropClick">
-						Choose File
-					</label>
-					<div id="uploadError">
-					</div>
-				{{ Form::close() }}
+<div id="uploadBox" class="popup-box">
+	{{ Form::open(['route' => 'addon.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
+	<fieldset class="blr-fieldset">
+		<legend>Upload Add-On</legend>
+		<hr>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="file col-xs-12">
+					<!-- Choose File button -->
+					{{-- TODO: Fix the Javascript. You need to click the button twice to load a file + you get an error in console, but it works. --}}
+					{{ Form::button('Choose File', ['onclick' => 'initDropzone()', 'id' => 'dropClick', 'class' => 'btn blr-btn btn-blr-default center-block fileContainer']) }}
+					<div id="uploadError" class="col-sm-12"></div>
+				</div>
 			</div>
 		</div>
-	</div>
-@append
+	</fieldset>
+	{{ Form::close() }}
+</div>

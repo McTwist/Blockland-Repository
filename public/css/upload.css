@@ -1,3 +1,7 @@
+#uploadBox
+{
+	width: 18.2em;
+}
 
 input[type="text"],
 textarea
@@ -11,8 +15,6 @@ textarea
 {
 	width: 625px;
 	height: 450px;
-	font-family: "PT Sans";
-	font-size: 12px;
 	margin-bottom: 14px;
 }
 
