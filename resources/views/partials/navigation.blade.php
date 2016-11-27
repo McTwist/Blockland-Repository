@@ -4,7 +4,7 @@
 			@if(Auth::check())
 				<div class="col-sm-2">
 					<input id="btn-new-addon" type="button" class="btn blr-btn btn-blr-default float-sm-left"
-						   onclick="showUpload()" value="Upload Add-On"/>
+						   onclick="showUploadPopup()" value="Upload Add-On"/>
 				</div>
 				<div class="col-sm-10">
 					<div class="row">
@@ -17,8 +17,6 @@
 
 							<li class="nav-item"><a href="{{ route('user.show') }}">My Profile</a></li>
 							<li class="nav-item"><a href="{{ route('user.logout') }}">Log Out</a></li>
-
-							@include('resources.addon.upload')
 						</ul>
 					</div>
 				</div>

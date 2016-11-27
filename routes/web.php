@@ -37,6 +37,20 @@ Route::resource('categories', 'CategoriesController', [
 
 /*
 |--------------------------------------------------------------------------
+| Popup Routes
+|--------------------------------------------------------------------------
+|
+| Routes to popup dialogs.
+| If accessed with AJAX calls returns views contained in a single div.
+| If accessed directly from the browser, a different standalone view can be delivered if it exist.
+|
+*/
+Route::get('/addon/upload', array(
+	'uses' => 'PopupController@showUploadForm'
+));
+
+/*
+|--------------------------------------------------------------------------
 | Addon Routes
 |--------------------------------------------------------------------------
 |
@@ -133,4 +147,3 @@ Route::post('/password/reset', array(
 	'uses' => 'Auth\ResetPasswordController@reset',
 	'as' => 'password.reset'
 ));
-
