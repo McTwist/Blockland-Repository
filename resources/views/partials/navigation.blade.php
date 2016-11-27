@@ -19,3 +19,4 @@
 		@endif
 	</ul>
 </nav>
+<hr>
