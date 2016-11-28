@@ -10,20 +10,17 @@ class PopupController extends Controller
 	/**
 	 * Gets the view for logging in.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return string HTML containing the view or a redirect to another route
+	 * @param  \Illuminate\Http\Request $request
+	 * @return string HTML containing the view or null if the user is already logged in
 	 */
 	public function getLoginView(Request $request)
 	{
-		if ($request->ajax())
-		{
-			return view('auth.loginpopup');
-		}
-		else
-		{
-			// If user is logged in redirect to show user page instead. Cannot log in twice.
-			if (auth()->check()) {
-				return redirect()->intended(route('user.show'));
+		// If user is logged in return null so the login is not displayed.
+		if (auth()->check()) {
+			return null;
+		} else {
+			if ($request->ajax()) {
+				return view('auth.popup.login');
 			} else {
 				return view('auth.login');
 			}
@@ -33,19 +30,21 @@ class PopupController extends Controller
 	/**
 	 * Gets the view for uploading a new add-on.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return string HTML containing the view
+	 * @param  \Illuminate\Http\Request $request
+	 * @return string HTML containing the view or null if the user is not logged in
 	 */
 	public function getUploadAddonView(Request $request)
 	{
-		if ($request->ajax())
-		{
-			return view('resources.addon.upload');
-		}
-		else
-		{
-			// TODO: Standalone add-on upload page.
-			return view('errors.404');
+		if (auth()->check()) {
+			if ($request->ajax()) {
+				return view('resources.addon.popup.upload');
+			} else {
+				// TODO: Standalone add-on upload page.
+				return view('errors.404');
+			}
+		} else {
+			// You need to be logged in to upload files.
+			return null;
 		}
 	}
 }

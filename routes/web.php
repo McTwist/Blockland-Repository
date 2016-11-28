@@ -65,7 +65,7 @@ Route::get('/user/login', array(
 */
 Route::put('/addon/upload', array(
 	'uses' => 'AddonController@upload',
-	'as' => 'addon.upload'
+	'as' => 'addon.popup.upload'
 ));
 Route::resource('addon', 'AddonController', [
 	'except' => 'index'

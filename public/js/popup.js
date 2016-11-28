@@ -3,39 +3,37 @@ function clearPopup() {
 	$('#popup-box-container').html(null);
 }
 
-function showPopup(html, popupBoxID) {
+function showPopup(html, elementID) {
 	var container = $('#popup-box-container');
-	var popup = $('#' + popupBoxID);
+	var popup = $('#' + elementID);
 	container.html(html);
 	$('#popup-box-wrapper').show();
 
-	$(document).on("mouseup.clickOFF touchend.clickOFF", function (e) {
-		console.log("xclc");
-
-		if (container.is(e.target))
-		{
+	$(document).on("mouseup.popupClickRelease touchend.popupTouchEnd", function (e) {
+		if (container.is(e.target)) {
 			clearPopup();
-			$(document).off("mouseup.clickOFF touchend.clickOFF");
+			$(document).off("mouseup.popupClickRelease touchend.popupTouchEnd");
+		}
+	});
+}
+
+function showView(url, elementID) {
+	$.ajax({
+		type: 'GET',
+		url: url,
+		success: function (data) {
+			if (data !== '') {
+				showPopup(data, elementID);
+			}
+			// If nothing was returned, do nothing.
 		}
 	});
 }
 
 function showUploadPopup() {
-	$.ajax({
-		type: "GET",
-		url: '/addon/upload',
-		success: function (data) {
-			showPopup(data, 'uploadBox');
-		}
-	});
+	showView('/addon/upload', 'uploadBox');
 }
 
 function showLoginPopup() {
-	$.ajax({
-		type: "GET",
-		url: '/user/login',
-		success: function (data) {
-			showPopup(data, 'login-box');
-		}
-	});
+	showView('/user/login', 'login-box');
 }

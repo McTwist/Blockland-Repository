@@ -3,7 +3,7 @@
 <script type="text/javascript" src="/js/upload.js"></script>
 
 <div id="uploadBox" class="popup-box">
-	{{ Form::open(['route' => 'addon.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
+	{{ Form::open(['route' => 'addon.popup.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
 	<fieldset class="blr-fieldset">
 		<legend>Upload Add-On</legend>
 		<hr>
