@@ -10,6 +10,9 @@
 		<!-- Title -->
 		<title>Blockland Repository - @yield('title')</title>
 
+		<!-- Metas -->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 		<!-- Fonts -->
 		<link href='//fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'>
 		<link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>

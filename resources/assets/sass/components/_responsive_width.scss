@@ -1,0 +1,45 @@
+.width-xs-full
+{
+	width: 100%;
+}
+
+.width-xs-auto
+{
+	width: auto;
+}
+
+@media (min-width: $screen-sm-min) {
+	.width-sm-full
+	{
+		width: 100%;
+	}
+
+	.width-sm-auto
+	{
+		width: auto;
+	}
+}
+
+@media (min-width: $screen-md-min) {
+	.width-md-full
+	{
+		width: 100%;
+	}
+
+	.width-md-auto
+	{
+		width: auto;
+	}
+}
+
+@media (min-width: $screen-lg-min) {
+	.width-lg-full
+	{
+		width: 100%;
+	}
+
+	.width-lg-auto
+	{
+		width: auto;
+	}
+}
