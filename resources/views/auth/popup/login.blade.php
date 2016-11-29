@@ -6,9 +6,9 @@
 		<hr>
 		<div class="container-fluid">
 			<div class="row login-spacer-neg">
-				<!-- Username -->
+				{{-- Username --}}
 				<div class="row form-group">
-					<div class="col-sm-12 text-sm-left col-md-2">
+					<div class="text-xs-left col-sm-12 col-md-2 hug-md-right">
 						{{ Form::label('username', 'Username:', ['class' => 'control-label']) }}
 					</div>
 					<div class="col-sm-12 col-md-10">
@@ -16,9 +16,9 @@
 					</div>
 				</div>
 
-				<!-- Password -->
+				{{-- Password --}}
 				<div class="row form-group">
-					<div class="col-sm-12 text-sm-left col-md-2">
+					<div class="text-xs-left col-sm-12 col-md-2 hug-md-right">
 						{{ Form::label('password', 'Password:', ['class' => 'control-label']) }}
 					</div>
 					<div class="col-sm-12 col-md-10">
@@ -26,44 +26,44 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="row">
-				<!-- Elements in order for sm size! -->
-				<div class="col-sm-12 col-md-6 col-md-push-6">
-					<div class="row">
-						<!-- TODO: Some position tweaking required. -->
-						<!-- Remember me -->
-						<div class="col-sm-6 hug-sm-right col-md-12 login-spacer">
-							{{ Form::checkbox('remember', 'remember', true, ['id' => 'remember_chk']) }}
-							{{ Form::label('remember_chk', 'Remember me', ['class' => 'checkbox-inline blr-checkbox']) }}
-						</div>
+				<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-push-6 col-md-6 col-md-push-6">
+					{{-- Bootstrap has a mobile-first ideology.
+					The elements are ordered according to their xs size placements.
+					CSS is used to move the elements to their laptop/desktop (sm/md) locations. --}}
 
-						<!-- Close -->
-						<div class="col-sm-3 hug-sm-right col-md-6 login-spacer">
-							{{ Form::button('Close', ['onclick' => 'clearPopup()', 'class' => 'btn blr-btn btn-blr-close']) }}
-						</div>
+					{{-- Remember me --}}
+					<div class="col-xs-12 hug-xs-right login-spacer">
+						{{ Form::checkbox('remember', 'remember', true, ['id' => 'remember_chk']) }}
+						{{ Form::label('remember_chk', 'Remember me', ['class' => 'checkbox-inline blr-checkbox float-sm-right']) }}
+					</div>
 
-						<!-- Log in -->
-						<div class="col-sm-3 hug-sm-right col-md-6 login-spacer">
-							{{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default']) }}
-						</div>
+					{{-- Log in --}}
+					<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-push-6 col-md-5 col-md-push-7 col-md-offset-0 login-spacer">
+						{{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-md-auto']) }}
+					</div>
+
+					{{-- Close --}}
+					<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-pull-6 col-md-5 col-md-pull-3 login-spacer">
+						{{ Form::button('Close', ['onclick' => 'clearPopup()', 'class' => 'btn blr-btn btn-blr-close width-xs-full width-md-auto']) }}
 					</div>
 				</div>
 
-				<div class="col-sm-12 col-md-6 col-md-pull-6">
-					<div class="row">
-						<!-- Forgot password -->
-						<div class="col-sm-6 col-md-12 hug-md-left login-spacer">
-							<a href="{{ route('password.email') }}" class="uppercase">Forgot password?</a>
-						</div>
+				<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-pull-6 col-md-6 col-md-pull-6">
+					{{-- Forgot password --}}
+					<div class="col-xs-12 hug-sm-left login-spacer text-xs-center">
+						<a href="{{ route('password.email') }}" class="uppercase ">Forgot password?</a>
+					</div>
 
-						<!-- Register -->
-						<div class="col-sm-6 col-md-12 hug-md-left login-spacer">
-							<a href="{{ route('user.register') }}" class="pull-left uppercase">Register an
-								account</a>
-						</div>
+					{{-- Register --}}
+					<div class="col-xs-12 hug-sm-left login-spacer text-xs-center">
+						<a href="{{ route('user.register') }}" class="uppercase">Register an account</a>
 					</div>
 				</div>
 			</div>
+
+			{{-- TODO: Prettier error messages. --}}
 			@if (count($errors) > 0)
 				<div class="col-xs-12">
 					<ul>
