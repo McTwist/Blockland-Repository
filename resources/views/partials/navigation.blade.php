@@ -21,10 +21,13 @@
 					</div>
 				</div>
 			@else
-				<div class="col-sm-2  col-sm-offset-10">
-					<input type="button" class="btn blr-btn btn-blr-default float-sm-right"
-						   onclick="showLoginPopup()" value="Log In"/>
-				</div>
+				{{-- Do not show login button on the login page. --}}
+				@if(!Request::is('user/login'))
+					<div class="col-sm-2  col-sm-offset-10">
+						<input type="button" class="btn blr-btn btn-blr-default float-sm-right"
+							   onclick="showLoginPopup()" value="Log In"/>
+					</div>
+				@endif
 			@endif
 		</div>
 	</nav>
