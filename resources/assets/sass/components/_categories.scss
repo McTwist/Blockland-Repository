@@ -1,26 +1,23 @@
-// Category Wrapper
-.categories
-{
+$category-icon-width: 122px;
+$category-name-font-size: 1.2em;
 
-}
-
-// Category Component
 .category
 {
-
 }
 
-// Category Teaser
 .category.teaser
 {
+	min-width: $category-icon-width !important;
+	min-height: $category-icon-width !important;
+
 	a
 	{
 		position: relative;
 		display: inline-block;
-		height: 122px;
-		width: 122px;
+		height: $category-icon-width;
+		width: $category-icon-width;
 		background-position: 0 0;
-		margin: 1.2em 0 1.2em 0;
+		margin: $category-name-font-size 0 $category-name-font-size 0;
 
 		&:hover
 		{
@@ -45,12 +42,13 @@
 		.category-name
 		{
 			font-family: "Ubuntu", sans-serif;
-			font-size: 1.2em;
+			font-size: $category-name-font-size;
 			position: absolute;
 			text-align: center;
 			width: 100%;
-			bottom: -1.2em;
+			bottom: -$category-name-font-size;
 			white-space: pre;
 		}
 	}
 }
+
