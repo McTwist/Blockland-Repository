@@ -26,7 +26,13 @@ if (!function_exists('path'))
 	 */
 	function path()
 	{
-		return implode(DIRECTORY_SEPARATOR, array_filter(func_get_args()));
+		$paths = array_filter(func_get_args());
+		array_walk($paths, function(&$value)
+		{
+			$value = rtrim($value, '\\/');
+			$value = str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $value);
+		});
+		return implode(DIRECTORY_SEPARATOR, $paths);
 	}
 }
 
