@@ -38,46 +38,6 @@ hr
 	text-transform: uppercase !important;
 }
 
-.nopad-t
-{
-	padding-top: 0 !important;
-}
-
-.nopad-l
-{
-	padding-left: 0 !important;
-}
-
-.nopad-b
-{
-	padding-bottom: 0 !important;
-}
-
-.nopad-r
-{
-	padding-right: 0 !important;
-}
-
-.nomar-t
-{
-	margin-top: 0 !important;
-}
-
-.nomar-l
-{
-	margin-left: 0 !important;
-}
-
-.nomar-b
-{
-	margin-bottom: 0 !important;
-}
-
-.nomar-r
-{
-	margin-right: 0 !important;
-}
-
 .container-table
 {
 	display: table;
