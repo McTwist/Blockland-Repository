@@ -39,8 +39,7 @@ class PopupController extends Controller
 			if ($request->ajax()) {
 				return view('resources.addon.popup.upload');
 			} else {
-				// TODO: Standalone add-on upload page.
-				return view('errors.404');
+				return view('resources.addon.upload');
 			}
 		} else {
 			// You need to be logged in to upload files.
