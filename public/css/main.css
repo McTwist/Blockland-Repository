@@ -11,7 +11,7 @@
 {
 	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 1em;
 	color: #6b00b2;
 	margin-left: -2px;
 }
@@ -33,9 +33,24 @@ hr
 	margin-bottom: 16px;
 }
 
+.uppercase
+{
+	text-transform: uppercase !important;
+}
+
+.nopad-t
+{
+	padding-top: 0 !important;
+}
+
 .nopad-l
 {
 	padding-left: 0 !important;
+}
+
+.nopad-b
+{
+	padding-bottom: 0 !important;
 }
 
 .nopad-r
@@ -43,7 +58,46 @@ hr
 	padding-right: 0 !important;
 }
 
-.uppercase
+.nomar-t
 {
-	text-transform: uppercase !important;
+	margin-top: 0 !important;
+}
+
+.nomar-l
+{
+	margin-left: 0 !important;
+}
+
+.nomar-b
+{
+	margin-bottom: 0 !important;
+}
+
+.nomar-r
+{
+	margin-right: 0 !important;
+}
+
+.container-table
+{
+	display: table;
+}
+
+.vertical-center-row
+{
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#popup-box-wrapper
+{
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	/* Disable horizontal scroll */
+	overflow-x: hidden;
 }

@@ -1,10 +1,15 @@
 #navigation
 {
-	margin-top: -15px;
+	font-family: "Open Sans", sans-serif;
+	text-align: right;
 	width: 100%;
-	text-align: center;
 
-	.nav-item-group {
+	ul
+	{
+		margin-bottom: 0;
+	}
+	.nav-item-group
+	{
 		padding: 0;
 	}
 
@@ -12,13 +17,17 @@
 	{
 		display: inline;
 
-		// Add Middot to Second Element and Beyond
-		&:nth-child(n+2):before {
-			content: "\00B7";
-			font-size: 40px;
+		&:nth-child(n+2):before
+		{
+			// Add BLACK SMALL SQUARE + NBSP to second element and beyond
+			content: "\25AA\00A0";
 			line-height: 0;
-			vertical-align: middle;
-			margin-right: 5px;
 		}
+	}
+
+	#welcome-text
+	{
+		margin: 0;
+		padding: 0;
 	}
 }

@@ -17,18 +17,18 @@
 
 .subtitle
 {
-	display: block;
-	font-family: PT Sans;
+	font-family: "PT Sans", sans-serif;
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 1em;
+	display: block;
 }
 
 .summary
 {
-	display: block;
-	font-family: PT Sans;
+	font-family: "PT Sans", sans-serif;
 	font-style: italic;
-	font-size: 14px;
+	font-size: 1em;
+	display: block;
 }
 
 #download
@@ -45,7 +45,7 @@
 .bytes
 {
 	display: block;
-	font-family: Ubuntu;
+	font-family: "Ubuntu", sans-serif;
 	font-size: 12px;
 	line-height: 40px;
 	text-align: center;
@@ -78,11 +78,11 @@
 
 .info
 {
-	font-family: Ubuntu;
+	font-family: "Ubuntu", sans-serif;
 	text-align: center;
 	display: inline-block;
 	width: 145px;
-	margin: 0px;
+	margin: 0;
 }
 
 .info .tell
@@ -95,19 +95,19 @@
 .info .data
 {
 	font-weight: bold;
-	font-size: 14px;
+	font-size: 1em;
 	display: block;
 }
 
 #description
 {
-	font-family: Open Sans;
+	font-family: "Open Sans", sans-serif;
 	font-size: 12px;
 }
 
 #uploader
 {
-	font-family: Open Sans;
+	font-family: "Open Sans", sans-serif;
 	font-style: italic;
 	font-size: 10px;
 	float: right;

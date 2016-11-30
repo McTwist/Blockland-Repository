@@ -8,12 +8,13 @@
 
 @section('content')
 
-	<section class="categories">
-		<h2>Categories</h2>
-
-		@foreach($categories as $category)
-			@include('resources.categories.teaser', compact('category'))
-		@endforeach
+	<hr>
+	<section class="categories container-fluid nopad-l nopad-r">
+		<div class="row">
+			@foreach($categories as $category)
+				@include('resources.categories.teaser', compact('category'))
+			@endforeach
+		</div>
 	</section>
 
 @endsection

@@ -7,8 +7,8 @@
 @endsection
 
 @section('content')
-
-	<div id="login-box" class="box">
+	{{-- TODO: Element positioning needs tweaking now that the CLOSE button is gone. --}}
+	<div id="login-box" style="display: inline-block;">
 		{{ Form::open(array('route' => 'user.login', 'method' => 'post', 'class' => 'form-horizontal')) }}
 		<fieldset class="blr-fieldset">
 			<legend>Login</legend>
@@ -39,20 +39,15 @@
 					<!-- Elements in order for sm size! -->
 					<div class="col-sm-12 col-md-6 col-md-push-6">
 						<div class="row">
-							<!-- TODO: Some position tweaking required. -->
+							{{-- TODO: Some position tweaking required. --}}
 							<!-- Remember me -->
-							<div class="col-sm-6 hug-sm-right col-md-12 login-spacer">
+							<div class="col-sm-6 col-sm-offset-3 hug-sm-right col-md-12 col-md-offset-0 login-spacer">
 								{{ Form::checkbox('remember', 'remember', true, ['id' => 'remember_chk']) }}
 								{{ Form::label('remember_chk', 'Remember me', ['class' => 'checkbox-inline blr-checkbox']) }}
 							</div>
 
-							<!-- Close -->
-							<div class="col-sm-3 hug-sm-right col-md-6 login-spacer">
-								{{ Form::button('Close', ['class' => 'btn blr-btn btn-blr-close']) }}
-							</div>
-
 							<!-- Log in -->
-							<div class="col-sm-3 hug-sm-right col-md-6 login-spacer">
+							<div class="col-sm-3 hug-sm-right col-md-6 col-md-offset-6 login-spacer">
 								{{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default']) }}
 							</div>
 						</div>
