@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Reset Password')
+
 @section('content')
 
 	{{ Form::open(['route' => 'password.reset', 'method' => 'post']) }}

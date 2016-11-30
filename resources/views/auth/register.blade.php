@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Register')
+
 @section('content')
 	{{ Form::open(array('route' => 'user.register', 'method' => 'post', 'class' => 'form-horizontal')) }}
 

@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Edit ' . $addon->name)
+
 @section('stylesheets')
 	
 	<link rel="stylesheet" type="text/css" href="/css/upload.css">

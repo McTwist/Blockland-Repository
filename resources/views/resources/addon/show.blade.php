@@ -1,5 +1,6 @@
-
 @extends('layouts.master')
+
+@section('title', $addon->name . ' by ' . $addon->authors)
 
 @section('stylesheets')
 

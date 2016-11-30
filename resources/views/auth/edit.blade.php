@@ -1,6 +1,6 @@
-
-
 @extends('layouts.master')
+
+@section('title', 'Account Settings')
 
 @section('stylesheets')
 
