@@ -21,9 +21,9 @@
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-3 col-sm-pull-9 col-md-2 col-md-pull-10">
-						<input id="btn-new-addon" type="button"
-							   class="btn blr-btn btn-blr-default width-xs-full width-sm-auto float-sm-left"
-							   onclick="showUploadPopup()" value="Upload Add-On"/>
+						<a href="{{ route('addon.upload') }}" id="btn-new-addon"
+						   class="btn blr-btn btn-blr-default width-xs-full width-sm-auto float-sm-left">Upload
+							Add-On</a>
 					</div>
 				@else
 					<div class="col-sm-2 col-sm-offset-10">
