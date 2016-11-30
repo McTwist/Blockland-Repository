@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Upload Add-On')
+
 @section('stylesheets')
 	
 	<link rel="stylesheet" type="text/css" href="/css/upload.css">

@@ -49,3 +49,27 @@
 |
 */
 @import 'responsive_float';
+
+/*
+|--------------------------------------------------------------------------
+| Responsive Width
+|--------------------------------------------------------------------------
+|
+| Responsively set an element's width.
+|
+*/
+@import 'responsive_width';
+
+/*
+|--------------------------------------------------------------------------
+| Responsive Extend
+|--------------------------------------------------------------------------
+|
+| Responsively set a negative margin on an element.
+| Used to fake nested Bootstrap row elements with a single row for accurate element alignment.
+| Bootstrap rows have a -15px margin, when a row is within a row, the total margin will be -30px.
+| When an extend style set on an element, it will set the element's margin to -30px,
+| which can be used to simulate a nested row with just one row element.
+|
+*/
+@import 'responsive_extend';

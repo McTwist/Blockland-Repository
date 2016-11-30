@@ -1,20 +1,14 @@
 @extends('layouts.master')
 
-@section('stylesheets')
-
-	<link rel="stylesheet" type="text/css" href="/css/front.css">
-
-@append
-
 @section('content')
-
 	<hr>
-	<section class="categories container-fluid nopad-l nopad-r">
+	<section class="categories">
 		<div class="row">
-			@foreach($categories as $category)
-				@include('resources.categories.teaser', compact('category'))
-			@endforeach
+			<div class="col-xs-12 col-sm-10 col-sm-offset-1">
+				@foreach($categories as $category)
+					@include('resources.categories.teaser', compact('category'))
+				@endforeach
+			</div>
 		</div>
 	</section>
-
 @endsection

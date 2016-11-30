@@ -129,12 +129,12 @@ input[type="password"]
 {
 	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
-	font-size: 26px;
-	line-height: 19px;
+	font-size: 1.9em;
+	text-align: left;
+	line-height: 1em;
 	color: #6b00b2;
 	margin-bottom: 0;
-	margin-left: -1px;
-	text-align: left;
+	padding-top: 1em;
 	/* HR element must be used for duo-tone border. */
 	border-bottom: 0;
 }

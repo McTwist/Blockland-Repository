@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Forgotten Password')
+
 @section('content')
 
 	{{ Form::open(['route' => 'password.email', 'method' => 'post', 'class' => 'form-horizontal']) }}

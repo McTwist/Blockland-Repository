@@ -2,9 +2,10 @@
 {
 	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
-	font-size: 26px;
+	font-size: 1.8em;
+	text-align: left;
 	color: #6b00b2;
-	margin-left: -2px;
+	margin: 0;
 }
 
 .title2
@@ -13,7 +14,6 @@
 	font-weight: bold;
 	font-size: 1em;
 	color: #6b00b2;
-	margin-left: -2px;
 }
 
 .over
@@ -29,53 +29,13 @@ hr
 	border-left-style: none;
 	height: 0;
 	background: #d9d9d9;
-	margin-top: 16px;
-	margin-bottom: 16px;
+	margin-top: 1em;
+	margin-bottom: 1em;
 }
 
 .uppercase
 {
 	text-transform: uppercase !important;
-}
-
-.nopad-t
-{
-	padding-top: 0 !important;
-}
-
-.nopad-l
-{
-	padding-left: 0 !important;
-}
-
-.nopad-b
-{
-	padding-bottom: 0 !important;
-}
-
-.nopad-r
-{
-	padding-right: 0 !important;
-}
-
-.nomar-t
-{
-	margin-top: 0 !important;
-}
-
-.nomar-l
-{
-	margin-left: 0 !important;
-}
-
-.nomar-b
-{
-	margin-bottom: 0 !important;
-}
-
-.nomar-r
-{
-	margin-right: 0 !important;
 }
 
 .container-table
@@ -100,4 +60,23 @@ hr
 	background-color: rgba(0, 0, 0, 0.5);
 	/* Disable horizontal scroll */
 	overflow-x: hidden;
+}
+
+.blr-label
+{
+	font-family: "PT Sans", sans-serif;
+	font-size: 1em;
+	font-weight: bold;
+	margin-bottom: 1em;
+}
+
+.blr-value
+{
+	font-family: "Open Sans", sans-serif;
+	margin: 0;
+}
+
+.pad-top
+{
+	padding-top: 1em;
 }

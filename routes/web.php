@@ -46,11 +46,13 @@ Route::resource('categories', 'CategoriesController', [
 |
 */
 Route::get('/addon/upload', array(
-	'uses' => 'PopupController@getUploadAddonView'
+	'uses' => 'PopupController@getUploadAddonView',
+	'as' => 'addon.upload'
 ));
 
 Route::get('/user/login', array(
-	'uses' => 'PopupController@getLoginView'
+	'uses' => 'PopupController@getLoginView',
+	'as' => 'user.login'
 ));
 
 /*
