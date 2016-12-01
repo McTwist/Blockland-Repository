@@ -114,13 +114,6 @@ input[type="checkbox"]:checked + label
 	background-position: 0 -12px;
 }
 
-input[type="password"]
-{
-	font-size: 1.2em;
-	font-weight: bold;
-	letter-spacing: 0.05em;
-}
-
 /*
  * Custom Styles
  */
