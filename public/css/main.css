@@ -13,7 +13,8 @@
 {
 	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
-	font-size: 1em;
+	font-size: 1.1em;
+	line-height: 1em;
 	color: #6b00b2;
 	padding-bottom: 1em;
 }
@@ -33,6 +34,12 @@ hr
 	background: #d9d9d9;
 	margin-top: 1em;
 	margin-bottom: 1em;
+}
+
+p
+{
+	font-family: "Open Sans", sans-serif;
+	text-align: left;
 }
 
 .uppercase
