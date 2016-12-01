@@ -2,7 +2,8 @@
 {
 	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
-	font-size: 1.8em;
+	font-size: 1.9em;
+	line-height: 1em;
 	text-align: left;
 	color: #6b00b2;
 	margin: 0;
@@ -14,6 +15,7 @@
 	font-weight: bold;
 	font-size: 1em;
 	color: #6b00b2;
+	padding-bottom: 1em;
 }
 
 .over
@@ -79,4 +81,9 @@ hr
 .pad-top
 {
 	padding-top: 1em;
+}
+
+.pad-bottom
+{
+	padding-bottom: 1em;
 }
