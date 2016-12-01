@@ -31,7 +31,7 @@ $factory->define(App\Models\Category::class, function (Faker\Generator $faker)
 {
 	return [
 		'name' => $faker->name,
-		'icon' => 'none'
+		'icon' => 'category_unknown.png'
 	];
 });
 
