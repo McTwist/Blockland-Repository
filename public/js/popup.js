@@ -3,9 +3,8 @@ function clearPopup() {
 	$('#popup-box-container').html(null);
 }
 
-function showPopup(html, elementID) {
+function showPopup(html) {
 	var container = $('#popup-box-container');
-	var popup = $('#' + elementID);
 	container.html(html);
 	$('#popup-box-wrapper').show();
 
@@ -17,23 +16,26 @@ function showPopup(html, elementID) {
 	});
 }
 
-function showView(url, elementID) {
+function showView(url) {
 	$.ajax({
 		type: 'GET',
 		url: url,
 		success: function (data) {
 			if (data !== '') {
-				showPopup(data, elementID);
+				showPopup(data);
 			}
 			// If nothing was returned, do nothing.
 		}
 	});
 }
 
-function showUploadPopup() {
-	showView('/addon/upload', 'uploadBox');
-}
-
-function showLoginPopup() {
-	showView('/user/login', 'login-box');
-}
+// Fully automatic handling of popup links
+$(function() {
+	$('.show-popup').each(function() {
+		$this = $(this);
+		$this.click(function(e) {
+			e.preventDefault();
+			showView($(this).attr("href"));
+		});
+	});
+});

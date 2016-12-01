@@ -22,13 +22,13 @@
 					</div>
 					<div class="col-xs-12 col-sm-3 col-sm-pull-9 col-md-2 col-md-pull-10">
 						<a href="{{ route('addon.upload') }}" id="btn-new-addon"
-						   class="btn blr-btn btn-blr-default width-xs-full width-sm-auto float-sm-left">Upload
+						   class="btn blr-btn btn-blr-default width-xs-full width-sm-auto float-sm-left show-popup">Upload
 							Add-On</a>
 					</div>
 				@else
 					<div class="col-sm-2 col-sm-offset-10">
-						<input type="button" class="btn blr-btn btn-blr-default float-sm-right"
-							   onclick="showLoginPopup()" value="Log In"/>
+						<a href="{{ route('user.login') }}" id="btn-login"
+						   class="btn blr-btn btn-blr-default float-sm-right show-popup">Log In</a>
 					</div>
 				@endif
 			</div>
