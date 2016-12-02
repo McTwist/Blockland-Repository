@@ -137,6 +137,16 @@ class Addon extends Model
 		return $this->belongsTo(Category::class);
 	}
 
+	/**
+	 * Returns the Tag that this Addon has.
+	 *
+	 * @return Relationship
+	 */
+	public function tags()
+	{
+		return $this->belongsToMany(Tags::class)->withTimestamps();
+	}
+
 	/////////////////
 	//* Utilities *//
 	/////////////////
