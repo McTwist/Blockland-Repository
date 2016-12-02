@@ -133,7 +133,7 @@ class AddonController extends Controller
 		// TODO: Do checks, validations and generations and notify the user
 
 		$categories = Category::listSelect();
-		$category = Category::getByTag($addon_file->Type());
+		$category = Category::getByType($addon_file->Type());
 
 		// TODO: Use the addon directly instead of values, making this easier to change
 		$title = $addon_file->Title();

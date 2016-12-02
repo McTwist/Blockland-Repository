@@ -21,7 +21,7 @@ class Category extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'icon', 'tags'];
+	protected $fillable = ['name', 'icon', 'types'];
 
 	/////////////////////
 	//* Relationships *//
@@ -56,15 +56,15 @@ class Category extends Model
 	}
 
 	/**
-	 * Get id of category by tag.
+	 * Get id of category by type.
 	 *
-	 * @param string $tag_name
+	 * @param string $type_name
 	 * @return int
 	 */
-	public static function getByTag($tag_name)
+	public static function getByType($type_name)
 	{
-		$tag_name = strtolower($tag_name);
-		$tags = self::select('id')->where('tags', 'like', "%{$tag_name}%")->first();
-		return $tags ? $tags->id : null;
+		$type_name = strtolower($type_name);
+		$types = self::select('id')->where('types', 'like', "%{$type_name}%")->first();
+		return $types ? $types->id : null;
 	}
 }
