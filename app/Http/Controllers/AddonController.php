@@ -49,7 +49,7 @@ class AddonController extends Controller
 	public function upload(Request $request)
 	{
 		$this->validate($request, [
-			'addon' => 'required|mimes:zip|min:1|max:50000' // 50MB
+			'file' => 'required|mimes:zip|min:1|max:50000' // 50MB
 		]);
 
 		// Remove previous one
@@ -60,7 +60,7 @@ class AddonController extends Controller
 			$request->session()->forget('upload');
 		}
 
-		$file = $request->file('addon');
+		$file = $request->file('file');
 
 		// Move to a better storage
 		$path = $file->store('', 'temp');

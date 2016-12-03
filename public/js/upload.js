@@ -1,7 +1,7 @@
 Dropzone.autoDiscover = false;
 
 $(function () {
-	var paramName = "addon";
+	var paramName = "file";
 	// Note: It was tested with the internal jQuery functionality, but somehow
 	// it didn't work as expected, so using this manually instead
 	// See: https://github.com/enyo/dropzone/issues/328
