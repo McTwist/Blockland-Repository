@@ -2,9 +2,7 @@
 <script type="text/javascript">
 $(function() {
 	$.getScript('//cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js', function() {
-		$.getScript('/js/upload-popup.js', function() {
-			initDropzone();
-		});
+		$.getScript('/js/upload.js');
 	});
 });
 </script>
