@@ -1,6 +1,6 @@
 {{-- Currently there is nothing to show on the navigation bar on the login page so skip the bar entirely. --}}
 @if(!Request::is('user/login'))
-	<div class="row">
+	<div class="row mar-bottom">
 		<nav id="navigation" class="navigation col-xs-12" role="navigation">
 			<div class="row">
 				@if(Auth::check())
@@ -14,8 +14,8 @@
 						<div class="row">
 							<div class="col-xs-12 text-xs-center text-sm-right">
 								<ul class="nav-item-group">
-									<li class="nav-item"><a href="{{ route('user.show') }}">My Profile</a></li>
-									<li class="nav-item"><a href="{{ route('user.logout') }}">Log Out</a></li>
+									<li class="nav-item"><a class="blacklink" href="{{ route('user.show') }}">My Profile</a></li>
+									<li class="nav-item"><a class="blacklink" href="{{ route('user.logout') }}">Log Out</a></li>
 								</ul>
 							</div>
 						</div>

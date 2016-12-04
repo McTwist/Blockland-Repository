@@ -3,14 +3,14 @@
 @section('title', $user->username)
 
 @section('content')
-	<div class="title pad-top">
+	<div class="title">
 		{{ $user->username }}
 	</div>
 	<hr>
 	<div class="container-fluid">
 		<div class="row">
 			@if(Auth::id() === $user->id)
-				<div class="hug-xs-left hug-xs-right col-xs-12 col-sm-4 col-md-3 pull-right pad-bottom">
+				<div class="col-xs-12 nopad-xs-both col-sm-4 col-md-3 pull-right pad-bottom">
 					<a class="btn blr-btn btn-blr-default width-xs-full width-sm-auto pull-right"
 					   href="{{ route('user.edit') }}">Change Account Settings</a>
 				</div>

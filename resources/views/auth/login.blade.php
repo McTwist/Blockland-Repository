@@ -35,7 +35,7 @@
 			</div>
 
 			<div class="row extend-md-double">
-				<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-push-6 col-md-2 col-md-push-6">
+				<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-push-6 col-md-2 col-md-push-6">
 					{{-- Bootstrap has a mobile-first ideology.
 					The elements are ordered according to their xs size placements.
 					CSS is used to move the elements to their laptop/desktop (sm/md) locations. --}}
@@ -47,20 +47,20 @@
 					</div>
 
 					{{-- Log in --}}
-					<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-offset-6 col-md-12 col-md-offset-0 login-spacer">
+					<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-offset-6 col-md-12 col-md-offset-0 login-spacer">
 						{{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-md-auto']) }}
 					</div>
 				</div>
 
-				<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-pull-6 col-md-3 col-md-push-1">
+				<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-pull-6 col-md-3 col-md-push-1">
 					{{-- Forgot password --}}
 					<div class="col-xs-12 hug-sm-left login-spacer text-xs-center">
-						<a href="{{ route('password.email') }}" class="uppercase ">Forgot password?</a>
+						<a class="blacklink" href="{{ route('password.email') }}" class="uppercase ">Forgot password?</a>
 					</div>
 
 					{{-- Register --}}
 					<div class="col-xs-12 hug-sm-left login-spacer text-xs-center">
-						<a href="{{ route('user.register') }}" class="uppercase">Register an account</a>
+						<a class="blacklink" href="{{ route('user.register') }}" class="uppercase">Register an account</a>
 					</div>
 				</div>
 			</div>

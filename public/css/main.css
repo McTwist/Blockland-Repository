@@ -19,10 +19,10 @@
 	padding-bottom: 1em;
 }
 
-.over
+.fullwidth
 {
-	margin-left: -32px;
-	margin-right: -32px;
+	margin-left: -2.29em;
+	margin-right: -2.29em;
 }
 
 hr
@@ -74,7 +74,6 @@ p
 .blr-label
 {
 	font-family: "PT Sans", sans-serif;
-	font-size: 1em;
 	font-weight: bold;
 	margin-bottom: 1em;
 }
@@ -85,6 +84,7 @@ p
 	margin: 0;
 }
 
+/* TODO: Padding to margin. */
 .pad-top
 {
 	padding-top: 1em;
@@ -93,4 +93,35 @@ p
 .pad-bottom
 {
 	padding-bottom: 1em;
+}
+
+.mar-top
+{
+	margin-top: 1em;
+}
+
+.mar-top-neg
+{
+	margin-top: -1em;
+}
+
+.mar-bottom
+{
+	margin-bottom: 1em;
+}
+
+.mar-top-half
+{
+	margin-top: 0.5em;
+}
+
+.mar-bottom-half
+{
+	margin-bottom: 0.5em;
+}
+
+.mar-vert-half
+{
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }

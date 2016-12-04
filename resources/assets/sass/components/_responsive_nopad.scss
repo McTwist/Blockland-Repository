@@ -1,0 +1,70 @@
+.nopad-xs-left
+{
+	padding-left: 0;
+}
+
+.nopad-xs-right
+{
+	padding-right: 0;
+}
+
+.nopad-xs-both
+{
+	padding-left: 0;
+	padding-right: 0;
+}
+
+@media (min-width: $screen-sm-min) {
+	.nopad-sm-left
+	{
+		padding-left: 0;
+	}
+
+	.nopad-sm-right
+	{
+		padding-right: 0;
+	}
+
+	.nopad-sm-both
+	{
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+@media (min-width: $screen-md-min) {
+	.nopad-md-left
+	{
+		padding-left: 0;
+	}
+
+	.nopad-md-right
+	{
+		text-align: right;
+		padding-right: 0;
+	}
+
+	.nopad-md-both
+	{
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+@media (min-width: $screen-lg-min) {
+	.nopad-lg-left
+	{
+		padding-left: 0;
+	}
+
+	.nopad-lg-right
+	{
+		padding-right: 0;
+	}
+
+	.nopad-lg-both
+	{
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
