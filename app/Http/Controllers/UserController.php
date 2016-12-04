@@ -26,7 +26,7 @@ class UserController extends Controller
 			}
 			else
 			{
-				return view('errors.403');
+				return redirect()->intended(route('user.login'));
 			}
 		}
 		return view('auth.show', compact('user'));
