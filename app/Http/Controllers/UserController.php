@@ -16,7 +16,7 @@ class UserController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
 	 */
-	public function show($user = null)
+	public function show(User $user = null)
 	{
 		if (!is_object($user))
 		{
