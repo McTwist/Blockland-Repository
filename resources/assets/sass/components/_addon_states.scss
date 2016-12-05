@@ -1,0 +1,43 @@
+$radius: 0.5em;
+
+.addon-state
+{
+	text-transform: uppercase;
+	color: #ffffff;
+	font-weight: bold;
+	padding: $radius 0 $radius 0;
+	@include border-radius($radius);
+
+	/* Prevent color leaking. */
+	@include border-radius('padding-box');
+
+	&.state-public
+	{
+		background-color: #5cb200;
+
+		&:after
+		{
+			content: 'Public';
+		}
+	}
+
+	&.state-hidden
+	{
+		background-color: #bfbfbf;
+
+		&:after
+		{
+			content: 'Hidden';
+		}
+	}
+
+	&.state-private
+	{
+		background-color: #ffac19;
+
+		&:after
+		{
+			content: 'Private';
+		}
+	}
+}

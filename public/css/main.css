@@ -100,6 +100,16 @@ p
 	margin-top: 1em;
 }
 
+.mar-top-half
+{
+	margin-top: 0.5em;
+}
+
+.mar-top-none
+{
+	margin-bottom: 0;
+}
+
 .mar-top-neg
 {
 	margin-top: -1em;
@@ -110,14 +120,19 @@ p
 	margin-bottom: 1em;
 }
 
-.mar-top-half
-{
-	margin-top: 0.5em;
-}
-
 .mar-bottom-half
 {
 	margin-bottom: 0.5em;
+}
+
+.mar-bottom-none
+{
+	margin-bottom: 0;
+}
+
+.mar-bottom-neg
+{
+	margin-bottom: -1em;
 }
 
 .mar-vert-half

@@ -1,119 +1,53 @@
-
-#view
-{
-	width: 600px;
-	text-align: left;
-}
-
-#title
-{
-	display: inline-block;
-}
-
-.title
-{
-	display: block;
-}
-
 .subtitle
 {
 	font-family: "PT Sans", sans-serif;
 	font-weight: bold;
-	font-size: 1em;
-	display: block;
 }
 
 .summary
 {
 	font-family: "PT Sans", sans-serif;
 	font-style: italic;
-	font-size: 1em;
-	display: block;
 }
 
-#download
+.filesize
 {
-	float: right;
-	display: inline;
-}
-
-#download a
-{
-	display: inline;
-}
-
-.bytes
-{
-	display: block;
 	font-family: "Ubuntu", sans-serif;
-	font-size: 12px;
-	line-height: 40px;
+	font-size: 0.9em;
+}
+
+.inforow
+{
+	font-family: "Ubuntu", sans-serif;
 	text-align: center;
+	margin: 0;
 }
 
 .infobox
 {
-	margin-top: -10px;
-	display: block;
-	width: 600px;
-	height: 43px;
+	margin-top: 0.5em;
 }
 
-.info
+.info-key
 {
-	float: left;
-	border-left: 1px solid #d9d9d9;
-	border-right: 1px solid #f2f2f2;
+	font-size: 0.9em;
 }
 
-.infobox .info:last-child
-{
-	border-right: 0 none;
-}
-
-.infobox .info:first-child
-{
-	border-left: 0 none;
-}
-
-.info
-{
-	font-family: "Ubuntu", sans-serif;
-	text-align: center;
-	display: inline-block;
-	width: 145px;
-	margin: 0;
-}
-
-.info .tell
-{
-	font-weight: normal;
-	font-size: 12px;
-	display: block;
-}
-
-.info .data
+.info-value
 {
 	font-weight: bold;
-	font-size: 1em;
-	display: block;
+	font-size: 1.1em;
 }
 
-#description
+.description
 {
 	font-family: "Open Sans", sans-serif;
-	font-size: 12px;
+	text-align: justify;
 }
 
-#uploader
+.footnote
 {
 	font-family: "Open Sans", sans-serif;
 	font-style: italic;
-	font-size: 10px;
-	float: right;
-}
-
-#uploader a
-{
-	font-size: 10px;
+	font-size: 0.9em;
 }
