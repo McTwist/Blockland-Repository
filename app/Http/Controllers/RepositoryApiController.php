@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Models\Addon;
+use App\Models\Channel;
 
 class RepositoryApiController extends Controller
 {
@@ -165,7 +166,7 @@ class RepositoryApiController extends Controller
 		$obj->description = $addon->description;
 		$obj->channels = [];
 		// Channels
-		foreach ($addon->channels() as $channel)
+		foreach ($addon->channels as $channel)
 		{
 			$obj->channels[] = self::ObjectFromChannel($channel);
 		}
@@ -190,7 +191,7 @@ class RepositoryApiController extends Controller
 		if (!empty($channel->description))
 			$obj->description = $channel->description;
 
-		$restart_required = $channel->restart_required();
+		$restart_required = $channel->restart_required;
 		if (!empty($restart_required))
 			$obj->restart_required = $restart_required;
 
