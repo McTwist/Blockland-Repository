@@ -8,7 +8,6 @@
 	{{ Form::open(['route' => ['user.update'], 'method' => 'put', 'class' => 'form-horizontal']) }}
 	<fieldset class="blr-fieldset">
 		<legend>Account Settings</legend>
-		<hr>
 		<div class="container-fluid">
 			{{-- Username --}}
 			<div class="row form-group">

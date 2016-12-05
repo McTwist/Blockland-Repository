@@ -7,7 +7,6 @@
 	{{ Form::open(['route' => 'password.email', 'method' => 'post', 'class' => 'form-horizontal']) }}
 	<fieldset class="blr-fieldset">
 		<legend>Reset Password</legend>
-		<hr>
 		<div class="container-fluid">
 			<div class="row">
 				<!-- Email -->

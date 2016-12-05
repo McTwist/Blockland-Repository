@@ -9,7 +9,7 @@
 @section('mainbox', 'view')
 
 @section('content')
-	<div class="row mar-top-neg">
+	<div class="row">
 		@if(Auth::user() && $addon->IsOwner(Auth::user()) && false)
 			<div class="col-xs-12 col-sm-7 hug-xs-left nopad-xs-right mar-top">
 				<div class="col-xs-12 nopad-xs-right title">{{ $addon->name }}</div>

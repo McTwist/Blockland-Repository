@@ -1,7 +1,9 @@
+$pad: 2.29em;
+$halfpad: 1.145em;
 .low-box
 {
 	display: inline-block;
-	padding: 2.29em;
+	padding: $halfpad $pad;
 	background-color: #ffffff;
 	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
 	-moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
@@ -13,7 +15,7 @@
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	padding: 2.29em;
+	padding: $pad;
 	background-color: #ffffff;
 	box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);
 	-moz-box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);

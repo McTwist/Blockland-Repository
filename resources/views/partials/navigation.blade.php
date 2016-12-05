@@ -34,4 +34,5 @@
 			</div>
 		</nav>
 	</div>
+	<hr class="fullwidth separator-nav">
 @endif

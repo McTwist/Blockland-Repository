@@ -3,10 +3,9 @@
 @section('title', $user->username)
 
 @section('content')
-	<div class="title">
+	<div class="title mar-bottom-half">
 		{{ $user->username }}
 	</div>
-	<hr>
 	<div class="container-fluid">
 		<div class="row">
 			@if(Auth::id() === $user->id)

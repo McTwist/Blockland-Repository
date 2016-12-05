@@ -15,7 +15,6 @@
 	{{ Form::open(['route' => 'addon.popup.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
 	<fieldset class="blr-fieldset">
 		<legend>Upload Add-On</legend>
-		<hr>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="file col-xs-12">

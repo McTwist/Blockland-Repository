@@ -10,7 +10,6 @@
 	{{ Form::open(array('route' => 'user.login', 'method' => 'post', 'class' => 'form-horizontal')) }}
 	<fieldset class="blr-fieldset">
 		<legend>Login</legend>
-		<hr>
 		<div class="container-fluid">
 			<div class="row login-spacer-neg">
 				{{-- Username --}}

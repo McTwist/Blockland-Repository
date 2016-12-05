@@ -36,6 +36,16 @@ hr
 	margin-bottom: 1em;
 }
 
+hr.separator-nav
+{
+	margin-bottom: 2em;
+}
+
+hr.separator-footer
+{
+	margin-top: 2em;
+}
+
 p
 {
 	font-family: "Open Sans", sans-serif;
