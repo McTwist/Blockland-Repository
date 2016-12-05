@@ -4,10 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Traits\FormatSize;
 use App\Repository\Blockland\Addon\File as AddonFile;
 
 class Addon extends Model
 {
+	//////////////
+	//* Traits *//
+	//////////////
+	use FormatSize;
+
 	//////////////////
 	//* Attributes *//
 	//////////////////
@@ -144,7 +150,7 @@ class Addon extends Model
 	 */
 	public function tags()
 	{
-		return $this->belongsToMany(Tags::class)->withTimestamps();
+		return $this->morphToMany(Tag::class, 'taggable')->withTimestamps();
 	}
 
 	/////////////////
