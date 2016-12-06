@@ -18,7 +18,7 @@ class UserController extends Controller
 	 */
 	public function show(User $user = null)
 	{
-		if (!is_object($user))
+		if (!is_object($user) || $user->id == 0)
 		{
 			if (auth()->check())
 			{
