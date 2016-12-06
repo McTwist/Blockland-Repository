@@ -140,7 +140,7 @@ input[type="checkbox"]:checked + label
 {
 	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
-	font-size: 1.5em;
+	font-size: 1.3em;
 	line-height: 1em;
 	color: #6b00b2;
 	margin-top: 0;

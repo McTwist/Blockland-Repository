@@ -5,9 +5,9 @@
 @section('content')
 	<div class="container-fluid">
 		<div class="row">
-			<div class="title mar-bottom-half">
+			<h1 class="title mar-bottom-half">
 				{{ $user->username }}
-			</div>
+			</h1>
 		</div>
 		<div class="row">
 			@if(Auth::id() === $user->id)

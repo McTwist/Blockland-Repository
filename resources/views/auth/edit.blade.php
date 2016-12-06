@@ -32,9 +32,7 @@
 
 				{{-- TODO: Password change page. --}}
 
-				<div class="row">
-					<div class="col-xs-12 col-sm-6 col-sm-offset-3 title2">Linked Blockland Account</div>
-				</div>
+				<h2>Linked Blockland Account</h2>
 
 				<div class="row">
 					<div class="col-xs-12">
