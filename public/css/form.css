@@ -79,7 +79,6 @@ textarea
 label
 {
 	font-family: "PT Sans", sans-serif;
-	font-size: 1em;
 	font-weight: normal;
 }
 
@@ -114,13 +113,6 @@ input[type="checkbox"]:checked + label
 	background-position: 0 -12px;
 }
 
-input[type="password"]
-{
-	font-size: 1.2em;
-	font-weight: bold;
-	letter-spacing: 0.05em;
-}
-
 /*
  * Custom Styles
  */
@@ -133,10 +125,14 @@ input[type="password"]
 	text-align: left;
 	line-height: 1em;
 	color: #6b00b2;
-	margin-bottom: 0;
-	padding-top: 1em;
-	/* HR element must be used for duo-tone border. */
+	margin-bottom: 0.5em;
 	border-bottom: 0;
+}
+
+.blr-fieldset .form-group:last-of-type
+{
+	/* Margin is handled by footer HR. */
+	margin-bottom: 0;
 }
 
 .control-label-blr

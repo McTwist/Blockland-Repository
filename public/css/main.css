@@ -2,7 +2,8 @@
 {
 	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
-	font-size: 1.8em;
+	font-size: 1.9em;
+	line-height: 1em;
 	text-align: left;
 	color: #6b00b2;
 	margin: 0;
@@ -12,14 +13,16 @@
 {
 	font-family: "Ubuntu", sans-serif;
 	font-weight: bold;
-	font-size: 1em;
+	font-size: 1.1em;
+	line-height: 1em;
 	color: #6b00b2;
+	padding-bottom: 1em;
 }
 
-.over
+.fullwidth
 {
-	margin-left: -32px;
-	margin-right: -32px;
+	margin-left: -2.29em;
+	margin-right: -2.29em;
 }
 
 hr
@@ -31,6 +34,22 @@ hr
 	background: #d9d9d9;
 	margin-top: 1em;
 	margin-bottom: 1em;
+}
+
+hr.separator-nav
+{
+	margin-bottom: 2em;
+}
+
+hr.separator-footer
+{
+	margin-top: 2em;
+}
+
+p
+{
+	font-family: "Open Sans", sans-serif;
+	text-align: left;
 }
 
 .uppercase
@@ -65,7 +84,6 @@ hr
 .blr-label
 {
 	font-family: "PT Sans", sans-serif;
-	font-size: 1em;
 	font-weight: bold;
 	margin-bottom: 1em;
 }
@@ -76,7 +94,59 @@ hr
 	margin: 0;
 }
 
+/* TODO: Padding to margin. */
 .pad-top
 {
 	padding-top: 1em;
+}
+
+.pad-bottom
+{
+	padding-bottom: 1em;
+}
+
+.mar-top
+{
+	margin-top: 1em;
+}
+
+.mar-top-half
+{
+	margin-top: 0.5em;
+}
+
+.mar-top-none
+{
+	margin-bottom: 0;
+}
+
+.mar-top-neg
+{
+	margin-top: -1em;
+}
+
+.mar-bottom
+{
+	margin-bottom: 1em;
+}
+
+.mar-bottom-half
+{
+	margin-bottom: 0.5em;
+}
+
+.mar-bottom-none
+{
+	margin-bottom: 0;
+}
+
+.mar-bottom-neg
+{
+	margin-bottom: -1em;
+}
+
+.mar-vert-half
+{
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }

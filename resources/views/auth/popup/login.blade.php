@@ -3,7 +3,6 @@
 	{{ Form::open(array('route' => 'user.login', 'method' => 'post', 'class' => 'form-horizontal')) }}
 	<fieldset class="blr-fieldset">
 		<legend>Login</legend>
-		<hr>
 		<div class="container-fluid">
 			<div class="row login-spacer-neg">
 				{{-- Username --}}
@@ -28,7 +27,7 @@
 			</div>
 
 			<div class="row">
-				<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-push-6 col-md-6 col-md-push-6">
+				<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-push-6 col-md-6 col-md-push-6">
 					{{-- Bootstrap has a mobile-first ideology.
 					The elements are ordered according to their xs size placements.
 					CSS is used to move the elements to their laptop/desktop (sm/md) locations. --}}
@@ -40,25 +39,25 @@
 					</div>
 
 					{{-- Log in --}}
-					<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-push-6 col-md-5 col-md-push-7 col-md-offset-0 login-spacer">
+					<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-push-6 col-md-5 col-md-push-7 col-md-offset-0 login-spacer">
 						{{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-md-auto']) }}
 					</div>
 
 					{{-- Close --}}
-					<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-pull-6 col-md-5 col-md-pull-3 login-spacer">
+					<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-pull-6 col-md-5 col-md-pull-3 login-spacer">
 						{{ Form::button('Close', ['onclick' => 'clearPopup()', 'class' => 'btn blr-btn btn-blr-close width-xs-full width-md-auto']) }}
 					</div>
 				</div>
 
-				<div class="col-xs-12 hug-xs-left hug-xs-right col-sm-6 col-sm-pull-6 col-md-6 col-md-pull-6">
+				<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-pull-6 col-md-6 col-md-pull-6">
 					{{-- Forgot password --}}
 					<div class="col-xs-12 hug-sm-left login-spacer text-xs-center">
-						<a href="{{ route('password.email') }}" class="uppercase ">Forgot password?</a>
+						<a href="{{ route('password.email') }}" class="blacklink uppercase ">Forgot password?</a>
 					</div>
 
 					{{-- Register --}}
 					<div class="col-xs-12 hug-sm-left login-spacer text-xs-center">
-						<a href="{{ route('user.register') }}" class="uppercase">Register an account</a>
+						<a href="{{ route('user.register') }}" class="blacklink uppercase">Register an account</a>
 					</div>
 				</div>
 			</div>

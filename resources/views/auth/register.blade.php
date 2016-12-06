@@ -7,7 +7,6 @@
 
 	<fieldset class="blr-fieldset">
 		<legend>Register</legend>
-		<hr>
 		<div class="container-fluid">
 			<div class="row">
 				<!-- Username -->

@@ -3,12 +3,19 @@ a:visited,
 a:active
 {
 	font-family: "Open Sans", sans-serif;
-	font-size: 1em;
-	color: #1a1a1a;
+	color: #9cb212;
 	text-decoration: none;
+
+	&.blacklink:link,
+	&.blacklink:visited,
+	&.blacklink:active
+	{
+		color: #1a1a1a;
+	}
 }
 
-a:hover
+a:hover,
+a.blacklink:hover
 {
 	color: #9cb212;
 	text-decoration: underline;
