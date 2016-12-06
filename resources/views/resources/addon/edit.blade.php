@@ -2,58 +2,90 @@
 
 @section('title', 'Edit ' . $addon->name)
 
-@section('stylesheets')
-	
-	<link rel="stylesheet" type="text/css" href="/css/upload.css">
-
-@append
-
 @section('mainbox', 'edit')
 
 @section('content')
+	<div class="container-fluid">
+		{{ Form::open(['route' => ['addon.update', $addon->slug], 'method' => 'put','files' => true, 'class' => 'form-horizontal']) }}
+		<fieldset class="blr-fieldset">
+			<legend>Edit Add-On</legend>
+			<div class="row">
+				{{-- Category --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('category', 'Category:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::select('category', $categories, $addon->category_id, ['disabled', 'required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
 
-	<span class="title">Edit Add-On</span>
-	<hr>
+				{{-- Title --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('title', 'Title:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::text('title', $addon->name, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
 
-	{{ Form::open(['route' => ['addon.update', $addon->slug], 'method' => 'put']) }}
-		<div class="upload_category">
-			{{ Form::Label('category', 'Category:') }}
-			<div class="selectContainer">
-				{{ Form::select('category', $categories, $addon->category_id, ['disabled']) }}
+				{{-- Summary --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('summary', 'Title:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::text('summary', $addon->summary, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
+				{{-- Authors --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('authors', 'Authors:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::text('authors', $addon->authors, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
+				{{-- Description --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('description', 'Description:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::textarea('description', $addon->description, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
+				<h2>Screenshots</h2>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+						{{-- TODO: Proper file input. --}}
+						{{ Form::file('screenshot') }}
+					</div>
+				</div>
+
+				<div class="row">
+					{{-- Update --}}
+					<div class="col-xs-12 col-sm-4 col-sm-push-6 mar-top">
+						{{-- FIXME: Updating an add-on actually deletes the add-on. --}}
+						{{ Form::submit('Update', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-sm-auto']) }}
+					</div>
+
+					{{-- Delete --}}
+					<div class="col-xs-12 col-sm-4 col-sm-pull-2 mar-top">
+						{{ Form::open(['route' => ['addon.destroy', $addon->slug], 'method' => 'delete', 'class' => 'form-horizontal']) }}
+						{{-- TODO: Red button. --}}
+						{{ Form::submit('Delete Add-On', ['class' => 'btn blr-btn btn-blr-red width-xs-full float-sm-left width-sm-auto uppercase']) }}
+						{{ Form::close() }}
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="upload_title">
-			{{ Form::Label('title', 'Title:') }}
-			{{ Form::text('title', $addon->name) }}
-		</div>
-		<div class="upload_summary">
-			{{ Form::Label('summary', 'Summary:') }}
-			{{ Form::text('summary', $addon->summary) }}
-		</div>
-		<div class="upload_developers">
-			{{ Form::Label('developers', 'Developers:') }}
-			{{ Form::text('developers', $addon->authors) }}
-		</div>
-		<div class="upload_description">
-			{{ Form::Label('description', 'Description:') }}
-			{{ Form::textarea('description', $addon->description) }}
-		</div>
-		<hr class="over">
-		<span class="title2">Screenshots</span>
-		<br>
-		<div class="screenshots">
-			<label class="fileContainer noselect">
-				Browse
-				<input type="file" name="screenshot" value="Browse">
-			</label>
-		</div>
-		<div class="upload">
-			{{ Form::submit('Update') }}
-		</div>
-	{{ Form::close() }}
-
-	{{ Form::open(['route' => ['addon.destroy', $addon->slug], 'method' => 'delete']) }}
-		{{ Form::submit('Delete Add-On') }}
-	{{ Form::close() }}	
-
+		</fieldset>
+		{{ Form::close() }}
+	</div>
 @endsection
