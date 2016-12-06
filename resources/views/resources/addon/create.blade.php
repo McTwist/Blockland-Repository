@@ -33,7 +33,7 @@
 				{{-- Summary --}}
 				<div class="row form-group">
 					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
-						{{ Form::label('summary', 'Title:', ['class' => 'control-label control-label-blr']) }}
+						{{ Form::label('summary', 'Summary:', ['class' => 'control-label control-label-blr']) }}
 					</div>
 					<div class="col-xs-12 col-sm-8">
 						{{ Form::text('summary', $summary, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
