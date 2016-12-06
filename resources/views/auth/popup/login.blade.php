@@ -52,12 +52,12 @@
 				<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-pull-6 col-md-6 col-md-pull-6">
 					{{-- Forgot password --}}
 					<div class="col-xs-12 hug-sm-left login-spacer text-xs-center">
-						<a class="blacklink" href="{{ route('password.email') }}" class="uppercase ">Forgot password?</a>
+						<a href="{{ route('password.email') }}" class="blacklink uppercase ">Forgot password?</a>
 					</div>
 
 					{{-- Register --}}
 					<div class="col-xs-12 hug-sm-left login-spacer text-xs-center">
-						<a class="blacklink" href="{{ route('user.register') }}" class="uppercase">Register an account</a>
+						<a href="{{ route('user.register') }}" class="blacklink uppercase">Register an account</a>
 					</div>
 				</div>
 			</div>
