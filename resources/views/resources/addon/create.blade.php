@@ -1,60 +1,112 @@
 @extends('layouts.master')
 
-@section('title', 'Upload Add-On')
+@section('title', 'Create Add-On')
 
 @section('mainbox', 'upload')
 
 @section('content')
-	<span class="title">Upload Add-On</span>
-	<hr>
+	<div class="container-fluid">
+		{{ Form::open(['route' => 'addon.store', 'method' => 'post', 'files' => true, 'class' => 'form-horizontal']) }}
+		<fieldset class="blr-fieldset">
+			<legend>Create Add-On</legend>
+			<div class="row">
+				{{-- Category --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('category', 'Category:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::select('category', $categories, $category, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
 
-	{{ Form::open(array('route' => 'addon.store', 'method' => 'post')) }}
-		<div class="upload_category">
-			{{ Form::Label('category', 'Category:') }}
-			<div class="selectContainer">
-				{{ Form::select('category', $categories, $category) }}
+				{{-- Title --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('title', 'Title:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::text('title', $title, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
+				{{-- Summary --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('summary', 'Title:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::text('summary', $summary, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
+				{{-- Authors --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('authors', 'Authors:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::text('authors', $developers, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
+				{{-- Description --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('description', 'Description:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::textarea('description', $description, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
+				<div class="row form-group">
+					{{-- Channel --}}
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('channel', 'Channel:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-4">
+						{{ Form::text('channel', $channel, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+
+					{{-- Version --}}
+					<div class="col-xs-12 text-xs-left col-sm-1 hug-sm-right">
+						{{ Form::label('version', 'Version:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-3">
+						{{ Form::text('version', $version, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
+				<h2>Screenshots</h2>
+
+				<div class="row">
+					<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+						{{-- TODO: Proper file input. --}}
+						{{ Form::file('screenshot') }}
+					</div>
+				</div>
+
+				<div class="row">
+					{{-- Create --}}
+					<div class="col-xs-12 col-sm-4 col-sm-push-6 mar-top">
+						{{ Form::submit('Create Add-On', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-sm-auto']) }}
+					</div>
+				</div>
+
+				@if (count($errors) > 0)
+					<div class="row">
+						<div class="col-xs-12">
+							<ul>
+								@foreach($error as $err)
+									<li>{{ $err['message'] }}</li>
+								@endforeach
+							</ul>
+						</div>
+					</div>
+				@endif
 			</div>
-		</div>
-		<div class="upload_title">
-			{{ Form::Label('title', 'Title:') }}
-			{{ Form::text('title', $title, ['required']) }}
-		</div>
-		<div class="upload_summary">
-			{{ Form::Label('summary', 'Summary:') }}
-			{{ Form::text('summary', $summary, ['required']) }}
-		</div>
-		<div class="upload_developers">
-			{{ Form::Label('developers', 'Developers:') }}
-			{{ Form::text('developers', $developers, ['required']) }}
-		</div>
-		<div class="upload_description">
-			{{ Form::Label('description', 'Description:') }}
-			{{ Form::textarea('description', $description, ['required']) }}
-		</div>
-		<div class="upload_channel">
-			{{ Form::Label('channel', 'Channel:') }}
-			{{ Form::text('channel', $channel) }}
-		</div>
-		<div class="upload_version">
-			{{ Form::Label('version', 'Version:') }}
-			{{ Form::text('version', $version) }}
-		</div>
-		<div class="upload_error">
-			@foreach($error as $err)
-				<div>{{ $err['message'] }}</div>
-			@endforeach
-		</div>
-		<hr class="over">
-		<span class="title2">Screenshots</span>
-		<br>
-		<div class="screenshots">
-			<label class="noselect">
-				Browse
-				<input type="file" name="screenshot" value="Browse">
-			</label>
-		</div>
-		<div class="upload">
-			{{ Form::submit('Upload') }}
-		</div>
-	{{ Form::close() }}
+		</fieldset>
+		{{ Form::close() }}
+	</div>
 @endsection
