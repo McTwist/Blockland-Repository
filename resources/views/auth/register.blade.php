@@ -4,11 +4,11 @@
 
 @section('content')
 	<div class="container-fluid">
-		{{ Form::open(array('route' => 'user.register', 'method' => 'post', 'class' => 'form-horizontal')) }}
+		{{ Form::open(['route' => 'user.register', 'method' => 'post', 'class' => 'form-horizontal']) }}
 		<fieldset class="blr-fieldset">
 			<legend>Register Account</legend>
 			<div class="row">
-				<!-- Username -->
+				{{-- Username --}}
 				<div class="row form-group">
 					<div class="col-xs-12 text-xs-left col-sm-3 hug-sm-right col-md-2 col-md-offset-2">
 						{{ Form::label('username', 'Username:', ['class' => 'control-label control-label-blr']) }}
@@ -18,7 +18,7 @@
 					</div>
 				</div>
 
-				<!-- Email -->
+				{{-- Email --}}
 				<div class="row form-group">
 					<div class="col-xs-12 text-xs-left col-sm-3 hug-sm-right col-md-2 col-md-offset-2">
 						{{ Form::label('email', 'Email:', ['class' => 'control-label control-label-blr']) }}
@@ -28,7 +28,7 @@
 					</div>
 				</div>
 
-				<!-- Password -->
+				{{-- Password --}}
 				<div class="row form-group">
 					<div class="col-xs-12 text-xs-left col-sm-3 hug-sm-right col-md-2 col-md-offset-2">
 						{{ Form::label('password', 'Password:', ['class' => 'control-label control-label-blr']) }}
@@ -38,7 +38,7 @@
 					</div>
 				</div>
 
-				<!-- Password confirmation -->
+				{{-- Password confirmation --}}
 				<div class="row form-group">
 					<div class="col-xs-12 text-xs-left col-sm-3 hug-sm-right col-md-2 col-md-offset-2">
 						{{ Form::label('password_confirmation', 'Confirm Password:', ['class' => 'control-label control-label-blr']) }}
@@ -48,7 +48,7 @@
 					</div>
 				</div>
 
-				<!-- Register button -->
+				{{-- Register button --}}
 				<div class="row form-group">
 					<div class="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
 						{{ Form::submit('Register Account', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-sm-auto']) }}
