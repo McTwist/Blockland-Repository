@@ -12,18 +12,18 @@
 @append
 
 @section('content')
-	{{ Form::open(['route' => 'addon.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
-	<fieldset class="blr-fieldset">
-		<legend>Upload Add-On</legend>
-		<div class="container-fluid">
+	<div class="container-fluid">
+		{{ Form::open(['route' => 'addon.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
+		<fieldset class="blr-fieldset">
+			<legend>Upload Add-On</legend>
 			<div class="row">
-				<div class="file col-xs-12">
+				<div class="file col-xs-12 nopad-xs-both">
 					{{-- Choose File button --}}
 					{{ Form::button('Choose File', ['id' => 'dropClick', 'class' => 'btn blr-btn btn-blr-default center-block width-xs-full width-sm-auto fileContainer']) }}
 				</div>
 				<div id="uploadError" class="col-xs-12"></div>
 			</div>
-		</div>
-	</fieldset>
-	{{ Form::close() }}
+		</fieldset>
+		{{ Form::close() }}
+	</div>
 @endsection
