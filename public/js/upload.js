@@ -19,22 +19,31 @@ $(function () {
 		previewTemplate: '<div style="display: none;"></div>',
 		init: function () {
 			this.on("sending", function (file, xhr, formData) {
-				$('#dropClick').text('Uploading...');
+				btn = $('#dropClick');
+				btn.data('old', btn.text());
+				btn.text('Uploading...').prop('disabled', true);
 			});
 			this.on("uploadprogress", function (file) {
 				// TODO: Display a progress of some sort
 			});
 			this.on("success", function (file, response) {
+				// Reset state and display error message
+				function error(msg) {
+					btn = $('#dropClick');
+					btn.text(btn.data('old')).prop('disabled', false);
+					$('#uploadError').text(msg);
+				}
+				// Handle response
 				if (response) {
 					if (response.url) {
 						window.location = response.url;
 					}
 					else if (response.error) {
-						$('#uploadError').text(response.error);
+						error(response.error);
 					}
 				}
 				else {
-					$('#uploadError').text('Unknown internal error');
+					error('Unknown internal error');
 				}
 			});
 		},
