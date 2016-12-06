@@ -88,7 +88,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	{
 		$blockland_user = $this->blockland_user;
 		if (is_null($blockland_user))
-			return 0;
+			return -1;
 		else
 			return $blockland_user->first()->id;
 	}
