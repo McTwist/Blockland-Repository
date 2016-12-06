@@ -127,6 +127,13 @@ input[type="checkbox"]:checked + label
 	color: #6b00b2;
 	margin-bottom: 0.5em;
 	border-bottom: 0;
+	/*
+	 * Replicates the Boostrap row element.
+	 * Legend should be on its own row.
+	 * Can't use a row div as the element must be a direct child of fieldset.
+	 */
+	margin-right: -15px;
+	margin-left: -15px;
 }
 
 .blr-fieldset .form-group:last-of-type
