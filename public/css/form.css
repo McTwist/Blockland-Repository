@@ -136,6 +136,16 @@ input[type="checkbox"]:checked + label
 	margin-left: -15px;
 }
 
+.blr-fieldset h2
+{
+	font-family: "Ubuntu", sans-serif;
+	font-weight: bold;
+	font-size: 1.5em;
+	line-height: 1em;
+	color: #6b00b2;
+	margin-bottom: 1em;
+}
+
 .blr-fieldset .form-group:last-of-type
 {
 	/* Margin is handled by footer HR. */
@@ -229,14 +239,4 @@ input[type="checkbox"]:checked + label
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	background: url('/img/dropdown_arrow.png') no-repeat right;
-}
-
-/* TODO: What is this? */
-.fileContainer [type="file"]
-{
-	opacity: 0;
-	border: 0;
-	position: absolute;
-	left: -5000px;
-	top: -5000px;
 }

@@ -2,16 +2,9 @@
 
 @section('title', 'Upload Add-On')
 
-@section('stylesheets')
-	
-	<link rel="stylesheet" type="text/css" href="/css/upload.css">
-
-@append
-
 @section('mainbox', 'upload')
 
 @section('content')
-
 	<span class="title">Upload Add-On</span>
 	<hr>
 
@@ -55,7 +48,7 @@
 		<span class="title2">Screenshots</span>
 		<br>
 		<div class="screenshots">
-			<label class="fileContainer noselect">
+			<label class="noselect">
 				Browse
 				<input type="file" name="screenshot" value="Browse">
 			</label>
@@ -64,5 +57,4 @@
 			{{ Form::submit('Upload') }}
 		</div>
 	{{ Form::close() }}
-
 @endsection

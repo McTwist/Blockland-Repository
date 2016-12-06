@@ -17,7 +17,7 @@
 					<div class="row">
 						<div class="file col-xs-12 nopad-xs-both">
 							{{-- Choose File button --}}
-							{{ Form::button('Choose File', ['id' => 'dropClick', 'class' => 'btn blr-btn btn-blr-default center-block width-xs-full width-sm-auto fileContainer']) }}
+							{{ Form::button('Choose File', ['id' => 'dropClick', 'class' => 'btn blr-btn btn-blr-default center-block width-xs-full width-sm-auto']) }}
 						</div>
 						<div id="uploadError" class="col-sm-12"></div>
 					</div>
