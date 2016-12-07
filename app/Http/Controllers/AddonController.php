@@ -162,12 +162,12 @@ class AddonController extends Controller
 		// TODO: Use the addon directly instead of values, making this easier to change
 		$title = $addon_file->Title();
 		$summary = $addon_file->Description();
-		$developers = $addon_file->Authors('');
+		$authors = $addon_file->Authors('');
 		$description = '';
 		$channel = $addon_file->Channel();
 		$version = $addon_file->Version();
 		// Show the Create Page for Addon
-		return view('resources.addon.create', compact('title', 'summary', 'developers', 'description', 'categories', 'category', 'channel', 'version', 'error'));
+		return view('resources.addon.create', compact('title', 'summary', 'authors', 'description', 'categories', 'category', 'channel', 'version', 'error'));
 	}
 
 	/**
@@ -182,7 +182,7 @@ class AddonController extends Controller
 		$this->validate($request, [
 			'title' => 'required|max:64|unique:addons,name',
 			'summary' => 'required',
-			'developers' => 'required',
+			'authors' => 'required',
 			'description' => 'required',
 			'category' => 'integer|exists:categories,id'
 		]);
@@ -194,7 +194,7 @@ class AddonController extends Controller
 		$category = $request->input('category');
 		$title = $request->input('title');
 		$summary = $request->input('summary');
-		$developers = $request->input('developers');
+		$authors = $request->input('authors');
 		$description = $request->input('description');
 		$channel = $request->input('channel');
 		$version = $request->input('version');
@@ -234,7 +234,7 @@ class AddonController extends Controller
 		$cache = new VersionCache;
 		$cache->version()->associate($version_obj);
 		$cache->summary = $summary;
-		$cache->authors = $developers;
+		$cache->authors = $authors;
 		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertTo32(crc32(file_get_contents(temp_path($data['path']))));
 		$cache->save();
 
@@ -319,7 +319,7 @@ class AddonController extends Controller
 			$this->validate($request, [
 				'title' => 'required|max:64|unique:addons,name,'.$addon->id,
 				'summary' => 'required',
-				'developers' => 'required',
+				'authors' => 'required'
 				'description' => 'required'
 			]);
 
@@ -327,7 +327,7 @@ class AddonController extends Controller
 			$addon->name = $request->input('title');
 			$addon->description = $request->input('description');
 			$addon->summary = $request->input('summary');
-			$addon->authors = $request->input('developers');
+			$addon->authors = $request->input('authors');
 
 			// Save the Addon
 			$addon->push();
