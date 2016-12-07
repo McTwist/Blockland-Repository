@@ -53,7 +53,7 @@
 
 .btn-blr-default
 {
-	color: $blr-col-utility-offwhite;
+	color: $blr-col-bg-offwhite;
 	background-color: $blr-col-primary;
 	box-shadow: 0 2px 3px 0 $rgba-shadow;
 }
@@ -62,7 +62,7 @@
 .btn-blr-default:focus,
 .btn-blr-default.focus
 {
-	color: $blr-col-utility-offwhite;
+	color: $blr-col-bg-offwhite;
 	background: linear-gradient($blr-col-primary-middle, $blr-col-primary) $blr-col-primary-middle;
 	box-shadow: 0 3px 5px 0 $rgba-shadow;
 	/* Bootstrap override */
@@ -75,14 +75,14 @@
 .btn-blr-default.active:focus,
 .btn-blr-default.active.focus
 {
-	color: $blr-col-utility-offwhite;
+	color: $blr-col-bg-offwhite;
 	background: linear-gradient($blr-col-primary-dark, $blr-col-primary) $blr-col-primary-dark;
 	box-shadow: 0 1px 2px 0 $rgba-shadow;
 }
 
 .btn-blr-red
 {
-	color: $blr-col-utility-offwhite;
+	color: $blr-col-bg-offwhite;
 	background-color: $blr-col-utility-red;
 	box-shadow: 0 2px 3px 0 $rgba-shadow;
 }
@@ -91,7 +91,7 @@
 .btn-blr-red:focus,
 .btn-blr-red.focus
 {
-	color: $blr-col-utility-offwhite;
+	color: $blr-col-bg-offwhite;
 	background: linear-gradient($blr-col-utility-red-middle, $blr-col-utility-red) $blr-col-utility-red-middle;
 	box-shadow: 0 3px 5px 0 $rgba-shadow;
 	/* Bootstrap override */
@@ -104,7 +104,7 @@
 .btn-blr-red.active:focus,
 .btn-blr-red.active.focus
 {
-	color: $blr-col-utility-offwhite;
+	color: $blr-col-bg-offwhite;
 	background: linear-gradient($blr-col-utility-red-dark, $blr-col-utility-red) $blr-col-utility-red-dark;
 	box-shadow: 0 1px 2px 0 $rgba-shadow;
 }
@@ -166,7 +166,7 @@
 .blr-btn
 {
 	font-family: $blr-font-family-title;
-	color: $blr-col-utility-offwhite !important;
+	color: $blr-col-bg-offwhite !important;
 	border-radius: 0;
 	padding: 10px 20px;
 	border: 0;
