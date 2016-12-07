@@ -56,7 +56,7 @@
 						{{ Form::label('description', 'Description:', ['class' => 'control-label control-label-blr']) }}
 					</div>
 					<div class="col-xs-12 col-sm-8">
-						{{ Form::textarea('description', $addon->description, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+						{{ Form::textarea('description', $addon->description, ['class' => 'form-control blr-form-control']) }}
 					</div>
 				</div>
 
