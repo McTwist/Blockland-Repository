@@ -1,0 +1,55 @@
+$checkbox-image-square: 12px;
+
+textarea,
+select,
+.selectContainer,
+.selectContainer select
+{
+	font-family: $blr-font-family-text;
+	border: 1px solid $blr-col-utility-gray;
+	background: linear-gradient($blr-col-utility-offwhite, $white);
+	color: $blr-text-color;
+	border-radius: 0;
+}
+
+textarea
+{
+	resize: vertical;
+}
+
+label
+{
+	font-family: $blr-font-family-label;
+	font-weight: normal;
+}
+
+input[type="checkbox"]
+{
+	width: $checkbox-image-square;
+	height: $checkbox-image-square;
+	padding: 0;
+	opacity: 0;
+	cursor: pointer;
+	/*
+	 * Places the real checkbox next to the custom one.
+	 * TODO: Fake the checkbox with a span.
+	 * Breaks with responsive design.
+	 margin-left: 72px;
+	 */
+}
+
+input[type="checkbox"] + label
+{
+	display: inline-block;
+	padding-top: 0 !important;
+	background: transparent url('/img/checkbox.png') 0 0 no-repeat;
+	/* TODO: Line height ought to be 14*1.618px but I can't figure out how to move the image down. */
+	line-height: $checkbox-image-square;
+	cursor: pointer;
+	height: $checkbox-image-square;
+}
+
+input[type="checkbox"]:checked + label
+{
+	background-position: 0 -$checkbox-image-square;
+}

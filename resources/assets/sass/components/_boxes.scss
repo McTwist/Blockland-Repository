@@ -3,9 +3,9 @@
 	display: inline-block;
 	padding: $container-padding-half $container-padding;
 	background-color: $white;
-	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
-	-moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
-	-webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
+	box-shadow: 0 3px 6px 0 $rgba-shadow;
+	-moz-box-shadow: 0 3px 6px 0 $rgba-shadow;
+	-webkit-box-shadow: 0 3px 6px 0 $rgba-shadow;
 }
 
 .popup-box
@@ -15,9 +15,9 @@
 	margin-right: auto;
 	padding: $container-padding;
 	background-color: $white;
-	box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);
-	-moz-box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);
-	-webkit-box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);
+	box-shadow: 0 9px 18px 3px $rgba-shadow;
+	-moz-box-shadow: 0 9px 18px 3px $rgba-shadow;
+	-webkit-box-shadow: 0 9px 18px 3px $rgba-shadow;
 }
 
 #popup-box-wrapper

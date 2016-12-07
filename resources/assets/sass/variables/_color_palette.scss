@@ -4,6 +4,8 @@ $blr-col-primary: #6b00b2;
 $blr-col-primary-middle: #bd59ff;
 $blr-col-primary-light: #e2b5ff;
 
+$blr-col-primary-middle-rgba-glow: rgba(189, 89, 255, .6);
+
 /* Secondary theme color. */
 $blr-col-complementary-dark: #5b690b;
 $blr-col-complementary: #9cb212;
@@ -26,3 +28,6 @@ $blr-col-utility-black: #1a1a1a;
 $blr-col-utility-gray: #cccccc;
 $blr-col-utility-offwhite: #f0f0f0;
 $white: #ffffff;
+
+/* Other commonly used colors. */
+$rgba-shadow: rgba(0, 0, 0, .333);
