@@ -80,6 +80,35 @@
 	box-shadow: 0 1px 2px 0 $rgba-shadow;
 }
 
+.btn-blr-red
+{
+	color: $blr-col-utility-offwhite;
+	background-color: $blr-col-utility-red;
+	box-shadow: 0 2px 3px 0 $rgba-shadow;
+}
+
+.btn-blr-red:hover,
+.btn-blr-red:focus,
+.btn-blr-red.focus
+{
+	color: $blr-col-utility-offwhite;
+	background: linear-gradient($blr-col-utility-red-middle, $blr-col-utility-red) $blr-col-utility-red-middle;
+	box-shadow: 0 3px 5px 0 $rgba-shadow;
+	/* Bootstrap override */
+	border: 0 !important;
+	outline: 0 !important;
+}
+
+.btn-blr-red:active:focus,
+.btn-blr-red:active.focus,
+.btn-blr-red.active:focus,
+.btn-blr-red.active.focus
+{
+	color: $blr-col-utility-offwhite;
+	background: linear-gradient($blr-col-utility-red-dark, $blr-col-utility-red) $blr-col-utility-red-dark;
+	box-shadow: 0 1px 2px 0 $rgba-shadow;
+}
+
 .btn-blr-close
 {
 	font-weight: bold;
