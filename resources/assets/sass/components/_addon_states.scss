@@ -6,10 +6,9 @@ $radius: 0.5em;
 	color: $white;
 	font-weight: bold;
 	padding: $radius 0 $radius 0;
-	@include border-radius($radius);
-
+	border-radius: $radius;
 	/* Prevent color leaking. */
-	@include background-clip(padding-box);
+	background-clip: padding-box;
 
 	&.state-public
 	{
