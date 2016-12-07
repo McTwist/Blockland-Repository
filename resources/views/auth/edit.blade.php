@@ -21,7 +21,7 @@
 				</div>
 
 				{{-- Email --}}
-				<div class="row form-group pad-bottom">
+				<div class="row form-group mar-bottom-double">
 					<div class="col-xs-12 text-xs-left col-sm-2 col-sm-offset-1 hug-sm-right col-md-offset-2">
 						{{ Form::label('email', 'Email:', ['class' => 'control-label control-label-blr']) }}
 					</div>

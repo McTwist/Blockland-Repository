@@ -1,5 +1,10 @@
 /* ---- TOP ---- */
 
+.mar-top-double
+{
+	margin-top: $standard-margin * 2;
+}
+
 .mar-top
 {
 	margin-top: $standard-margin;
@@ -22,6 +27,11 @@
 
 /* ---- BOTTOM ---- */
 
+.mar-bottom-double
+{
+	margin-bottom: $standard-margin * 2;
+}
+
 .mar-bottom
 {
 	margin-bottom: $standard-margin;
@@ -43,6 +53,12 @@
 }
 
 /* ---- VERTICAL ---- */
+
+.mar-vert-double
+{
+	margin-top: $standard-margin * 2;
+	margin-bottom: $standard-margin * 2;
+}
 
 .mar-vert
 {
