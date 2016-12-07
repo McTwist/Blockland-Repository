@@ -15,6 +15,7 @@ use App\Validation\Rules\DescriptionRule;
 use App\Validation\Rules\VersionRule;
 use App\Validation\Rules\RequiredFilesRule;
 use App\Validation\Rules\ScriptsRule;
+use App\Validation\Rules\TypeRule;
 
 use App\Repository\Blockland\Addon\File as AddonFile;
 
@@ -57,6 +58,7 @@ class Validator implements ValidatorBase
 		VersionRule::class,
 		RequiredFilesRule::class,
 		ScriptsRule::class,
+		TypeRule::class,
 	];
 
 	/**
