@@ -15,7 +15,7 @@ class NamecheckRule implements Rule
 		
 		if (!$addon->HasNamecheck())
 		{
-			$messages->add('namecheck_exists', "Does not contain a namecheck.");
+			$messages->add('namecheck_missing', "Does not contain a namecheck.");
 		}
 		if (!$addon->ValidateNamecheck())
 		{

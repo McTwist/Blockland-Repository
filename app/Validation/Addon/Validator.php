@@ -107,7 +107,7 @@ class Validator implements ValidatorBase
 			$this->messages->add('file', "Unable to open archive: {$this->path}");
 		}
 
-		return count($this->messages->all()) === 0;
+		return $this->messages->isEmpty();
 	}
 
 	/**
