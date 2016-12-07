@@ -1,0 +1,14 @@
+/* Generic key-value pair key or label. */
+.blr-label
+{
+	font-family: $blr-font-family-title;
+	font-weight: bold;
+	margin-bottom: $standard-margin;
+}
+
+/* Generic key-value pair value. */
+.blr-value
+{
+	font-family: $blr-font-family-text;
+	margin: 0;
+}

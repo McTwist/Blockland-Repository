@@ -1,0 +1,22 @@
+hr
+{
+	border-top: 1px solid $blr-col-utility-gray;
+	border-bottom: 1px solid $blr-col-utility-offwhite;
+	border-left-style: none;
+	height: 0;
+	background: $blr-col-utility-gray;
+	margin-top: $standard-margin;
+	margin-bottom: $standard-margin;
+}
+
+/* HR for the navigation bar. */
+hr.separator-nav
+{
+	margin-bottom: $standard-margin * 2;
+}
+
+/* HR for the footer. */
+hr.separator-footer
+{
+	margin-top: $standard-margin * 2;
+}

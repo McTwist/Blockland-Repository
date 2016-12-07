@@ -1,9 +1,7 @@
-$pad: 2.29em;
-$halfpad: 1.145em;
 .low-box
 {
 	display: inline-block;
-	padding: $halfpad $pad;
+	padding: $container-padding-half $container-padding;
 	background-color: $white;
 	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
 	-moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
@@ -15,9 +13,22 @@ $halfpad: 1.145em;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	padding: $pad;
+	padding: $container-padding;
 	background-color: $white;
 	box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);
 	-moz-box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);
 	-webkit-box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);
+}
+
+#popup-box-wrapper
+{
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	/* Disable horizontal scroll */
+	overflow-x: hidden;
 }
