@@ -1,9 +1,7 @@
-$bootstrap-row-margin: -15px;
-
 .extend-xs-double
 {
-	margin-left: $bootstrap-row-margin*2;
-	margin-right: $bootstrap-row-margin*2;
+	margin-left: $bootstrap-row-margin * 2;
+	margin-right: $bootstrap-row-margin * 2;
 }
 
 .extend-xs-normal
@@ -15,8 +13,8 @@ $bootstrap-row-margin: -15px;
 @media (min-width: $screen-sm-min) {
 	.extend-sm-double
 	{
-		margin-left: $bootstrap-row-margin*2;
-		margin-right: $bootstrap-row-margin*2;
+		margin-left: $bootstrap-row-margin * 2;
+		margin-right: $bootstrap-row-margin * 2;
 	}
 
 	.extend-sm-normal
@@ -29,8 +27,8 @@ $bootstrap-row-margin: -15px;
 @media (min-width: $screen-md-min) {
 	.extend-md-double
 	{
-		margin-left: $bootstrap-row-margin*2;
-		margin-right: $bootstrap-row-margin*2;
+		margin-left: $bootstrap-row-margin * 2;
+		margin-right: $bootstrap-row-margin * 2;
 	}
 
 	.extend-md-normal
@@ -43,8 +41,8 @@ $bootstrap-row-margin: -15px;
 @media (min-width: $screen-lg-min) {
 	.extend-lg-double
 	{
-		margin-left: $bootstrap-row-margin*2;
-		margin-right: $bootstrap-row-margin*2;
+		margin-left: $bootstrap-row-margin * 2;
+		margin-right: $bootstrap-row-margin * 2;
 	}
 
 	.extend-lg-normal

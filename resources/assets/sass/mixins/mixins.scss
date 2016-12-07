@@ -8,15 +8,3 @@
 | in this section, and used throughout the remainder of the code.
 |
 */
-@mixin border-radius($radius) {
-	-webkit-border-radius: $radius;
-	-moz-border-radius: $radius;
-	-ms-border-radius: $radius;
-	border-radius: $radius;
-}
-
-@mixin background-clip($str) {
-	-webkit-background-clip: $str;
-	-moz-background-clip: $str;
-	background-clip: $str;
-}

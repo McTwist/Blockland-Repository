@@ -1,0 +1,85 @@
+/* ---- TOP ---- */
+
+.mar-top-double
+{
+	margin-top: $standard-margin * 2;
+}
+
+.mar-top
+{
+	margin-top: $standard-margin;
+}
+
+.mar-top-half
+{
+	margin-top: $standard-margin / 2;
+}
+
+.mar-top-none
+{
+	margin-bottom: 0;
+}
+
+.mar-top-neg
+{
+	margin-top: -$standard-margin;
+}
+
+/* ---- BOTTOM ---- */
+
+.mar-bottom-double
+{
+	margin-bottom: $standard-margin * 2;
+}
+
+.mar-bottom
+{
+	margin-bottom: $standard-margin;
+}
+
+.mar-bottom-half
+{
+	margin-bottom: $standard-margin / 2;
+}
+
+.mar-bottom-none
+{
+	margin-bottom: 0;
+}
+
+.mar-bottom-neg
+{
+	margin-bottom: -$standard-margin;
+}
+
+/* ---- VERTICAL ---- */
+
+.mar-vert-double
+{
+	margin-top: $standard-margin * 2;
+	margin-bottom: $standard-margin * 2;
+}
+
+.mar-vert
+{
+	margin-top: $standard-margin;
+	margin-bottom: $standard-margin;
+}
+
+.mar-vert-half
+{
+	margin-top: $standard-margin / 2;
+	margin-bottom: $standard-margin / 2;
+}
+
+.mar-vert-none
+{
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.mar-vert-neg
+{
+	margin-top: -$standard-margin;
+	margin-bottom: -$standard-margin;
+}

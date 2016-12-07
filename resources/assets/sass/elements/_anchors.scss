@@ -2,21 +2,21 @@ a:link,
 a:visited,
 a:active
 {
-	font-family: "Open Sans", sans-serif;
-	color: #9cb212;
+	font-family: $blr-font-family-text;
+	color: $blr-col-complementary;
 	text-decoration: none;
 
 	&.blacklink:link,
 	&.blacklink:visited,
 	&.blacklink:active
 	{
-		color: #1a1a1a;
+		color: $blr-text-color;
 	}
 }
 
 a:hover,
 a.blacklink:hover
 {
-	color: #9cb212;
+	color: $blr-col-complementary;
 	text-decoration: underline;
 }
