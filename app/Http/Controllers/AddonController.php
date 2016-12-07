@@ -163,7 +163,7 @@ class AddonController extends Controller
 		$title = $addon_file->Title();
 		$summary = $addon_file->Description();
 		$developers = $addon_file->Authors('');
-		$description = $addon_file->Description();
+		$description = '';
 		$channel = $addon_file->Channel();
 		$version = $addon_file->Version();
 		// Show the Create Page for Addon
