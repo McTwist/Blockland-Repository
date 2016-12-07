@@ -32,7 +32,7 @@
 
 				{{-- TODO: Password change page. --}}
 
-				<h2>Linked Blockland Account</h2>
+				<h2 class="mar-bottom text-xs-center">Linked Blockland Account</h2>
 
 				<div class="row">
 					<div class="col-xs-12">
