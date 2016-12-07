@@ -9,7 +9,7 @@ $radius: 0.5em;
 	@include border-radius($radius);
 
 	/* Prevent color leaking. */
-	@include border-radius('padding-box');
+	@include background-clip(padding-box);
 
 	&.state-public
 	{
