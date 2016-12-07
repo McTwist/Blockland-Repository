@@ -183,7 +183,6 @@ class AddonController extends Controller
 			'title' => 'required|max:64|unique:addons,name',
 			'summary' => 'required',
 			'authors' => 'required',
-			'description' => 'required',
 			'category' => 'integer|exists:categories,id'
 		]);
 
@@ -195,7 +194,7 @@ class AddonController extends Controller
 		$title = $request->input('title');
 		$summary = $request->input('summary');
 		$authors = $request->input('authors');
-		$description = $request->input('description');
+		$description = $request->input('description', '');
 		$channel = $request->input('channel');
 		$version = $request->input('version');
 
@@ -320,12 +319,11 @@ class AddonController extends Controller
 				'title' => 'required|max:64|unique:addons,name,'.$addon->id,
 				'summary' => 'required',
 				'authors' => 'required'
-				'description' => 'required'
 			]);
 
 			// Update the Addon
 			$addon->name = $request->input('title');
-			$addon->description = $request->input('description');
+			$addon->description = $request->input('description', '');
 			$addon->summary = $request->input('summary');
 			$addon->authors = $request->input('authors');
 
