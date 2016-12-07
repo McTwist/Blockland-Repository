@@ -72,8 +72,32 @@ class AddonController extends Controller
 
 		// Don't throw an exception. Instead, pass it to the user and try to assist by fixing it ourselves.
 		if ($validator->fails())
-			//$this->throwValidationException($request, $validator);
-			$request->session()->flash('upload', $validator->messages());
+		{
+			// Check for special messages
+			$critical_keys = ['required_files', 'scripts_invalid', 'type_missing'];
+			$messages = $validator->messages();
+			if ($messages->hasAny($critical_keys))
+			{
+				// Remove invalid file
+				unlink(temp_path($path));
+				// Get specific errors and display them
+				$errors = [];
+				foreach ($critical_keys as $key)
+					if ($messages->has($key))
+						$errors[] = $messages->get($key);
+				if ($request->ajax())
+				{
+					return response()->json(['error' => $errors], 422);
+				}
+				else
+				{
+					$request->session()->flash('error', $messages);
+					return redirect()->intended(route('addon.upload'));
+				}
+			}
+			
+			$request->session()->flash('error', $messages);
+		}
 
 		// Flash the data for next request
 		$data = [
@@ -117,8 +141,8 @@ class AddonController extends Controller
 			return redirect()->intended(route('pages.home'));
 		}
 		$data = $request->session()->get('upload');
-		$error = $request->session()->get('error', array());
-		$request->session()->reflash();
+		$error = $request->session()->get('error', null);
+		$request->session()->keep('upload');
 
 		$temp_file = temp_path($data['path']);
 		$original = $data['original'];

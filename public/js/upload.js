@@ -18,6 +18,17 @@ $(function () {
 		},
 		previewTemplate: '<div style="display: none;"></div>',
 		init: function () {
+			// Reset state and display error message
+			function error(msgs) {
+				msgs = [].concat(msgs);
+				btn = $('#dropClick');
+				btn.text(btn.data('old')).prop('disabled', false);
+				// Create list and set to element
+				var list = $('<ul/>').appendTo($('#uploadError').empty());
+				$.each(msgs, function(i) {
+					var li = $('<li/>').text(msgs[i]).appendTo(list);
+				});
+			}
 			this.on("sending", function (file, xhr, formData) {
 				btn = $('#dropClick');
 				btn.data('old', btn.text());
@@ -27,19 +38,25 @@ $(function () {
 				// TODO: Display a progress of some sort
 			});
 			this.on("success", function (file, response) {
-				// Reset state and display error message
-				function error(msg) {
-					btn = $('#dropClick');
-					btn.text(btn.data('old')).prop('disabled', false);
-					$('#uploadError').text(msg);
-				}
 				// Handle response
+				if (response && response.url) {
+					window.location = response.url;
+				}
+				else {
+					error('Unknown internal error');
+				}
+			});
+			this.on("error", function (file, response) {
+				// Handle errors
 				if (response) {
-					if (response.url) {
-						window.location = response.url;
-					}
-					else if (response.error) {
+					if (response.error) {
 						error(response.error);
+					}
+					else if (response.file) {
+						error(response.file);
+					}
+					else {
+						error('Unknown internal error');
 					}
 				}
 				else {
