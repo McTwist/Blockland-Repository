@@ -4,7 +4,7 @@ $halfpad: 1.145em;
 {
 	display: inline-block;
 	padding: $halfpad $pad;
-	background-color: #ffffff;
+	background-color: $white;
 	box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
 	-moz-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
 	-webkit-box-shadow: 0 3px 6px 0 rgba(0, 0, 0, .333);
@@ -16,7 +16,7 @@ $halfpad: 1.145em;
 	margin-left: auto;
 	margin-right: auto;
 	padding: $pad;
-	background-color: #ffffff;
+	background-color: $white;
 	box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);
 	-moz-box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);
 	-webkit-box-shadow: 0 9px 18px 3px rgba(0, 0, 0, .333);

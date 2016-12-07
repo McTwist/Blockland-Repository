@@ -33,14 +33,14 @@ $category-name-font-size: 1.2em;
 
 		&:link, &:visited, &:active
 		{
-			font-family: "Ubuntu", sans-serif;
-			color: #1a1a1a;
+			font-family: $blr-font-family-title;
+			color: $blr-text-color;
 			text-decoration: none;
 		}
 
 		.category-name
 		{
-			font-family: "Ubuntu", sans-serif;
+			font-family: $blr-font-family-title;
 			font-size: $category-name-font-size;
 			position: absolute;
 			text-align: center;
@@ -50,4 +50,3 @@ $category-name-font-size: 1.2em;
 		}
 	}
 }
-
