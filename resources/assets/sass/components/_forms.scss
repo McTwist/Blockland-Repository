@@ -13,6 +13,17 @@
 	margin: 0;
 }
 
+.info-key
+{
+	font-size: 0.9em;
+}
+
+.info-value
+{
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
 .blr-fieldset legend
 {
 	@extend h1;
