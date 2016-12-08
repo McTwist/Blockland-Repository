@@ -7,16 +7,16 @@ hr
 	background: $blr-col-bg-gray;
 	margin-top: $standard-margin;
 	margin-bottom: $standard-margin;
-}
 
-/* HR for the navigation bar. */
-hr.separator-nav
-{
-	margin-bottom: $standard-margin * 2;
-}
+	/* HR for the navigation bar. */
+	&.separator-nav
+	{
+		margin-bottom: $standard-margin * 2;
+	}
 
-/* HR for the footer. */
-hr.separator-footer
-{
-	margin-top: $standard-margin * 2;
+	/* HR for the footer. */
+	&.separator-footer
+	{
+		margin-top: $standard-margin * 2;
+	}
 }

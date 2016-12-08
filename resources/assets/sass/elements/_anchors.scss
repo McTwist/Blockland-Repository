@@ -1,3 +1,4 @@
+a,
 a:link,
 a:visited,
 a:active
@@ -12,11 +13,12 @@ a:active
 	{
 		color: $blr-text-color;
 	}
+
+	&:hover,
+	&.blacklink:hover
+	{
+		color: $blr-col-complementary;
+		text-decoration: underline;
+	}
 }
 
-a:hover,
-a.blacklink:hover
-{
-	color: $blr-col-complementary;
-	text-decoration: underline;
-}

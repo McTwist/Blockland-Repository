@@ -24,26 +24,29 @@
 	font-size: 1.1em;
 }
 
-.blr-fieldset legend
+.blr-fieldset
 {
-	@extend h1;
+	legend
+	{
+		@extend h1;
 
-	text-align: left;
-	margin-bottom: 0.5em;
-	border-bottom: 0;
-	/*
-	 * Replicates the Boostrap row element.
-	 * Legend should be on its own row.
-	 * Can't use a row div as the element must be a direct child of fieldset.
-	 */
-	margin-right: $bootstrap-row-margin;
-	margin-left: $bootstrap-row-margin;
-}
+		text-align: left;
+		margin-bottom: 0.5em;
+		border-bottom: 0;
+		/*
+		 * Replicates the Boostrap row element.
+		 * Legend should be on its own row.
+		 * Can't use a row div as the element must be a direct child of fieldset.
+		 */
+		margin-right: $bootstrap-row-margin;
+		margin-left: $bootstrap-row-margin;
+	}
 
-.blr-fieldset .form-group:last-of-type
-{
-	/* Margin is handled by footer HR. */
-	margin-bottom: 0;
+	.form-group:last-of-type
+	{
+		/* Margin is handled by footer HR. */
+		margin-bottom: 0;
+	}
 }
 
 .control-label-blr
@@ -56,28 +59,28 @@
 	color: $blr-col-bg-offwhite;
 	background-color: $blr-col-primary;
 	box-shadow: 0 2px 3px 0 $rgba-shadow;
-}
 
-.btn-blr-default:hover,
-.btn-blr-default:focus,
-.btn-blr-default.focus
-{
-	color: $blr-col-bg-offwhite;
-	background: linear-gradient($blr-col-primary-middle, $blr-col-primary) $blr-col-primary-middle;
-	box-shadow: 0 3px 5px 0 $rgba-shadow;
-	/* Bootstrap override */
-	border: 0 !important;
-	outline: 0 !important;
-}
+	&:hover,
+	&:focus,
+	&.focus
+	{
+		color: $blr-col-bg-offwhite;
+		background: linear-gradient($blr-col-primary-middle, $blr-col-primary) $blr-col-primary-middle;
+		box-shadow: 0 3px 5px 0 $rgba-shadow;
+		/* Bootstrap override */
+		border: 0 !important;
+		outline: 0 !important;
+	}
 
-.btn-blr-default:active:focus,
-.btn-blr-default:active.focus,
-.btn-blr-default.active:focus,
-.btn-blr-default.active.focus
-{
-	color: $blr-col-bg-offwhite;
-	background: linear-gradient($blr-col-primary-dark, $blr-col-primary) $blr-col-primary-dark;
-	box-shadow: 0 1px 2px 0 $rgba-shadow;
+	&:active:focus,
+	&:active.focus,
+	&.active:focus,
+	&.active.focus
+	{
+		color: $blr-col-bg-offwhite;
+		background: linear-gradient($blr-col-primary-dark, $blr-col-primary) $blr-col-primary-dark;
+		box-shadow: 0 1px 2px 0 $rgba-shadow;
+	}
 }
 
 .btn-blr-red
@@ -85,28 +88,28 @@
 	color: $blr-col-bg-offwhite;
 	background-color: $blr-col-utility-red;
 	box-shadow: 0 2px 3px 0 $rgba-shadow;
-}
 
-.btn-blr-red:hover,
-.btn-blr-red:focus,
-.btn-blr-red.focus
-{
-	color: $blr-col-bg-offwhite;
-	background: linear-gradient($blr-col-utility-red-middle, $blr-col-utility-red) $blr-col-utility-red-middle;
-	box-shadow: 0 3px 5px 0 $rgba-shadow;
-	/* Bootstrap override */
-	border: 0 !important;
-	outline: 0 !important;
-}
+	&:hover,
+	&:focus,
+	&.focus
+	{
+		color: $blr-col-bg-offwhite;
+		background: linear-gradient($blr-col-utility-red-middle, $blr-col-utility-red) $blr-col-utility-red-middle;
+		box-shadow: 0 3px 5px 0 $rgba-shadow;
+		/* Bootstrap override */
+		border: 0 !important;
+		outline: 0 !important;
+	}
 
-.btn-blr-red:active:focus,
-.btn-blr-red:active.focus,
-.btn-blr-red.active:focus,
-.btn-blr-red.active.focus
-{
-	color: $blr-col-bg-offwhite;
-	background: linear-gradient($blr-col-utility-red-dark, $blr-col-utility-red) $blr-col-utility-red-dark;
-	box-shadow: 0 1px 2px 0 $rgba-shadow;
+	&:active:focus,
+	&:active.focus,
+	&.active:focus,
+	&.active.focus
+	{
+		color: $blr-col-bg-offwhite;
+		background: linear-gradient($blr-col-utility-red-dark, $blr-col-utility-red) $blr-col-utility-red-dark;
+		box-shadow: 0 1px 2px 0 $rgba-shadow;
+	}
 }
 
 .btn-blr-close
@@ -117,41 +120,41 @@
 	text-decoration: none;
 	background: none transparent;
 	box-shadow: none;
-}
 
-.btn-blr-close:hover,
-.btn-blr-close:focus,
-.btn-blr-close.focus
-{
-	color: $blr-col-primary-light !important;
-	/* Bootstrap override */
-	border: 0 !important;
-	outline: 0 !important;
-}
+	&:hover,
+	&:focus,
+	&.focus
+	{
+		color: $blr-col-primary-light !important;
+		/* Bootstrap override */
+		border: 0 !important;
+		outline: 0 !important;
+	}
 
-.btn-blr-close:active:focus,
-.btn-blr-close:active.focus,
-.btn-blr-close.active:focus,
-.btn-blr-close.active.focus
-{
-	background: none transparent;
-	box-shadow: none;
+	&:active:focus,
+	&:active.focus,
+	&.active:focus,
+	&.active.focus
+	{
+		background: none transparent;
+		box-shadow: none;
+	}
 }
 
 .selectContainer
 {
 	overflow: hidden;
-}
 
-.selectContainer select
-{
-	width: 97%;
-	border: 0;
-	background: transparent;
-	padding: 1px;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	background: url('/img/dropdown_arrow.png') no-repeat right;
+	select
+	{
+		width: 97%;
+		border: 0;
+		background: transparent;
+		padding: 1px;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		background: url('/img/dropdown_arrow.png') no-repeat right;
+	}
 }
 
 /*
@@ -161,6 +164,36 @@
 .blr-form-control
 {
 	@extend textarea;
+
+	&:focus
+	{
+		border-color: $blr-col-primary;
+		outline: 0;
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px $blr-col-primary-middle-rgba-glow;
+	}
+
+	/* These need to be done individually for some reason. */
+	&::-webkit-input-placeholder
+	{
+		font-family: $blr-font-family-label;
+	}
+
+	/* Firefox 18- */
+	&:-moz-placeholder
+	{
+		font-family: $blr-font-family-label;
+	}
+
+	/* Firefox 19+ */
+	&::-moz-placeholder
+	{
+		font-family: $blr-font-family-label;
+	}
+
+	&:-ms-input-placeholder
+	{
+		font-family: $blr-font-family-label;
+	}
 }
 
 .blr-btn
@@ -170,34 +203,4 @@
 	border-radius: 0;
 	padding: 10px 20px;
 	border: 0;
-}
-
-.blr-form-control:focus
-{
-	border-color: $blr-col-primary;
-	outline: 0;
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px $blr-col-primary-middle-rgba-glow;
-}
-
-/* These need to be done individually for some reason. */
-.blr-form-control::-webkit-input-placeholder
-{
-	font-family: $blr-font-family-label;
-}
-
-/* Firefox 18- */
-.blr-form-control:-moz-placeholder
-{
-	font-family: $blr-font-family-label;
-}
-
-/* Firefox 19+ */
-.blr-form-control::-moz-placeholder
-{
-	font-family: $blr-font-family-label;
-}
-
-.blr-form-control:-ms-input-placeholder
-{
-	font-family: $blr-font-family-label;
 }

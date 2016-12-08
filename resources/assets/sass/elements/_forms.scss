@@ -32,24 +32,23 @@ input[type="checkbox"]
 	cursor: pointer;
 	/*
 	 * Places the real checkbox next to the custom one.
-	 * TODO: Fake the checkbox with a span.
+	 * FIXME: Fake the checkbox with a span. Current checkbox is broken.
 	 * Breaks with responsive design.
 	 margin-left: 72px;
 	 */
-}
+	& + label
+	{
+		display: inline-block;
+		padding-top: 0 !important;
+		background: transparent url('/img/checkbox.png') 0 0 no-repeat;
+		/* TODO: Line height ought to be 14*1.618px but I can't figure out how to move the image down. */
+		line-height: $checkbox-image-square;
+		cursor: pointer;
+		height: $checkbox-image-square;
+	}
 
-input[type="checkbox"] + label
-{
-	display: inline-block;
-	padding-top: 0 !important;
-	background: transparent url('/img/checkbox.png') 0 0 no-repeat;
-	/* TODO: Line height ought to be 14*1.618px but I can't figure out how to move the image down. */
-	line-height: $checkbox-image-square;
-	cursor: pointer;
-	height: $checkbox-image-square;
-}
-
-input[type="checkbox"]:checked + label
-{
-	background-position: 0 -$checkbox-image-square;
+	&:checked + label
+	{
+		background-position: 0 -$checkbox-image-square;
+	}
 }
