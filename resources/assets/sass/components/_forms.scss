@@ -166,6 +166,9 @@
 .blr-form-control
 {
 	@extend textarea;
+	/* Bootstrap overrides so the sizes are relative. */
+	font-size: $font-size-14px;
+	height: auto;
 
 	&:focus
 	{
@@ -205,4 +208,7 @@
 	border-radius: 0;
 	padding: 10px 20px;
 	border: 0;
+
+	/* Bootstrap override. */
+	font-size: $font-size-14px;
 }
