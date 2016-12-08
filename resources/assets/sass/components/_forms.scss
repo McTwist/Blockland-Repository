@@ -2,6 +2,7 @@
 .blr-label
 {
 	font-family: $blr-font-family-title;
+	font-size: $font-size-14px;
 	font-weight: bold;
 	margin-bottom: $standard-margin;
 }
@@ -10,18 +11,19 @@
 .blr-value
 {
 	font-family: $blr-font-family-text;
+	font-size: $font-size-14px;
 	margin: 0;
 }
 
 .info-key
 {
-	font-size: 0.9em;
+	font-size: $font-size-14px;
 }
 
 .info-value
 {
 	font-weight: bold;
-	font-size: 1.1em;
+	font-size: $font-size-16px;
 }
 
 .blr-fieldset
@@ -31,7 +33,7 @@
 		@extend h1;
 
 		text-align: left;
-		margin-bottom: 0.5em;
+		margin-bottom: $standard-margin-half;
 		border-bottom: 0;
 		/*
 		 * Replicates the Boostrap row element.
