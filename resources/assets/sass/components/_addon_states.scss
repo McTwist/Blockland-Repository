@@ -6,7 +6,7 @@ $radius: $standard-margin-half;
 	color: $white;
 	font-weight: bold;
 	padding: $radius 0 $radius 0;
-	border-radius: $radius;
+	border-radius: 1000em;
 	/* Prevent color leaking. */
 	background-clip: padding-box;
 
