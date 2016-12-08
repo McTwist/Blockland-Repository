@@ -1,6 +1,6 @@
 #navigation
 {
-	font-family: "Open Sans", sans-serif;
+	font-family: $blr-font-family-text;
 	width: 100%;
 
 	ul
@@ -18,7 +18,7 @@
 
 		&:nth-child(n+2):before
 		{
-			// Add BLACK SMALL SQUARE + NBSP to second element and beyond
+			// Add BLACK SMALL SQUARE + NBSP to second element and beyond.
 			content: "\25AA\00A0";
 			line-height: 0;
 		}

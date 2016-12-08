@@ -2,10 +2,6 @@
 
 @section('title', $addon->name . ' by ' . $addon->authors)
 
-@section('stylesheets')
-	<link rel="stylesheet" type="text/css" href="/css/view.css">
-@append
-
 @section('mainbox', 'view')
 
 @section('content')
@@ -50,19 +46,19 @@
 		<hr class="mar-bottom-none">
 		<div class="row inforow">
 			{{-- TODO: Figure out nice separators like in the concept that work at xs scale. --}}
-			<div class="col-xs-6 col-sm-3 infobox">
+			<div class="col-xs-6 col-sm-3 mar-top-half">
 				<div class="col-xs-12 info-key">Version</div>
 				<div class="col-xs-12 info-value">{{ $addon->version_name }}</div>
 			</div>
-			<div class="col-xs-6 col-sm-3 infobox">
+			<div class="col-xs-6 col-sm-3 mar-top-half">
 				<div class="col-xs-12 info-key">Downloads</div>
 				<div class="col-xs-12 info-value">{{ $addon->downloads }}</div>
 			</div>
-			<div class="col-xs-6 col-sm-3 infobox">
+			<div class="col-xs-6 col-sm-3 mar-top-half">
 				<div class="col-xs-12 info-key">Updated</div>
 				<div class="col-xs-12 info-value">{{ date('Y-m-d', $addon->updated_at->getTimestamp()) }}</div>
 			</div>
-			<div class="col-xs-6 col-sm-3 infobox">
+			<div class="col-xs-6 col-sm-3 mar-top-half">
 				<div class="col-xs-12 info-key">Created</div>
 				<div class="col-xs-12 info-value">{{ date('Y-m-d', $addon->created_at->getTimestamp()) }}</div>
 			</div>

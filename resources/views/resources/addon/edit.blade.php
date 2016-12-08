@@ -79,7 +79,6 @@
 					{{-- Delete --}}
 					<div class="col-xs-12 col-sm-4 col-sm-pull-2 mar-top">
 						{{ Form::open(['route' => ['addon.destroy', $addon->slug], 'method' => 'delete', 'class' => 'form-horizontal']) }}
-						{{-- TODO: Red button. --}}
 						{{ Form::submit('Delete Add-On', ['class' => 'btn blr-btn btn-blr-red width-xs-full float-sm-left width-sm-auto uppercase']) }}
 						{{ Form::close() }}
 					</div>

@@ -1,0 +1,37 @@
+.subtitle
+{
+	font-family: $blr-font-family-label;
+	font-weight: bold;
+}
+
+.summary
+{
+	font-family: $blr-font-family-label;
+	font-style: italic;
+}
+
+.filesize
+{
+	font-family: $blr-font-family-title;
+	font-size: 0.9em;
+}
+
+.inforow
+{
+	font-family: $blr-font-family-title;
+	text-align: center;
+	margin: 0;
+}
+
+.description
+{
+	font-family: $blr-font-family-text;
+	text-align: justify;
+}
+
+.footnote
+{
+	font-family: $blr-font-family-text;
+	font-style: italic;
+	font-size: 0.9em;
+}

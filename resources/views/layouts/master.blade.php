@@ -26,8 +26,6 @@
 
 	<!-- Stylesheets -->
 	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/main.css">
-	<link rel="stylesheet" type="text/css" href="/css/form.css">
 	<link rel="stylesheet" type="text/css" href="/css/app.css">
 
 	@yield('stylesheets')
@@ -35,8 +33,7 @@
 
 <body>
 <div id="popup-box-wrapper" class="container container-table" style="display: none;">
-	<div id="popup-box-container" class="row vertical-center-row">
-	</div>
+	<div id="popup-box-container" class="row vertical-center-row"></div>
 </div>
 <div class="--center">
 	@include('partials.header')

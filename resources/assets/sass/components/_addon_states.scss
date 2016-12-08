@@ -3,17 +3,16 @@ $radius: 0.5em;
 .addon-state
 {
 	text-transform: uppercase;
-	color: #ffffff;
+	color: $white;
 	font-weight: bold;
 	padding: $radius 0 $radius 0;
-	@include border-radius($radius);
-
+	border-radius: $radius;
 	/* Prevent color leaking. */
-	@include border-radius('padding-box');
+	background-clip: padding-box;
 
 	&.state-public
 	{
-		background-color: #5cb200;
+		background-color: $blr-col-utility-green;
 
 		&:after
 		{
@@ -23,7 +22,7 @@ $radius: 0.5em;
 
 	&.state-hidden
 	{
-		background-color: #bfbfbf;
+		background-color: $blr-col-bg-gray;
 
 		&:after
 		{
@@ -33,7 +32,7 @@ $radius: 0.5em;
 
 	&.state-private
 	{
-		background-color: #ffac19;
+		background-color: $blr-col-tertiary;
 
 		&:after
 		{
