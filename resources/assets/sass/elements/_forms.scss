@@ -7,7 +7,7 @@ select,
 .selectContainer select
 {
 	font-family: $blr-font-family-text;
-	border: 1px solid $blr-col-bg-gray;
+	border: $px1 solid $blr-col-bg-gray;
 	background: linear-gradient($blr-col-bg-gray-light, $white) $blr-col-bg-gray-light;
 	color: $blr-text-color;
 	border-radius: 0;

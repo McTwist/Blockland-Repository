@@ -60,7 +60,7 @@
 {
 	color: $blr-col-bg-offwhite;
 	background-color: $blr-col-primary;
-	box-shadow: 0 2px 3px 0 $rgba-shadow;
+	box-shadow: 0 $px2 $px3 0 $rgba-shadow;
 
 	&:hover,
 	&:focus,
@@ -68,7 +68,7 @@
 	{
 		color: $blr-col-bg-offwhite;
 		background: linear-gradient($blr-col-primary-middle, $blr-col-primary) $blr-col-primary-middle;
-		box-shadow: 0 3px 5px 0 $rgba-shadow;
+		box-shadow: 0 $px3 $px5 0 $rgba-shadow;
 		/* Bootstrap override */
 		border: 0 !important;
 		outline: 0 !important;
@@ -81,7 +81,7 @@
 	{
 		color: $blr-col-bg-offwhite;
 		background: linear-gradient($blr-col-primary-dark, $blr-col-primary) $blr-col-primary-dark;
-		box-shadow: 0 1px 2px 0 $rgba-shadow;
+		box-shadow: 0 $px1 $px2 0 $rgba-shadow;
 	}
 }
 
@@ -89,7 +89,7 @@
 {
 	color: $blr-col-bg-offwhite;
 	background-color: $blr-col-utility-red;
-	box-shadow: 0 2px 3px 0 $rgba-shadow;
+	box-shadow: 0 $px2 $px3 0 $rgba-shadow;
 
 	&:hover,
 	&:focus,
@@ -97,7 +97,7 @@
 	{
 		color: $blr-col-bg-offwhite;
 		background: linear-gradient($blr-col-utility-red-middle, $blr-col-utility-red) $blr-col-utility-red-middle;
-		box-shadow: 0 3px 5px 0 $rgba-shadow;
+		box-shadow: 0 $px3 $px5 0 $rgba-shadow;
 		/* Bootstrap override */
 		border: 0 !important;
 		outline: 0 !important;
@@ -110,7 +110,7 @@
 	{
 		color: $blr-col-bg-offwhite;
 		background: linear-gradient($blr-col-utility-red-dark, $blr-col-utility-red) $blr-col-utility-red-dark;
-		box-shadow: 0 1px 2px 0 $rgba-shadow;
+		box-shadow: 0 $px1 $px2 0 $rgba-shadow;
 	}
 }
 
@@ -152,7 +152,7 @@
 		width: 97%;
 		border: 0;
 		background: transparent;
-		padding: 1px;
+		padding: $px1;
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		background: url('/img/dropdown_arrow.png') no-repeat right;
@@ -174,7 +174,7 @@
 	{
 		border-color: $blr-col-primary;
 		outline: 0;
-		box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px $blr-col-primary-middle-rgba-glow;
+		box-shadow: inset 0 $px1 $px1 rgba(0, 0, 0, .075), 0 0 $px8 $blr-col-primary-middle-rgba-glow;
 	}
 
 	/* These need to be done individually for some reason. */
@@ -206,7 +206,7 @@
 	font-family: $blr-font-family-title;
 	color: $blr-col-bg-offwhite !important;
 	border-radius: 0;
-	padding: 10px 20px;
+	padding: 0.75em 1.5em;
 	border: 0;
 
 	/* Bootstrap override. */
