@@ -1,8 +1,10 @@
+a,
 a:link,
 a:visited,
 a:active
 {
 	font-family: $blr-font-family-text;
+	font-size: $font-size-14px;
 	color: $blr-col-complementary;
 	text-decoration: none;
 
@@ -12,11 +14,12 @@ a:active
 	{
 		color: $blr-text-color;
 	}
+
+	&:hover,
+	&.blacklink:hover
+	{
+		color: $blr-col-complementary;
+		text-decoration: underline;
+	}
 }
 
-a:hover,
-a.blacklink:hover
-{
-	color: $blr-col-complementary;
-	text-decoration: underline;
-}

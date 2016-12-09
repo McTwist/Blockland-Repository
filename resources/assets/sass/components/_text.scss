@@ -13,7 +13,7 @@
 .filesize
 {
 	font-family: $blr-font-family-title;
-	font-size: 0.9em;
+	font-size: $font-size-14px;
 }
 
 .inforow
@@ -26,12 +26,13 @@
 .description
 {
 	font-family: $blr-font-family-text;
+	font-size: $font-size-14px;
 	text-align: justify;
 }
 
 .footnote
 {
 	font-family: $blr-font-family-text;
+	font-size: $font-size-12px;
 	font-style: italic;
-	font-size: 0.9em;
 }

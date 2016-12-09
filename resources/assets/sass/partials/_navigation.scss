@@ -1,12 +1,14 @@
 #navigation
 {
 	font-family: $blr-font-family-text;
+	font-size: $font-size-14px;
 	width: 100%;
 
 	ul
 	{
 		margin-bottom: 0;
 	}
+
 	.nav-item-group
 	{
 		padding: 0;
@@ -22,5 +24,13 @@
 			content: "\25AA\00A0";
 			line-height: 0;
 		}
+	}
+
+	a,
+	a:link,
+	a:visited,
+	a:active
+	{
+		font-size: 1em; /* 14 * 1.0 = 14px*/
 	}
 }

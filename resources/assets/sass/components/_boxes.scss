@@ -3,7 +3,7 @@
 	display: inline-block;
 	padding: $container-padding-half $container-padding;
 	background-color: $white;
-	box-shadow: 0 3px 6px 0 $rgba-shadow;
+	box-shadow: 0 $px3 $px3 * 2 0 $rgba-shadow;
 }
 
 .popup-box
@@ -13,7 +13,7 @@
 	margin-right: auto;
 	padding: $container-padding;
 	background-color: $white;
-	box-shadow: 0 9px 18px 3px $rgba-shadow;
+	box-shadow: 0 $px9 $px9 * 2 $px3 $rgba-shadow;
 }
 
 #popup-box-wrapper

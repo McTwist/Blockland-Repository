@@ -12,7 +12,7 @@
 
 .mar-top-half
 {
-	margin-top: $standard-margin / 2;
+	margin-top: $standard-margin-half;
 }
 
 .mar-top-none
@@ -39,7 +39,7 @@
 
 .mar-bottom-half
 {
-	margin-bottom: $standard-margin / 2;
+	margin-bottom: $standard-margin-half;
 }
 
 .mar-bottom-none
@@ -68,8 +68,8 @@
 
 .mar-vert-half
 {
-	margin-top: $standard-margin / 2;
-	margin-bottom: $standard-margin / 2;
+	margin-top: $standard-margin-half;
+	margin-bottom: $standard-margin-half;
 }
 
 .mar-vert-none

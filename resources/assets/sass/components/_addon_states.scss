@@ -1,4 +1,4 @@
-$radius: 0.5em;
+$radius: $standard-margin-half;
 
 .addon-state
 {
@@ -6,7 +6,7 @@ $radius: 0.5em;
 	color: $white;
 	font-weight: bold;
 	padding: $radius 0 $radius 0;
-	border-radius: $radius;
+	border-radius: 1000em;
 	/* Prevent color leaking. */
 	background-clip: padding-box;
 

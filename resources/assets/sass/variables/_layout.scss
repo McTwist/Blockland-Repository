@@ -1,6 +1,7 @@
 /* Padding used in containers, like all pages and popups. */
-$container-padding: 2.29em;
-$container-padding-half: 1.145em;
+$container-padding: $font-size-32px;
+$container-padding-half: $font-size-16px;
 
-$standard-margin: 1em;
+$standard-margin: $font-size-14px;
+$standard-margin-half: $standard-margin / 2.0;
 $bootstrap-row-margin: -15px;

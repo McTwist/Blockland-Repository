@@ -1,5 +1,14 @@
 #footer
 {
 	font-family: $blr-font-family-text;
-	font-size: 0.9em;
+	font-size: $font-size-12px;
+
+	/* The downside to relative font sizes: nesting can wreak havoc if you're not careful. */
+	a,
+	a:link,
+	a:visited,
+	a:active
+	{
+		font-size: 1em; /* 12 * 1.0 = 12px*/
+	}
 }

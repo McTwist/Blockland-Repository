@@ -1,0 +1,30 @@
+/*
+ * Font sizes assuming:
+ * - The user's browser font size is at its default value which is 16px on nearly every single browser.
+ * - Body element font-size is 100%.
+ */
+
+/* 16 * 0.75 = 12px */
+$font-size-12px: 0.75em;
+/* 16 * 0.8125 = 13px */
+$font-size-13px: 0.8125em;
+
+/*
+ * 16 * 0.875 = 14px
+ * Base text size.
+ */
+$font-size-14px: 0.875em;
+
+/* 16 * 0.9375 = 15px */
+$font-size-15px: 0.9375em;
+/* 16 * 1.0 = 16px */
+$font-size-16px: 1em;
+/* 16 * 1.0625 = 17px */
+$font-size-17px: 1.0625em;
+/* 16 * 1.125 = 18px */
+$font-size-18px: 1.125em;
+
+/* 16 * 1.625 = 26px */
+$font-size-26px: 1.625em;
+/* 16 * 2.0 = 32px */
+$font-size-32px: 2em;
