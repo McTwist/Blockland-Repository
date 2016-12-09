@@ -87,7 +87,7 @@
 					@if ($error->has('description_invalid'))
 						<div class="row form-group">
 							<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-								Description is required and will be created
+								There was no description.txt, so it will be created
 							</div>
 						</div>
 					@endif
@@ -95,7 +95,7 @@
 					@if ($error->has('namecheck_missing'))
 						<div class="row form-group">
 							<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-								{{ Form::checkbox('namecheck_missing', 'namecheck_missing', false, ['id' => 'namecheck_missing']) }}
+								{{ Form::checkbox('namecheck_missing', 1, false, ['id' => 'namecheck_missing']) }}
 								{{ Form::label('namecheck_missing', 'Create namecheck', ['class' => 'checkbox-inline blr-checkbox']) }}
 							</div>
 						</div>
@@ -103,11 +103,9 @@
 					{{-- Invalid namecheck --}}
 					@if ($error->has('namecheck_invalid'))
 						<div class="row form-group">
-							<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+							<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+								{{ Form::checkbox('namecheck_invalid', 1, true, ['class' => 'checkbox-inline blr-checkbox float-sm-right']) }}
 								{{ Form::label('namecheck_invalid', 'Fix namecheck:', ['class' => 'control-label control-label-blr']) }}
-							</div>
-							<div class="col-xs-12 col-sm-3">
-								{{ Form::checkbox('namecheck_invalid', true, ['class' => 'checkbox-inline blr-checkbox float-sm-right']) }}
 							</div>
 						</div>
 					@endif
