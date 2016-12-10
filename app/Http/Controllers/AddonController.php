@@ -11,6 +11,8 @@ use App\Models\Category;
 use App\Models\File as FileModel;
 use App\Models\VersionCache;
 use App\Repository\Blockland\Addon\File as AddonFile;
+use App\Http\Requests\StoreAddon;
+use App\Http\Requests\UpdateAddon;
 use App\Jobs\VerifyAddon;
 use Storage;
 use AddonValidator;
@@ -180,23 +182,8 @@ class AddonController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(StoreAddon $request)
 	{
-		$validator = Validator::make($request->all(), [
-			'title' => 'required|max:64|unique:addons,name',
-			'summary' => 'required',
-			'authors' => 'required',
-			'category' => 'integer|exists:categories,id'
-		])->after(function($validator)
-		{
-			// Reflash to avoid the data from being removed
-			if ($validator->invalid())
-			{
-				session()->reflash();
-			}
-		});
-		$validator->validate();
-
 		$data = $request->session()->get('upload');
 
 		// Get all inputs
@@ -274,7 +261,7 @@ class AddonController extends Controller
 	public function show($addon)
 	{
 		$addon = Addon::fromSlug($addon);
-		// Show the Category Page
+		// Show the Add-On Page
 		return $addon === null ? view('errors.404') : view('resources.addon.show', compact('addon'));
 	}
 
@@ -315,40 +302,18 @@ class AddonController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $addon)
+	public function update(UpdateAddon $request, $addon)
 	{
-		$addon = Addon::fromSlug($addon);
+		$addon = $request->addon;
 
-		if ($addon === null)
-		{
-			return redirect()->intended(route('pages.home'));
-		}
+		// Update the Addon
+		$addon->name = $request->input('title');
+		$addon->description = $request->input('description', '');
+		$addon->summary = $request->input('summary');
+		$addon->authors = $request->input('authors');
 
-		if ($addon->isOwner($request->user()))
-		{
-			$validator = Validator::make($request->all(), [
-				'title' => 'required|max:64|unique:addons,name,'.$addon->id,
-				'summary' => 'required',
-				'authors' => 'required'
-			])->after(function($validator)
-			{
-				// Reflash to avoid the data from being removed
-				if ($validator->invalid())
-				{
-					session()->reflash();
-				}
-			});
-			$validator->validate();
-
-			// Update the Addon
-			$addon->name = $request->input('title');
-			$addon->description = $request->input('description', '');
-			$addon->summary = $request->input('summary');
-			$addon->authors = $request->input('authors');
-
-			// Save the Addon
-			$addon->push();
-		}
+		// Save the Addon
+		$addon->push();
 
 		// Redirect to the Index Page
 		return redirect()->intended(route('addon.show', $addon->slug));
