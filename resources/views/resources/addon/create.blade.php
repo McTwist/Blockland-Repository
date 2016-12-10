@@ -139,7 +139,7 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<ul>
-								@foreach($error->all() as $err)
+								@foreach($errors->all() as $err)
 									<li>{{ $err }}</li>
 								@endforeach
 							</ul>
