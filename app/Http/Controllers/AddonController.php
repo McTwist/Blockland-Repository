@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
 
 use App\Models\Addon;
 use App\Models\Channel;
@@ -142,7 +143,9 @@ class AddonController extends Controller
 		}
 		$data = $request->session()->get('upload');
 		$error = $request->session()->get('error', null);
-		$request->session()->keep('upload');
+
+		// Keep everything for now
+		$request->session()->reflash();
 
 		$temp_file = temp_path($data['path']);
 		$original = $data['original'];
@@ -179,12 +182,20 @@ class AddonController extends Controller
 	 */
 	public function store(Request $request)
 	{
-		$this->validate($request, [
+		$validator = Validator::make($request->all(), [
 			'title' => 'required|max:64|unique:addons,name',
 			'summary' => 'required',
 			'authors' => 'required',
 			'category' => 'integer|exists:categories,id'
-		]);
+		])->after(function($validator)
+		{
+			// Reflash to avoid the data from being removed
+			if ($validator->invalid())
+			{
+				session()->reflash();
+			}
+		});
+		$validator->validate();
 
 		$data = $request->session()->get('upload');
 
@@ -315,11 +326,19 @@ class AddonController extends Controller
 
 		if ($addon->isOwner($request->user()))
 		{
-			$this->validate($request, [
+			$validator = Validator::make($request->all(), [
 				'title' => 'required|max:64|unique:addons,name,'.$addon->id,
 				'summary' => 'required',
 				'authors' => 'required'
-			]);
+			])->after(function($validator)
+			{
+				// Reflash to avoid the data from being removed
+				if ($validator->invalid())
+				{
+					session()->reflash();
+				}
+			});
+			$validator->validate();
 
 			// Update the Addon
 			$addon->name = $request->input('title');
