@@ -22,4 +22,14 @@ class AddonFakerFacade extends FacadeBase
 		$name = studly_case($this->generator->words(mt_rand(1, 3), true));
 		return "{$type}_{$name}";
 	}
+
+	/**
+	 * Generate a valid semantic version.
+	 *
+	 * @return string
+	 */
+	public function sem_ver()
+	{
+		return $this->generator->randomDigitNotNull.'.'.$this->generator->randomDigitNotNull;
+	}
 };

@@ -67,11 +67,12 @@ $factory->define(App\Models\Channel::class, function (Faker\Generator $faker)
 });
 
 $factory->define(App\Models\Version::class, function (Faker\Generator $faker)
+	use(&$addonFaker)
 {
 	$updated_at = $faker->unixTime();
 	$created_at = $faker->unixTime($updated_at);
 	return [
-		'name' => '0',
+		'name' => $addonFaker->sem_ver,
 		'change_log' => $faker->text(128),
 		'created_at' => $created_at,
 		'updated_at' => $updated_at,
