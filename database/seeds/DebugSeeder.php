@@ -11,14 +11,13 @@ class DebugSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$max_categories = 10;
 		$max_users = 10;
-		$max_addons_per_user = 5;
+		$max_addons_per_user = 10;
 		$max_channels_per_addon = 3;
 		$max_versions_per_channel = 2;
 
 		// Create categories
-		$categories = factory(App\Models\Category::class, $max_categories)->create();
+		$categories = App\Models\Category::all();
 
 		// Note: Due to some odd internal functionality, enormous amounts of files were created
 		// with previous algorithm. Due to that, this was made instead. Hopefully it'll work better.
@@ -57,6 +56,7 @@ class DebugSeeder extends Seeder
 		$versions = App\Models\Version::all();
 
 		// Create files for versions
+		// Note: These cannot be downloaded
 		foreach ($versions as $v)
 		{
 			// Make file

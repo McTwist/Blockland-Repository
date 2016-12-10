@@ -13,13 +13,11 @@ class DatabaseSeeder extends Seeder
 	{
 		echo "Seeding database\n";
 
+		$this->call(CategorySeeder::class);
+
 		if (env('APP_DEBUG'))
 		{
 			$this->call(DebugSeeder::class);
-		}
-		else
-		{
-			$this->call(CategorySeeder::class);
 		}
 		
 		$this->call(UserSeeder::class);
