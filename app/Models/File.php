@@ -120,6 +120,22 @@ class File extends Model
 		return $file;
 	}
 
+	/**
+	 * Loads a Instance of this Model using Display Name.
+	 *
+	 * @param  string  $file    The Filename.
+	 *
+	 * @return \App\Models\File
+	 */
+	public static function fromFilename($file)
+	{
+		$file = pathinfo($file, PATHINFO_FILENAME);
+		return self::where(function($sql) use ($file)
+		{
+			$sql->whereRaw('LOWER(`display_name`) = ?', array(mb_strtolower($file)));
+		})->first();
+	}
+
 	///////////////////////
 	//* File Operations *//
 	///////////////////////
