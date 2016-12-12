@@ -2,6 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Addon;
+use Auth;
+
 class UpdateAddon extends Request
 {
 	/**
@@ -9,7 +12,7 @@ class UpdateAddon extends Request
 	 *
 	 * @var Addon
 	 */
-	public $addon;
+	public $addon = null;
 
 	/**
 	 * Determine if the user is authorized to make this request.
@@ -18,7 +21,6 @@ class UpdateAddon extends Request
 	 */
 	public function authorize()
 	{
-		$this->addon = Addon::fromSlug($this->route()->getParameter('addon'));
 		if ($this->addon === null)
 			return false;
 		return $this->addon->isOwner(Auth::user());
@@ -31,6 +33,10 @@ class UpdateAddon extends Request
 	 */
 	public function rules()
 	{
+		// TOOD: Move this out somewhere else to not dirty this space
+		$this->addon = Addon::fromSlug($this->route()->getParameter('addon'));
+		if ($this->addon === null)
+			return [];
 		return [
 			'title' => 'required|max:64|unique:addons,name,'.$this->addon->id,
 			'summary' => 'required',
