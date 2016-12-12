@@ -13,17 +13,24 @@ class FileConfig extends ArchiveFile
 	private $type = null;
 	private $variables = array();
 	private $lists = array();
-	private $content = null;
 
 	// Errors
 	private $errorInvalidVariable = false;
 
 	const NL = File::NL;
 
-	// Read the config information
-	public function Set($content)
+	public function __construct($archive, $filename)
 	{
-		$this->content = $content;
+		parent::__construct($archive, $filename);
+
+		$this->AddAttribute('content', null, function($value) { $this->ParseContent($value); });
+		$this->AddAttribute('variables', function() { return $this->variables; }, null);
+		$this->AddAttribute('lists', function() { return $this->lists; }, null);
+	}
+
+	// Read the config information
+	protected function ParseContent($content)
+	{
 		// Split it into suitable pieces
 		$lines = preg_split('/$\R?^/m', $content);
 
@@ -86,19 +93,6 @@ class FileConfig extends ArchiveFile
 		return !$this->errorInvalidVariable;
 	}
 
-	// Generate new config content
-	public function Get()
-	{
-		// Content should not be modified
-		return null;
-	}
-
-	// Get variables
-	public function GetVariables()
-	{
-		return $this->variables;
-	}
-
 	// Get one variable
 	public function GetVariable($key)
 	{
@@ -116,12 +110,6 @@ class FileConfig extends ArchiveFile
 		}
 		// Handle node variable
 		return (is_array($node) && array_key_exists(0, $node)) ? $node[0] : $node;
-	}
-
-	// Get lists
-	public function GetLists()
-	{
-		return $this->lists;
 	}
 
 	// Get one list

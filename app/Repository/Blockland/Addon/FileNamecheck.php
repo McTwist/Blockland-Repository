@@ -13,33 +13,20 @@ class FileNamecheck extends ArchiveFile
 	private $filebase = '';
 	private $namecheck = '';
 
-	public function __construct($archive_name, $filename)
+	public function __construct($archive, $filename)
 	{
-		parent::__construct($archive_name, $filename);
-		$this->filebase = basename($archive_name, '.zip');
-	}
+		parent::__construct($archive, $filename);
+		$this->filebase = basename($archive->filename, '.zip');
 
-	public function Set($content)
-	{
-		$this->namecheck = $content;
+		// Ignore everything and just add the filename as it should be
+		$this->AddAttribute('content', function() { return $this->namecheck = $this->filebase; }, function($value) { $this->namecheck = $value; });
+		$this->AddAttribute('namecheck', function() { return $this->namecheck; }, null);
 	}
 
 	// Validate the name
 	public function Validate()
 	{
 		return $this->namecheck === $this->filebase;
-	}
-
-	// Generate a new namecheck
-	public function Get()
-	{
-		// Ignore everything and just add the filename as it should be
-		return $this->namecheck = $this->filebase;
-	}
-
-	public function Namecheck()
-	{
-		return $this->namecheck;
 	}
 }
 

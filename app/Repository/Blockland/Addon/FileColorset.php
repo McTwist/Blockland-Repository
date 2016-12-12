@@ -14,34 +14,20 @@ class FileColorset extends ArchiveFile
 {
 	private $colorset = null;
 
-	public function __construct()
+	public function __construct($archive, $filename)
 	{
+		parent::__construct($archive, $filename);
 		$this->colorset = new Colorset();
-	}
 
-	// Read colorset
-	public function Set($content)
-	{
-		$this->colorset->LoadString($content);
+		// Note: We do not create colorsets for now
+		$this->AddAttribute('content', null, function($value) { $this->colorset->LoadString($value); });
+		$this->AddAttribute('colors', function() { return $this->colorset->Get(); }, null);
 	}
 
 	// Validate colorset
 	public function Validate()
 	{
 		return true;
-	}
-
-	// Generate a colorset file
-	public function Get()
-	{
-		// We do not create colorsets for now
-		return null;
-	}
-
-	// Get all colors available
-	public function GetColors()
-	{
-		return $this->colorset->Get();
 	}
 
 	// Get closest color

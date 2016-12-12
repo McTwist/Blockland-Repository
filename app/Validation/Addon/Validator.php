@@ -11,7 +11,7 @@ use Illuminate\Support\MessageBag;
 use Symfony\Component\Translation\TranslatorInterface;
 
 use App\Validation\Rules\NamecheckRule;
-use App\Validation\Rules\DescriptionRule;
+use App\Validation\Rules\InfoRule;
 use App\Validation\Rules\VersionRule;
 use App\Validation\Rules\RequiredFilesRule;
 use App\Validation\Rules\ScriptsRule;
@@ -53,12 +53,12 @@ class Validator implements ValidatorBase
 	 * @var array
 	 */
 	protected $rules = [
+		TypeRule::class,
 		NamecheckRule::class,
-		DescriptionRule::class,
+		InfoRule::class,
 		VersionRule::class,
 		RequiredFilesRule::class,
 		ScriptsRule::class,
-		TypeRule::class,
 	];
 
 	/**

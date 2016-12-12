@@ -13,8 +13,7 @@ class TypeRule implements Rule
 			return;
 		$addon = func_get_arg(1);
 
-		$type = $addon->Type();
-		if (empty($type))
+		if (empty($addon->type))
 		{
 			$messages->add('type_missing', "Type is missing.");
 		}

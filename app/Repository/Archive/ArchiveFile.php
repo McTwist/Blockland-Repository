@@ -3,41 +3,28 @@ namespace App\Repository\Archive;
 
 class ArchiveFile
 {
-	protected $archive = '';
+	use ArchiveAttributes;
+
+	protected $archive = null;
 	protected $filename = '';
 	private $old_filename = '';
 	private $content = '';
 
-	public function __construct($archive_name, $filename)
+	public function __construct($archive, $filename)
 	{
-		$this->archive = $archive_name;
+		$this->archive = $archive;
 		$this->old_filename = $filename;
 		$this->filename = $filename;
+
+		$this->AddAttribute('filename', function() { return $this->filename; }, function($value) { $this->filename = $value; });
+		$this->AddAttribute('previousFilename', function() { return $this->old_filename; }, null);
+		$this->AddAttribute('changedFilename', function() { return $this->filename != $this->old_filename; }, null);
+		$this->AddAttribute('content', function() { return $this->content; }, function($value) { $this->content = $value; });
 	}
 
-	public function Filename()
+	public function Save()
 	{
-		return $this->filename;
-	}
-
-	public function PreviousFilename()
-	{
-		return $this->old_filename;
-	}
-
-	public function ChangeFilename($new_name)
-	{
-		$this->filename = $new_name;
-	}
-
-	public function Set($content)
-	{
-		$this->content = $content;
-	}
-
-	public function Get()
-	{
-		return $this->content;
+		$this->archive->SetFile($this);
 	}
 
 	public function Validate()

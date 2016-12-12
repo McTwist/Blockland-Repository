@@ -20,40 +20,32 @@ class FileVersion extends ArchiveFile
 
 	const NL = File::NL;
 
-	public function __construct($archive_name, $filename)
+	public function __construct($archive, $filename)
 	{
-		parent::__construct($archive_name, $filename);
+		parent::__construct($archive, $filename);
 		$this->CheckJson();
-	}
 
-	public function ChangeFilename($new_name)
-	{
-		parent::ChangeFileName($new_name);
-		$this->CheckJson();
+		$this->AddAttribute('content', function() { return $this->CreateContent(); }, function($value) { $this->ParseContent($value); });
+		$this->AddAttribute('filename', null, function($value) { $this->CheckJson(); });
+		$this->AddAttribute('isJson', function() { return $this->is_json; }, null);
+		$this->AddAttribute('pretty', null, function($value) { $this->pretty = $value; });
+		$this->AddAttribute('version', function() { return $this->version; }, function($value) { $this->version = $value; });
+		$this->AddAttribute('channel', function() { return $this->channel; }, function($value) { $this->channel = $value; });
+		$this->AddAttribute('repositories', function() { return $this->repositories; }, function($value) { $this->repositories = $value; });
 	}
 
 	private function CheckJson()
 	{
-		$this->is_json = strtolower(pathinfo($this->Filename(), PATHINFO_EXTENSION)) == 'json';
-	}
-
-	public function IsJson()
-	{
-		return $this->is_json;
-	}
-
-	public function Pretty($pretty = true)
-	{
-		$this->pretty = $pretty;
+		$this->is_json = strtolower(pathinfo($this->filename, PATHINFO_EXTENSION)) == 'json';
 	}
 
 	// Read version
-	public function Set($content)
+	protected function ParseContent($content)
 	{
 		$this->repositories = [];
 
 		// Old version.txt format
-		if (!$this->IsJson())
+		if (!$this->isJson)
 		{
 			// Split up the lines into an array
 			$lines = preg_split('/$\R?^/m', $content);
@@ -144,14 +136,14 @@ class FileVersion extends ArchiveFile
 
 	// Generate a version file
 	// Pretty only works with JSON
-	public function Get()
+	private function CreateContent()
 	{
 		// Check a couple of restrainments
 		if (empty($this->version) || empty($this->channel) || count($this->repositories) == 0)
 			return '';
 
 		// Old version
-		if (!$this->IsJson())
+		if (!$this->isJson)
 		{
 			// Prepare data
 			$content  = "version {$this->version}".self::NL;
@@ -193,22 +185,7 @@ class FileVersion extends ArchiveFile
 		return $content;
 	}
 
-	public function Version($value = null)
-	{
-		$version = $this->version;
-		if ($value !== null)
-			$this->version = $value;
-		return $version;
-	}
-
-	public function Channel($value = null)
-	{
-		$channel = $this->channel;
-		if ($value !== null)
-			$this->channel = $value;
-		return $channel;
-	}
-
+	// Add new repository
 	public function AddRepository($url, $format = null, $id = null)
 	{
 		if (isset($this->repositories[$url]))
@@ -220,6 +197,7 @@ class FileVersion extends ArchiveFile
 		$this->repositories[$url] = $repo;
 	}
 
+	// Set an existing repository
 	public function SetRepository($url, $format = null, $id = null)
 	{
 		if (!isset($this->repositories[$url]))
@@ -231,9 +209,19 @@ class FileVersion extends ArchiveFile
 			$this->repositories[$url]->id = $id;
 	}
 
-	public function Repositories()
+	// Remove a repository
+	public function RemoveRepository($url)
 	{
-		return $this->repositories;
+		if (!isset($this->repositories[$url]))
+			return;
+
+		unset($this->repositories[$url]);
+	}
+
+	// Remove all repositories
+	public function ClearRepositories()
+	{
+		$this->repositories = [];
 	}
 }
 

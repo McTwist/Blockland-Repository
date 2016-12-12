@@ -12,6 +12,8 @@ namespace App\Repository\Archive;
 */
 class Archive
 {
+	use ArchiveAttributes;
+
 	protected $archive_name = '';
 	private $archive = null;
 
@@ -20,18 +22,23 @@ class Archive
 	private $filetype_readers = [];
 	private $file_readers = [];
 
+	private $file_cache = [];
+
 	// Convenient common newline
 	const NL = "\r\n";
 
 	public function __construct($file)
 	{
 		$this->archive_name = $file;
+
+		$this->AddAttribute('isOpen', function() { return $this->archive !== null; }, null);
+		$this->AddAttribute('filename', function() { return $this->archive_name; }, null);
 	}
 
 	public function __destruct()
 	{
 		// It is a rule to not save anything unless explicitly said so
-		if ($this->IsOpen())
+		if ($this->isOpen)
 			$this->Abort();
 	}
 
@@ -49,15 +56,11 @@ class Archive
 		return true;
 	}
 
-	// Check if archive is open
-	public function IsOpen()
-	{
-		return $this->archive !== null;
-	}
-
 	// Save and close the archive
 	public function Close()
 	{
+		foreach ($this->file_cache as $file)
+			$file->Save();
 		$this->archive->close();
 		$this->archive = null;
 	}
@@ -65,6 +68,7 @@ class Archive
 	// Undo all changes and close the archive
 	public function Abort()
 	{
+		$this->file_cache = [];
 		$this->archive->unchangeAll();
 		$this->Close();
 	}
@@ -119,6 +123,10 @@ class Archive
 	public function GetFile($file, $force_object = false)
 	{
 		$file = strtolower($file);
+		// Got cache
+		if (array_key_exists($file, $this->file_cache))
+			return $this->file_cache[$file];
+
 		if (!$this->HasFile($file) && !$force_object)
 			return null;
 
@@ -143,8 +151,9 @@ class Archive
 			return $content;
 		}
 		
-		$reader = new $reader($this->archive_name, $file);
-		$reader->Set($content);
+		$reader = new $reader($this, $file);
+		$reader->content = $content;
+		$this->file_cache[$file] = $reader;
 		return $reader;
 	}
 
@@ -164,10 +173,10 @@ class Archive
 		if ($obj instanceof ArchiveFile)
 		{
 			// Remove old file
-			if ($obj->Filename() != $obj->PreviousFilename())
-				$this->RemoveFile($obj->PreviousFilename());
+			if ($obj->changedFilename)
+				$this->RemoveFile($obj->previousFilename);
 
-			$this->WriteFile($obj->Filename(), $obj->Get());
+			$this->WriteFile($obj->filename, $obj->content);
 		}
 	}
 

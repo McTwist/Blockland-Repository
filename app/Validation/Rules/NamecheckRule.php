@@ -13,11 +13,11 @@ class NamecheckRule implements Rule
 			return;
 		$addon = func_get_arg(1);
 		
-		if (!$addon->HasNamecheck())
+		if (!$addon->hasNamecheck)
 		{
 			$messages->add('namecheck_missing', "Does not contain a namecheck.");
 		}
-		if (!$addon->ValidateNamecheck())
+		elseif (!$addon->namecheck->Validate())
 		{
 			$messages->add('namecheck_invalid', "Namecheck is invalid.");
 		}

@@ -13,9 +13,9 @@ class RequiredFilesRule implements Rule
 			return;
 		$addon = func_get_arg(1);
 		
-		if (!$addon->HasRequiredFiles())
+		if (!$addon->ValidateType())
 		{
-			$type = $addon->Type();
+			$type = $addon->type;
 			$messages->add('required_files', "Required files are missing from type '{$type}'.");
 		}
 	}

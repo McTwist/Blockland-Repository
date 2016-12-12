@@ -15,17 +15,8 @@ class File extends Archive
 	private $type = null;
 	private $name = null;
 
-	// description.txt
-	private $description = null;
-
-	// namecheck.txt
-	private $namecheck = null;
-
-	// version.txt
-	private $version = null;
-
-	// rtbInfo.txt
-	private $rtbInfo = null;
+	private $type_check = [];
+	private $validation_test = [];
 
 	public function __construct($file)
 	{
@@ -45,8 +36,11 @@ class File extends Archive
 			$this->name = $base;
 		}
 
+		// ================
+		// Add file readers
+		// ================
 		$this->AddFileReader('namecheck.txt', FileNamecheck::class);
-		$this->AddFileReader('description.txt', FileDescription::class);
+		$this->AddFileReader(['description.txt', 'credits.txt'], FileInfo::class);
 		$this->AddFileReader(['version.txt', 'version.json'], FileVersion::class);
 		$this->AddFileReader('rtbinfo.txt', FileRTBInfo::class);
 		$this->AddFileTypeReader(['atmosphere', 'daycycle', 'ground', 'water'], FileConfig::class);
@@ -61,137 +55,217 @@ class File extends Archive
 		// cs, gui
 		// dml
 		// ogg, wav
-	}
 
-	public function Open($file)
-	{
-		$bool = parent::Open($file);
-
-		$this->namecheck = $this->GetNamecheck();
-		$this->description = $this->GetDescription();
-		$this->version = $this->GetVersion();
-		$this->rtbInfo = $this->GetRTBInfo();
-
-		return $bool;
-	}
-
-	public function Close()
-	{
-		$this->SetFile($this->namecheck);
-		$this->SetFile($this->description);
-		$this->SetFile($this->version);
-		$this->SetFile($this->rtbInfo);
-
-		return parent::Close();
-	}
-
-	public function Type($lower = false)
-	{
-		return $lower ? strtolower($this->type) : $this->type;
-	}
-
-	public function Name()
-	{
-		return $this->name;
-	}
-
-	public function Title($value = null)
-	{
-		$title = $this->description->Title($value);
-		if ($title === null)
-			$title = $this->rtbInfo->Title($value);
-		if ($title === null)
-			$title = $this->Name();
-		return $title;
-	}
-
-	public function Authors($value = null)
-	{
-		return (!is_string($value)) ? $this->description->Authors($value) : $this->description->AuthorsRaw($value);
-	}
-
-	public function Description($value = null)
-	{
-		return $this->description->Description($value);
-	}
-
-	public function Namecheck()
-	{
-		return isset($this->namecheck) ? $this->namecheck->Namecheck() : '';
-	}
-
-	public function Version($value = null)
-	{
-		return $this->version->Version($value);
-	}
-
-	public function Channel($value = null)
-	{
-		return $this->version->Channel($value);
-	}
-
-	public function AddRepository($url, $format = null, $id = null)
-	{
-		return $this->version->AddRepository($url, $format, $id);
-	}
-
-	public function SetRepository($url, $format = null, $id = null)
-	{
-		return $this->version->SetRepository($url, $format, $id);
-	}
-
-	public function Repositories()
-	{
-		//return $this->repositories;
-		return $this->version->Repositories();
-	}
-
-	protected function GetNamecheck()
-	{
-		return $this->GetFile('namecheck.txt');
-	}
-
-	protected function GetDescription()
-	{
-		return $this->GetFile('description.txt', true);
-	}
-
-	protected function GetVersion()
-	{
-		if ($this->HasFile('version.json'))
+		// ==============
+		// Add attributes
+		// ==============
+		$this->AddAttribute('type', function() { return $this->type; }, null);
+		$this->AddAttribute('name', function() { return $this->name; }, null);
+		$this->AddAttribute('title', function()
 		{
+			$title = $this->info->title;
+			if ($title === null)
+				$title = $this->rtbInfo->title;
+			if ($title === null)
+				$title = $this->name;
+			return $title;
+		}, function($value) { $this->info->title = $value; });
+		$this->AddAttribute('authors', function() { return $this->info->authors; }, function($value) { $this->info->authors = $value; });
+		$this->AddAttribute('authorsRaw', function() { return $this->info->authorsRaw; }, function($value) { $this->info->authorsRaw = $value; });
+
+		$this->AddAttribute('info', function()
+		{
+			// Fallthrough to this single file
+			if ($this->HasFile('credits.txt') && ($this->isSpeedkart || !$this->HasFile('description.txt')))
+			{
+				return $this->GetFile('credits.txt');
+			}
+
+			return $this->GetFile('description.txt', true);
+		}, null);
+		$this->AddAttribute('namecheck', function() { return $this->GetFile('namecheck.txt', true); }, null);
+		$this->AddAttribute('version', function()
+		{
+			if ($this->HasFile('version.json'))
+			{
+				return $this->GetFile('version.json');
+			}
+			elseif ($this->HasFile('version.txt'))
+			{
+				return $this->GetFile('version.txt');
+			}
+			// Create it
 			return $this->GetFile('version.json', true);
-		}
-		elseif ($this->HasFile('version.txt'))
+		}, null);
+		$this->AddAttribute('rtbInfo', function() { return $this->GetFile('rtbInfo.txt', true); }, null);
+
+		// ================
+		// Attribute checks
+		// ================
+		$this->AddAttribute('isExecutable', function() { return !$this->isClient && !$this->isServer && $this->hasScripts; }, null);
+		$this->AddAttribute('isClient', function() { return $this->HasFile('client.cs'); }, null);
+		$this->AddAttribute('isServer', function() { return $this->HasFile('server.cs'); }, null);
+		$this->AddAttribute('isGameMode', function() { return $this->HasFile('gamemode.txt'); }, null);
+		$this->AddAttribute('isSpeedkart', function() { return strtolower($this->type) == 'speedkart'; }, null);
+		$this->AddAttribute('hasInfo', function() { return $this->HasFile('description.txt') || $this->HasFile('credits.txt'); }, null);
+		$this->AddAttribute('hasNamecheck', function() { return $this->HasFile('namecheck.txt'); }, null);
+		$this->AddAttribute('hasColorset', function() { return $this->HasFile('colorset.txt'); }, null);
+		$this->AddAttribute('hasScripts', function() { return $this->HasFileType('cs'); }, null);
+		$this->AddAttribute('hasGUI', function() { return $this->HasFileType('gui'); }, null);
+		$this->AddAttribute('hasBricks', function() { return $this->HasFileType('blb'); }, null); // Brick format
+		$this->AddAttribute('hasMusic', function() { return $this->HasFileType('ogg'); }, null);
+		$this->AddAttribute('hasSound', function() { return $this->HasFileType('wav'); }, null);
+		$this->AddAttribute('hasImages', function() { return $this->HasFileType('png') || $this->HasFileType('jpg'); }, null);
+		$this->AddAttribute('hasModels', function() { return $this->HasFileType('dts'); }, null); // Normal models
+		$this->AddAttribute('hasAnimations', function() { return $this->HasFileType('dsq'); }, null);
+		$this->AddAttribute('hasSave', function() { return $this->HasFileType('bls'); }, null);
+		$this->AddAttribute('hasAtmosphere', function() { return $this->HasFileType('atmosphere'); }, null);
+		$this->AddAttribute('hasSkyboxTexture', function() { return $this->HasFileType('dml'); }, null);
+		$this->AddAttribute('hasDaycycle', function() { return $this->HasFileType('daycycle'); }, null);
+		$this->AddAttribute('hasGround', function() { return $this->HasFileType('ground'); }, null);
+		$this->AddAttribute('hasWater', function() { return $this->HasFileType('water'); }, null);
+		// Deprecated file types
+		$this->AddAttribute('hasDeprecatedFiles', function()
 		{
-			return $this->GetFile('version.txt', true);
-		}
-		else
+			return $this->hasInteriors
+				|| $this->hasTerrain
+				|| $this->hasLight
+				|| $this->hasMission;
+		}, null);
+		// Interior files. dts may be used instead
+		$this->AddAttribute('hasInteriors', function() { return $this->HasFileType('dif'); }, null);
+		// Terrain files. dts may be used instead
+		$this->AddAttribute('hasTerrain', function() { return $this->HasFileType('ter'); }, null);
+		// Light file
+		$this->AddAttribute('hasLight', function() { return $this->HasFileType('ml'); }, null);
+		// Mission file, use gamemode.txt, atmosphere and/or dml
+		$this->AddAttribute('hasMission', function() { return $this->HasFileType('mis'); }, null);
+
+		// RTB specific
+		$this->AddAttribute('hasRTB', function() { return $this->HasFile('rtbInfo.txt'); }, null);
+
+		// ===========
+		// Type checks
+		// ===========
+		// These are the known types and what they contain. However,
+		// only a few of them is guaranteed to be named this way
+		// This system is only guessing
+		// ===========
+		$this->AddTypeCheck([
+			'bot', 'brick', 'client', 'daycycle', 'decal', 'emote', 'event', 'face', 'gamemode',
+			'ground', 'item', 'light', 'particle', 'player', 'print', 'projectile', 'script',
+			'server', 'sky', 'sound', 'tool', 'vehicle', 'water', 'weapon'
+		], function() { return $this->hasInfo; });
+		$this->AddTypeCheck(['bot', 'script'], function() { return $this->isServer || $this->isClient; });
+		$this->AddTypeCheck('brick', function() { return $this->isServer && $this->HasFileType('blb'); });
+		$this->AddTypeCheck('client', function() { return $this->isClient; });
+		$this->AddTypeCheck('daycycle', function() { return $this->hasDaycycle; });
+		// TODO: Check for image sizes
+		$this->AddTypeCheck(['decal', 'face'], function() { return $this->HasFolder('thumbs') && $this->HasFileType('png'); }); // Confirmed
+		$this->AddTypeCheck(['emote', 'sound'], function() { return $this->isServer && $this->hasSound; });
+		$this->AddTypeCheck('gamemode', function() { return $this->ValidateGameMode(); }); // Confirmed
+		$this->AddTypeCheck('ground', function() { return $this->hasGround; });
+		// Note: server.cs is only required as the add-on may use other mods resources
+		$this->AddTypeCheck(['event', 'item', 'light', 'particle', 'player', 'projectile', 'server', 'tool', 'vehicle', 'weapon'], function() { return $this->isServer; });
+		// Note: server.cs is required, but rarely used
+		// TODO: Check for image sizes
+		$this->AddTypeCheck('print', function() { return $this->isServer && $this->HasFolder('icons') && $this->HasFolder('prints') && $this->HasFileType('png'); }); // Confirmed
+		$this->AddTypeCheck('sky', function() { return $this->hasAtmosphere; }); // Confirmed
+		$this->AddTypeCheck('speedkart', function() { return $this->ValidateSpeedkart(); }); // Confirmed
+		$this->AddTypeCheck('water', function() { return $this->hasWater; });
+	}
+
+	// Add a type to check against
+	public function AddTypeCheck($types, $callback)
+	{
+		if (!empty($types) && is_callable($callback, true))
 		{
-			return $this->GetFile('version.json', true);
+			if (!is_array($types))
+				$types = [$types];
+			foreach ($types as $type)
+			{
+				$type = strtolower($type);
+				if (!array_key_exists($type, $this->type_check))
+					$this->type_check[$type] = [];
+				$this->type_check[$type][] = $callback;
+			}
 		}
 	}
 
-	protected function GetRTBInfo()
+	// Check type
+	public function ValidateType($type = null)
 	{
-		return $this->GetFile('rtbinfo.txt', true);
+		if ($type === null)
+			$type = $this->type;
+		$type = strtolower($type);
+		// No check, automatic pass
+		if (!array_key_exists($type, $this->type_check))
+			return true;
+
+		foreach ($this->type_check[$type] as $func)
+		{
+			if (!call_user_func($func))
+				return false;
+		}
+
+		return true;
+	}
+
+	// Check if type exists
+	public function ValidateTypeExists($type = null)
+	{
+		if ($type === null)
+			$type = $this->type;
+		$type = strtolower($type);
+
+		return array_key_exists($type, $this->type_check);
 	}
 
 	// Validates file to contain the required data
 	public function Validate()
 	{
-		return $this->ValidateDescription()
-			&& $this->ValidateNamecheck()
-			&& $this->ValidateVersion()
-			&& $this->ValidateScripts()
-			&& $this->HasRequiredFiles();
+		// Validation of types
+		if ($this->ValidateTypeExists())
+			return $this->ValidateType();
+
+		// The next just checks what is in the archive and tries to guess whatever the type
+
+		// Game Mode
+		if ($this->isGameMode)
+		{
+			// Due to its existence, it is always a game mode, validate it
+			return $this->ValidateGameMode();
+		}
+
+		// No script files
+		if (!$this->hasScripts)
+		{
+			// Daycycle
+			if ($this->hasDaycycle)
+				return true;
+			// Ground
+			if ($this->hasGround)
+				return true;
+			// Water
+			if ($this->hasWater)
+				return true;
+			// Sky
+			if ($this->hasAtmosphere && $this->hasSkyboxTexture)
+				return true;
+			// Invalid add-on
+			return false;
+		}
+		else
+		{
+			return $this->ValidateScripts();
+		}
 	}
 
 	// Script validator
 	public function ValidateScripts()
 	{
 		// Needs to be executed
-		if ($this->CanExecute())
+		if ($this->isExecutable)
 			return false;
 		// TODO: Go through all scripts and verify that they are correct
 		return true;
@@ -202,139 +276,30 @@ class File extends Archive
 	{
 		parent::Cleanup();
 		$this->RemoveFile('rtbcontent.txt'); // RTB cache file
+		$this->RemoveFile('rtbinfo.txt'); // RTB file
 	}
 
-	// Checks if the needed files to call this an add-on is there
-	public function HasRequiredFiles()
+	// Fix info file, if possible
+	public function FixInfo()
 	{
-		$valid = $this->ValidateType();
-		if ($valid !== null)
-			return $valid;
-
-		// Try to determine what it really is
-
-		// Game Mode
-		if ($this->IsGameMode())
+		$info = $this->GetFile('description.txt', true);
+		// Make sure it is valid
+		if (!$info->Validate())
 		{
-			// Due to its existence, it is always a game mode, validate it
-			return $this->ValidateGameMode();
+			$info = $this->GetFile('credits.txt', true);
+			if (!$info->Validate())
+				return;
 		}
-
-		// No script files
-		if (!$this->HasScripts())
+		if ($this->isSpeedkart)
 		{
-			// Daycycle
-			if ($this->HasDaycycle())
-				return true;
-			// Ground
-			if ($this->HasGround())
-				return true;
-			// Water
-			if ($this->HasWater())
-				return true;
-			// Sky
-			if ($this->HasAtmosphere() && $this->HasSkyboxTexture())
-				return true;
-			// Invalid add-on
-			return false;
+			$this->RemoveFile('description.txt');
+			$info->filename = 'credits.txt';
 		}
 		else
 		{
-			return true;
+			$this->RemoveFile('credits.txt');
+			$info->filename = 'description.txt';
 		}
-	}
-
-	// Check if the type has the correct files internally
-	public function ValidateType()
-	{
-		// These are the known types and what they contain. However,
-		// only a few of them is guaranteed to be named this way
-		// This system is only used to guess
-		switch ($this->Type(true))
-		{
-		case 'bot':
-		case 'script': // Assumed
-			return $this->IsServer() || $this->IsClient();
-		case 'brick':
-			return $this->IsServer() && $this->HasFileType('blb');
-		case 'client':
-			return $this->IsClient();
-		case 'daycycle':
-			return $this->HasDaycycle();
-		case 'decal': // Confirmed
-		case 'face': // Confirmed
-			// TODO: Check for image sizes
-			return $this->HasFolder('thumbs') && $this->HasFileType('png');
-		case 'emote':
-		case 'sound':
-			return $this->IsServer() && $this->HasSound();
-		case 'gamemode': // Confirmed
-			return $this->ValidateGameMode();
-		case 'ground':
-			return $this->HasGround();
-		// Note: server.cs is only required as the add-on may use other mods resources
-		case 'event': // Assumed
-		case 'item':
-		case 'light':
-		case 'particle':
-		case 'player':
-		case 'projectile':
-		case 'server':
-		case 'tool':
-		case 'vehicle':
-		case 'weapon':
-			return $this->IsServer();
-		case 'print': // Confirmed
-			// server.cs is required, but rarely used
-			// TODO: Check for image sizes
-			return $this->IsServer() && $this->HasFolder('icons') && $this->HasFolder('prints') && $this->HasFileType('png');
-		case 'sky': // Confirmed
-			return $this->HasAtmosphere();
-		case 'water':
-			return $this->HasWater();
-		}
-		// It's a custom one, so ignore it
-		return null;
-	}
-
-	// Validate internal description file
-	public function ValidateDescription()
-	{
-		return $this->description->Validate();
-	}
-
-	// Generate a description.txt file
-	public function GenerateDescription($overwrite = false)
-	{
-		if (!$overwrite && $this->HasFile('description.txt'))
-			return;
-
-		$this->SetFile($this->description);
-	}
-
-	// Check if namecheck exists
-	public function HasNamecheck()
-	{
-		return $this->HasFile('namecheck.txt');
-	}
-
-	// Validate internal namecheck file
-	public function ValidateNamecheck()
-	{
-		// Check for file that to check for
-		if (!$this->HasNamecheck())
-			return true;
-
-		return $this->namecheck->Validate();
-	}
-
-	// Generate a namecheck.txt file
-	public function GenerateNamecheck($overwrite = false)
-	{
-		if (!$overwrite && $this->HasNamecheck())
-			return;
-
-		$this->SetFile($this->namecheck);
 	}
 
 	// Validate the file types in the archive
@@ -351,221 +316,49 @@ class File extends Archive
 	// Validate game mode files
 	public function ValidateGameMode()
 	{
-		return $this->IsGameMode()
-			&& $this->HaveColorset()
-			&& $this->HasFile('description.txt')
+		// Confirmed
+		return $this->isGameMode
+			&& $this->hasColorset
+			&& $this->hasDescription
 			&& $this->HasFile('save.bls')
-			&& $this->HasFile('preview.jpg') 
+			&& $this->HasFile('preview.jpg')
 			&& $this->HasFile('thumb.jpg');
 	}
 
-	// A small check to see if people have included code, but no file to execute it from
-	public function CanExecute()
+	// Validate speedkart files
+	public function ValidateSpeedkart()
 	{
-		return !$this->IsClient() && !$this->IsServer() && $this->HasScripts();
-	}
-
-	public function IsClient()
-	{
-		return $this->HasFile('client.cs');
-	}
-
-	public function IsServer()
-	{
-		return $this->HasFile('server.cs');
-	}
-
-	public function IsGameMode()
-	{
-		return $this->HasFile('gamemode.txt');
-	}
-
-	public function HaveColorset()
-	{
-		return $this->HasFile('colorset.txt');
-	}
-
-	public function HasScripts()
-	{
-		return $this->HasFileType('cs');
-	}
-
-	public function HasGUI()
-	{
-		return $this->HasFileType('gui');
-	}
-
-	public function HasBricks()
-	{
-		return $this->HasFileType('blb'); // Brick format
-	}
-
-	public function HasMusic()
-	{
-		return $this->HasFileType('ogg');
-	}
-
-	public function HasSound()
-	{
-		return $this->HasFileType('wav');
-	}
-
-	public function HasImages()
-	{
-		return $this->HasFileType('png')
-			|| $this->HasFileType('jpg');
-	}
-
-	public function HasModels()
-	{
-		return $this->HasFileType('dts'); // Normal models
-	}
-
-	public function HasAnimations()
-	{
-		return $this->HasFileType('dsq');
-	}
-
-	public function HasSave()
-	{
-		return $this->HasFileType('bls');
-	}
-
-	public function HasAtmosphere()
-	{
-		return $this->HasFileType('atmosphere');
-	}
-
-	public function HasSkyboxTexture()
-	{
-		return $this->HasFileType('dml');
-	}
-
-	public function HasDaycycle()
-	{
-		return $this->HasFileType('daycycle');
-	}
-
-	public function HasGround()
-	{
-		return $this->HasFileType('ground');
-	}
-
-	public function HasWater()
-	{
-		return $this->HasFileType('water');
-	}
-
-	// Deprecated file types
-
-	public function HasDeprecatedFiles()
-	{
-		return $this->HasInteriors()
-			|| $this->HasTerrain()
-			|| $this->HasLight()
-			|| $this->HasMission();
-	}
-
-	// Interior files. dts may be used instead
-	public function HasInteriors()
-	{
-		return $this->HasFileType('dif');
-	}
-
-	// Terrain files. dts may be used instead
-	public function HasTerrain()
-	{
-		return $this->HasFileType('ter');
-	}
-	
-	// Light file
-	public function HasLight()
-	{
-		return $this->HasFileType('ml');
-	}
-
-	// Mission file, use gamemode.txt, atmosphere and/or dml
-	public function HasMission()
-	{
-		return $this->HasFileType('mis');
+		// Confirmed
+		return $this->isSpeedkart
+			&& $this->HasFile('save.bls');
 	}
 
 	// Greek2me's Updater
 	// Validate version.txt
 	public function ValidateVersion()
 	{
-		$version_txt = $this->HasFile('version.txt');
-		$version_json = $this->HasFile('version.json');
-
 		// Only allow one file
-		if ($version_txt && $version_json)
+		if ($this->HasFile('version.txt') && $this->HasFile('version.json'))
 			return false;
 
 		return $this->version->Validate();
 	}
 
-	// Generate a version file
-	// Pretty only works with JSON
-	public function GenerateVersion($overwrite = false, $json = true, $pretty = true)
+	// Fix version file, if possible
+	public function FixVersion()
 	{
-		$version_txt = $this->HasFile('version.txt');
-		$version_json = $this->HasFile('version.json');
-
-		// Create a new one
-		if (!$this->version->Validate())
-			return;
-
-		// Remove old files if overwriting
-		// This will also fix the archive if it got both files
-		if ($overwrite)
+		$version = $this->GetFile('version.json', true);
+		// Make sure it is valid
+		if (!$version->Validate())
 		{
-			if ($version_txt)
-				$this->RemoveFile('version.txt');
-			if ($version_json)
-				$this->RemoveFile('version.json');
-			$version_txt = !$json;
-			$version_json = $json;
-		}
-		// Have it already, so don't do anything
-		elseif ($version_txt || $version_json)
-		{
-			return;
+			$version = $this->GetFile('version.txt', true);
+			if (!$version->Validate())
+				return;
 		}
 
-		if ($version_txt)
-			$this->version->ChangeFilename('version.txt');
-		if ($version_json)
-			$this->version->ChangeFilename('version.json');
-
-		$this->SetFile($this->version);
-	}
-
-	// RTB info
-	// Validate rtbInfo.txt
-	public function ValidateRTB()
-	{
-		return $this->rtbInfo->Validate();
-	}
-
-	// Generate a rtbInfo file
-	public function GenerateRTB($overwrite = false)
-	{
-		if (!$overwrite && $this->HasFile('rtbInfo.txt'))
-			return;
-
-		$this->SetFile($this->rtbInfo);
-	}
-
-	// Check if RTB exists
-	public function HaveRTB()
-	{
-		return $this->HasFile('rtbInfo.txt');
-	}
-
-	// Remove RTB
-	public function RemoveRTB()
-	{
-		return $this->RemoveFile('rtbInfo.txt');
+		// Remove old files
+		$this->RemoveFile('version.txt');
+		$version->filename = 'version.json';
 	}
 }
 
