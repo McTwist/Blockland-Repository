@@ -81,26 +81,11 @@ class Addon extends Model
 	/**
 	 * Returns the default Channel that this Addon has.
 	 *
-	 * @return App\Models\Channel
+	 * @return Relationship
 	 */
-	public function getChannelAttribute()
+	public function channel()
 	{
-		return $this->channels()->default()->first();
-	}
-
-	/**
-	 * Sets the default Channel that this Addon has.
-	 *
-	 * @return void
-	 */
-	public function setChannelAttribute($channel)
-	{
-		if ($channel->default)
-			return;
-		if (!$this->channels()->contains($channel))
-			return;
-		
-		$channel->makeDefault();
+		return $this->hasOne(Channel::class)->where("default", true);
 	}
 
 	/**
@@ -116,11 +101,11 @@ class Addon extends Model
 	/**
 	 * Returns the default Version that this Addon has.
 	 *
-	 * @return App\Models\Version
+	 * @return Relationship
 	 */
-	public function getVersionAttribute()
+	public function version()
 	{
-		return $this->channel->version;
+		return $this->channel->version();
 	}
 
 	/**

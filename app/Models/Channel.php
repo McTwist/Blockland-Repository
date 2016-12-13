@@ -76,7 +76,7 @@ class Channel extends Model
 	}
 
 	/**
-	 * Returns the Versions that this Addon has.
+	 * Returns the Versions that this Channel has.
 	 *
 	 * @return Relationship
 	 */
@@ -88,26 +88,11 @@ class Channel extends Model
 	/**
 	 * Returns the default Version that this Channel has.
 	 *
-	 * @return App\Model\Version
+	 * @return Relationship
 	 */
-	public function getVersionAttribute()
+	public function version()
 	{
-		return $this->versions()->default()->first();
-	}
-
-	/**
-	 * Sets the default Version that this Channel has.
-	 *
-	 * @return void
-	 */
-	public function setVersionAttribute($version)
-	{
-		if ($version->default)
-			return;
-		if (!$this->versions()->contains($version))
-			return;
-		
-		$version->makeDefault();
+		return $this->hasOne(Version::class)->where("default", true);
 	}
 
 	/**
