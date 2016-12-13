@@ -202,11 +202,11 @@ class Addon extends Model
 		}
 
 		// Set internal data info
-		$addon->Title($this->name);
-		$addon->Authors($cache->authors);
-		$addon->Description($cache->summary);
-		$addon->Channel($channel->name);
-		$addon->Version($version->name);
+		$addon->title = $this->name;
+		$addon->info->authorsRaw = $cache->authors;
+		$addon->info->description = $cache->summary;
+		$addon->version->channel = $channel->name;
+		$addon->version->version = $version->name;
 
 		// Set repository info
 		$addon->SetRepository(url('api'), 'json', $this->slug);
