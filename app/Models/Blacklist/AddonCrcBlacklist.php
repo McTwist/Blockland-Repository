@@ -135,4 +135,15 @@ class AddonCrcBlacklist extends Model implements AddonBlacklistInterface
 		// Make it signed
 		return $value > 0x7fffffff ? $value - 0x100000000 : $value;
 	}
+
+	/**
+	 * Reads a file crc and converts it to 32-bit.
+	 *
+	 * @param string $file
+	 * @return int
+	 */
+	public static function convertFileCrcTo32($file)
+	{
+		return static::convertTo32(crc32(file_get_contents($file)));
+	}
 }
