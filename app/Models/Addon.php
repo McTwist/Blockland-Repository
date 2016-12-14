@@ -194,7 +194,7 @@ class Addon extends Model
 		$addon->version->version = $version->name;
 
 		// Set repository info
-		$addon->SetRepository(url('api'), 'json', $this->slug);
+		$addon->version->SetRepository(url('api'), 'json', $this->slug);
 
 		$addon->Cleanup();
 
