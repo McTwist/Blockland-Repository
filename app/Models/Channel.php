@@ -54,11 +54,7 @@ class Channel extends Model
 		// Model was created
 		static::created(function($channel)
 		{
-			$version = new Version;
-			$version->name = '0';
-			$version->channel_id = $channel->id;
-			$version->default = true;
-			$channel->versions()->save($version);
+			$channel->createVersion('0', true);
 		});
 	}
 
@@ -149,6 +145,25 @@ class Channel extends Model
 	/////////////////
 	//* Utilities *//
 	/////////////////
+	/**
+	 * Create a Version and return it.
+	 *
+	 * @param string $name The name of the Version.
+	 * @param bool $default Set as default Version.
+	 *
+	 * @return Version
+	 */
+	public function createVersion($name, $default = false)
+	{
+		$version_obj = new Version;
+		$version_obj->name = $name;
+		$version_obj->channel_id = $this->id;
+		if ($default)
+			$version_obj->default = true;
+		$this->versions()->save($version_obj);
+		return $version_obj;
+	}
+
 	/**
 	 * Makes the Channel default
 	 *

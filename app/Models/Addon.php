@@ -56,12 +56,7 @@ class Addon extends Model
 		// Model was created
 		static::created(function($addon)
 		{
-			$channel = new Channel;
-			$channel->name = 'release';
-			$channel->slug = $addon->slug.'_release';
-			$channel->addon_id = $addon->id;
-			$channel->default = true;
-			$addon->channels()->save($channel);
+			$addon->createChannel('release', true);
 		});
 	}
 
@@ -215,6 +210,26 @@ class Addon extends Model
 		$file->update();
 
 		return true;
+	}
+
+	/**
+	 * Create a Channel and return it.
+	 *
+	 * @param string $name The name of the Channel.
+	 * @param bool $default Set as default Version.
+	 *
+	 * @return Channel
+	 */
+	public function createChannel($name, $default = false)
+	{
+		$channel_obj = new Channel;
+		$channel_obj->name = $name;
+		$channel_obj->slug = $this->slug.'_'.str_slug($name);
+		$channel_obj->addon_id = $this->id;
+		if ($default)
+			$channel_obj->default = $default;
+		$this->channels()->save($channel_obj);
+		return $channel_obj;
 	}
 
 	///////////////////////////
