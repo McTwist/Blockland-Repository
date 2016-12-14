@@ -186,7 +186,7 @@ class RepositoryApiController extends Controller
 		$obj = new \stdClass;
 		$obj->name = $channel->name;
 		$obj->id = $channel->slug;
-		$obj->version = '1.0';
+		$obj->version = $channel->version->name;
 
 		if (!empty($channel->description))
 			$obj->description = $channel->description;
