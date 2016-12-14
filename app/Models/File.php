@@ -108,7 +108,7 @@ class File extends Model
 		$file = new static($attributes);
 
 		// Generate a name
-		$path = $file->generateFilePath($contents, $extension);
+		$path = static::generateFilePath($contents, $extension);
 
 		// Remember the File Location
 		$file->path = $path;
@@ -330,7 +330,7 @@ class File extends Model
 	 *
 	 * @return string
 	 */
-	public function generateFilePath($contents, $extension)
+	static public function generateFilePath($contents, $extension)
 	{
 		// Custom Implementation
 		return md5($contents) . ".{$extension}";
