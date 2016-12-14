@@ -144,6 +144,8 @@ class Addon extends Model
 	/**
 	 * Returns the slug that is unique to this Addon.
 	 *
+	 * @param string $slug The slug unique to Addon.
+	 *
 	 * @return string
 	 */
 	public static function fromSlug($slug)
@@ -153,6 +155,8 @@ class Addon extends Model
 
 	/**
 	 * Returns true if User are owner to this Addon.
+	 *
+	 * @param User $user The User to check ownership.
 	 *
 	 * @return boolean
 	 */
