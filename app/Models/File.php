@@ -136,6 +136,19 @@ class File extends Model
 		})->first();
 	}
 
+	/**
+	 * Loads a Instance of this Model using content.
+	 *
+	 * @param  string  $file    The Filename.
+	 *
+	 * @return \App\Models\File
+	 */
+	public static function fromContent($contents, $extension)
+	{
+		$path = static::generateFilePath($contents, $extension);
+		return self::where('path', '==', $path)->first();
+	}
+
 	///////////////////////
 	//* File Operations *//
 	///////////////////////

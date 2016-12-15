@@ -149,6 +149,29 @@ class Addon extends Model
 	}
 
 	/**
+	 * Returns the Addon that is unique to this filename.
+	 *
+	 * @param string $file The file identifying this Addon.
+	 *
+	 * @return string
+	 */
+	public static function fromFile($file)
+	{
+		// Find out about the file
+		if ($file = File::fromFilename($file))
+		{
+			// Get the version
+			$version = $file->link;
+			if ($version instanceof Version)
+			{
+				// And we're done with the link
+				return $version->addon;
+			}
+		}
+		return NULL;
+	}
+
+	/**
 	 * Returns true if User are owner to this Addon.
 	 *
 	 * @param User $user The User to check ownership.
