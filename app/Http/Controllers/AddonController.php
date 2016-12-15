@@ -156,6 +156,7 @@ class AddonController extends Controller
 		$addon_file = new AddonFile($original);
 		if (!$addon_file->Open($temp_file))
 		{
+			// TODO: Display an error
 			return redirect()->intended(route('pages.home'));
 		}
 
@@ -171,6 +172,7 @@ class AddonController extends Controller
 		$description = '';
 		$channel = $addon_file->version->channel;
 		$version = $addon_file->version->version;
+		$addon_file->Abort();
 		// Show the Create Page for Addon
 		return view('resources.addon.create', compact('title', 'summary', 'authors', 'description', 'categories', 'category', 'channel', 'version', 'error'));
 	}
@@ -232,7 +234,7 @@ class AddonController extends Controller
 		$cache->version()->associate($version_obj);
 		$cache->summary = $summary;
 		$cache->authors = $authors;
-		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertTo32(crc32(file_get_contents(temp_path($data['path']))));
+		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertFileCrcTo32(temp_path($data['path']));
 		$cache->save();
 
 		// Make the file model
