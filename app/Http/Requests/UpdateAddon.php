@@ -43,4 +43,20 @@ class UpdateAddon extends Request
 			'authors' => 'required'
 		];
 	}
+
+	/**
+	 * After validations are done.
+	 *
+	 * @param \Illuminate\Contracts\Validation\Validator
+	 *
+	 * @return void
+	 */
+	public function after($validator)
+	{
+		// Reflash to avoid the data from being removed
+		if ($validator->invalid())
+		{
+			session()->reflash();
+		}
+	}
 }

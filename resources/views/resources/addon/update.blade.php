@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Edit ' . $addon->name)
+@section('title', 'Update ' . $addon->name)
 
 @section('mainbox', 'edit')
 
@@ -8,7 +8,7 @@
 	<div class="container-fluid">
 		{{ Form::open(['route' => ['addon.update', $addon->slug], 'method' => 'put','files' => true, 'class' => 'form-horizontal']) }}
 		<fieldset class="blr-fieldset">
-			<legend>Edit Add-On</legend>
+			<legend>Update Add-On</legend>
 			<div class="row">
 				{{-- Category --}}
 				<div class="row form-group">
@@ -26,7 +26,7 @@
 						{{ Form::label('title', 'Title:', ['class' => 'control-label control-label-blr']) }}
 					</div>
 					<div class="col-xs-12 col-sm-8">
-						{{ Form::text('title', $addon->name, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+						{{ Form::text('title', $title, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
 					</div>
 				</div>
 
@@ -36,7 +36,7 @@
 						{{ Form::label('summary', 'Summary:', ['class' => 'control-label control-label-blr']) }}
 					</div>
 					<div class="col-xs-12 col-sm-8">
-						{{ Form::text('summary', $addon->summary, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+						{{ Form::text('summary', $summary, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
 					</div>
 				</div>
 
@@ -46,7 +46,7 @@
 						{{ Form::label('authors', 'Authors:', ['class' => 'control-label control-label-blr']) }}
 					</div>
 					<div class="col-xs-12 col-sm-8">
-						{{ Form::text('authors', $addon->authors, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+						{{ Form::text('authors', $authors, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
 					</div>
 				</div>
 
@@ -59,6 +59,27 @@
 						{{ Form::textarea('description', $addon->description, ['class' => 'form-control blr-form-control']) }}
 					</div>
 				</div>
+
+				<div class="row form-group">
+					{{-- Channel --}}
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('channel', 'Channel:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-4">
+						{{ Form::text('channel', $channel, ['required' => 'true', 'list' => 'channels', 'class' => 'form-control blr-form-control']) }}
+						{{ Form::datalist('channels', $addon->channels->pluck('name')) }}
+					</div>
+
+					{{-- Version --}}
+					<div class="col-xs-12 text-xs-left col-sm-1 hug-sm-right">
+						{{ Form::label('version', 'Version:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-3">
+						{{ Form::text('version', $version, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
+				@include('resources.addon.corrections')
 
 				<h2>Screenshots</h2>
 
@@ -74,13 +95,6 @@
 					<div class="col-xs-12 col-sm-4 col-sm-push-6 mar-top">
 						{{-- FIXME: Updating an add-on actually deletes the add-on. --}}
 						{{ Form::submit('Update', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-sm-auto']) }}
-					</div>
-
-					{{-- Delete --}}
-					<div class="col-xs-12 col-sm-4 col-sm-pull-2 mar-top">
-						{{ Form::open(['route' => ['addon.destroy', $addon->slug], 'method' => 'delete', 'class' => 'form-horizontal']) }}
-						{{ Form::submit('Delete Add-On', ['class' => 'btn blr-btn btn-blr-red width-xs-full float-sm-left width-sm-auto uppercase']) }}
-						{{ Form::close() }}
 					</div>
 				</div>
 				

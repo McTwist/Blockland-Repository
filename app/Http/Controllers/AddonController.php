@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\MessageBag;
 
 use App\Models\Addon;
 use App\Models\Channel;
+use App\Models\Version;
 use App\Models\Category;
 use App\Models\File as FileModel;
 use App\Models\VersionCache;
@@ -16,6 +18,8 @@ use App\Http\Requests\UpdateAddon;
 use App\Jobs\VerifyAddon;
 use Storage;
 use AddonValidator;
+
+use Composer\Semver\Comparator;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,11 +71,31 @@ class AddonController extends Controller
 
 		// Move to a better storage
 		$path = $file->store('', 'temp');
+		$temp_path = temp_path($path);
+
+		$orig_name = $file->getClientOriginalName();
+
+		// Validate the existant of the file
+		$file_obj = FileModel::fromContent(file_get_contents($temp_path), 'zip');
+		if ($file_obj)
+		{
+			unlink($temp_path);
+			$messages = new MessageBag(['file_exists' => 'The file has already been uploaded.']);
+			if ($request->ajax())
+			{
+				return response()->json(['error' => $messages->all()], 422);
+			}
+			else
+			{
+				$request->session()->flash('error', $messages);
+				return redirect()->intended(route('addon.upload'));
+			}
+		}
 
 		// Validate addon
 		// TODO: Put into a job instead
 		// Note: Maybe not needed as it will just complicate it for the user
-		$validator = AddonValidator::make(temp_path($path), $file->getClientOriginalName());
+		$validator = AddonValidator::make($temp_path, $orig_name);
 
 		// Don't throw an exception. Instead, pass it to the user and try to assist by fixing it ourselves.
 		if ($validator->fails())
@@ -82,7 +106,7 @@ class AddonController extends Controller
 			if ($messages->hasAny($critical_keys))
 			{
 				// Remove invalid file
-				unlink(temp_path($path));
+				unlink($temp_path);
 				// Get specific errors and display them
 				if ($request->ajax())
 				{
@@ -105,15 +129,29 @@ class AddonController extends Controller
 		// Flash the data for next request
 		$data = [
 			'path' => $path,
-			'original' => $file->getClientOriginalName(),
+			'original' => $orig_name,
 			'attributes' => [
-				'display_name' => basename($file->getClientOriginalName(), '.zip'),
+				'display_name' => basename($orig_name, '.zip'),
 				'size' => $file->getClientSize(),
 				'extension' => $file->guessClientExtension(),
 				'mime' => $file->getClientMimeType()
 			]
 		];
 		$request->session()->flash('upload', $data);
+
+		// Locate already existing Add-On
+		$addon = Addon::fromFile($orig_name);
+		if ($addon)
+		{
+			if ($request->ajax())
+			{
+				return response()->json(['url' => route('addon.edit', $addon->slug)]);
+			}
+			else
+			{
+				return redirect()->intended(route('addon.edit', $addon->slug));
+			}
+		}
 
 		//$this->dispatchFrom(VerifyAddon::class, ['file' => $tmpName]);
 
@@ -281,19 +319,60 @@ class AddonController extends Controller
 
 		if ($addon === null)
 		{
-			return view('errors.404');
+			return abort(404);
 		}
 
 		if (!$addon->isOwner($request->user()))
 		{
-			return view('errors.403');
+			return abort(403);
+		}
+
+		$title = $addon->name;
+		$summary = $addon->summary;
+		$authors = $addon->authors;
+		$channel = $addon->channel->name;
+		$version = $addon->version->name;
+
+		// Update file
+		if ($request->session()->has('upload'))
+		{
+			$data = $request->session()->get('upload');
+
+			$temp_file = temp_path($data['path']);
+			$original = $data['original'];
+
+			$addon_file = new AddonFile($original);
+			if (!$addon_file->Open($temp_file))
+			{
+				// TODO: Display an error
+				return redirect()->intended(route('pages.home'));
+			}
+
+			$title = $addon_file->info->title;
+			$authors = $addon_file->info->title;
+			$summary = $addon_file->info->description;
+			$channel = $addon_file->version->channel;
+			$version = $addon_file->version->version;
+
+			$addon_file->Abort();
 		}
 
 		// Get categories
 		$categories = Category::listSelect();
+		$error = $request->session()->get('error', null);
+
+		// Keep everything for now
+		$request->session()->reflash();
 
 		// Show the Edit Page for Addon
-		return view('resources.addon.edit', compact('addon', 'categories'));
+		if ($request->session()->has('upload'))
+		{
+			return view('resources.addon.update', compact('addon', 'title', 'summary', 'authors', 'channel', 'version', 'error', 'categories'));
+		}
+		else
+		{
+			return view('resources.addon.edit', compact('addon', 'title', 'summary', 'authors', 'channel', 'version', 'error', 'categories'));
+		}
 	}
 
 	/**
@@ -308,11 +387,72 @@ class AddonController extends Controller
 	{
 		$addon = $request->addon;
 
+		$title = $request->input('title');
+		$summary = $request->input('summary');
+		$authors = $request->input('authors');
+		$description = $request->input('description', '');
+
+		// Update the file with a new version
+		if ($request->session()->has('upload'))
+		{
+			$data = $request->session()->get('upload');
+
+			$channel_name = $request->input('channel');
+			$version_name = $request->input('version');
+
+			$channel_obj = $addon->channels()->where('name', $channel_name)->first();
+			// Create new channel
+			if (!$channel_obj)
+			{
+				$channel_obj = $addon->createChannel($channel_name);
+
+				// Update the version
+				$version_obj = $channel_obj->version;
+				if (!empty($version_name))
+					$version_obj->name = $version_name;
+				$version_obj->save();
+			}
+			else
+			{
+				$vname = $channel_obj->versions->keyBy('id')->max()->name;
+
+				// Make sure that this version is higher
+				if (Comparator::greaterThanOrEqualTo($vname, $version_name))
+				{
+					$request->session()->reflash();
+					return redirect()->back()->withErrors(['version_lower' => 'Version is lower than previous one: '."{$vname} >= {$version_name}"]);
+				}
+
+				// Create a new version
+				$version_obj = $channel_obj->createVersion($version_name, true);
+			}
+
+			// Add to cache
+			$cache = new VersionCache;
+			$cache->version()->associate($version_obj);
+			$cache->summary = $summary;
+			$cache->authors = $authors;
+			$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertFileCrcTo32(temp_path($data['path']));
+			$cache->save();
+
+			// Make the file model
+			$file_obj = FileModel::import($data['path'], $data['attributes']);
+
+			// Associate with user
+			$file_obj->uploader()->associate($request->user());
+
+			// Save file with the Addon
+			$addon->version->file()->save($file_obj);
+
+			// Flush data to file
+			$addon->flush();
+		}
+
 		// Update the Addon
-		$addon->name = $request->input('title');
-		$addon->description = $request->input('description', '');
-		$addon->summary = $request->input('summary');
-		$addon->authors = $request->input('authors');
+		$addon->name = $title;
+		$addon->description = $description;
+		$addon->summary = $summary;
+		$addon->authors = $authors;
 
 		// Save the Addon
 		$addon->push();
