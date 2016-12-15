@@ -47,12 +47,7 @@ class Category extends Model
 	public static function listSelect()
 	{
 		$cats = self::select('id', 'name')->get();
-		$categories = [];
-		foreach ($cats as $category)
-		{
-			$categories[(int)$category->id] = $category->name;
-		}
-		return $categories;
+		return $cats->pluck('name', 'id');
 	}
 
 	/**
