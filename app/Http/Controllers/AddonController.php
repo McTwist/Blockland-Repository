@@ -84,12 +84,12 @@ class AddonController extends Controller
 				// Remove invalid file
 				unlink(temp_path($path));
 				// Get specific errors and display them
-				$errors = [];
-				foreach ($critical_keys as $key)
-					if ($messages->has($key))
-						$errors[] = $messages->get($key);
 				if ($request->ajax())
 				{
+					$errors = [];
+					foreach ($critical_keys as $key)
+						if ($messages->has($key))
+							$errors[] = $messages->get($key);
 					return response()->json(['error' => $errors], 422);
 				}
 				else
