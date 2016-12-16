@@ -13,33 +13,57 @@ select,
 	border-radius: 0;
 }
 
-input[type="checkbox"]
+input[type='checkbox']
 {
-	width: $checkbox-image-square;
-	height: $checkbox-image-square;
-	padding: 0;
-	opacity: 0;
-	cursor: pointer;
-	/*
-	 * Places the real checkbox next to the custom one.
-	 * FIXME: Fake the checkbox with a span. Current checkbox is broken.
-	 * Breaks with responsive design.
-	 margin-left: 72px;
+	/* For old browsers.
+	 * The checkbox will be a little offset to the left but I don't know how to fix it.
 	 */
-	& + label
-	{
-		display: inline-block;
-		padding-top: 0 !important;
-		background: transparent url('/img/checkbox.png') 0 0 no-repeat;
-		/* TODO: Line height ought to be 14*1.618px but I can't figure out how to move the image down. */
-		line-height: $checkbox-image-square;
-		cursor: pointer;
-		height: $checkbox-image-square;
-	}
+	margin-right: 0.5em;
+	cursor: pointer;
 
-	&:checked + label
+	label
 	{
-		background-position: 0 -$checkbox-image-square;
+		margin: 0;
+		padding: 0 0 0 1em;
+
+		// Bootstrap override.
+		&.checkbox,
+		&.checkbox-inline
+		{
+			margin: 0;
+			padding: 0 0 0 1em;
+		}
+	}
+}
+
+div:not(#foo)
+{
+	// For new browsers.
+
+	& > input[type='checkbox']
+	{
+		// Move the actual input off the screen.
+		position: absolute;
+		left: -9999px;
+		opacity: 0;
+		width: 0;
+		height: 0;
+
+		& + label
+		{
+			// Give the label the checkbox image.
+			line-height: $checkbox-image-square;
+			background: url('/img/checkbox.png') 0 0 no-repeat;
+			height: $checkbox-image-square;
+			margin: 0;
+			padding: 0 0 0 1.33em;
+			cursor: pointer;
+		}
+
+		&:checked + label
+		{
+			background-position: 0 $checkbox-image-square * -1;
+		}
 	}
 }
 

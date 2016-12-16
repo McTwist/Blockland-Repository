@@ -6,7 +6,7 @@
 				{{ Form::open(array('route' => 'user.login', 'method' => 'post', 'class' => 'form-horizontal')) }}
 				<fieldset class="blr-fieldset">
 					<legend>Login</legend>
-					<div class="row mar-bottom-neg">
+					<div class="row">
 						{{-- Username --}}
 						<div class="row form-group">
 							<div class="text-xs-left col-sm-12 col-md-2 hug-md-right">
@@ -35,9 +35,9 @@
 							CSS is used to move the elements to their laptop/desktop (sm/md) locations. --}}
 
 							{{-- Remember me --}}
-							<div class="col-xs-12 hug-xs-right mar-top">
+							<div class="col-xs-12 text-xs-center mar-top">
 								{{ Form::checkbox('remember', 'remember', true, ['id' => 'remember_chk']) }}
-								{{ Form::label('remember_chk', 'Remember me', ['class' => 'checkbox-inline blr-checkbox float-sm-right']) }}
+								{{ Form::label('remember_chk', 'Remember me', ['class' => 'float-sm-right --no-select']) }}
 							</div>
 
 							{{-- Log in --}}
@@ -51,14 +51,14 @@
 							</div>
 						</div>
 
-						<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-pull-6 col-md-6 col-md-pull-6">
+						<div class="col-xs-12 nopad-xs-both text-xs-center col-sm-6 col-sm-pull-6 col-md-6 col-md-pull-6">
 							{{-- Forgot password --}}
-							<div class="col-xs-12 hug-sm-left mar-top text-xs-center">
+							<div class="col-xs-12 hug-sm-left mar-top">
 								<a href="{{ route('password.email') }}" class="blacklink uppercase">Forgot password?</a>
 							</div>
 
 							{{-- Register --}}
-							<div class="col-xs-12 hug-sm-left mar-top text-xs-center">
+							<div class="col-xs-12 hug-sm-left mar-top">
 								<a href="{{ route('user.register') }}" class="blacklink uppercase">Register an
 									account</a>
 							</div>

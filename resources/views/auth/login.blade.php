@@ -43,7 +43,7 @@
 					{{-- Remember me --}}
 					<div class="col-xs-12 mar-top">
 						{{ Form::checkbox('remember', 'remember', true, ['id' => 'remember_chk']) }}
-						{{ Form::label('remember_chk', 'Remember me', ['class' => 'checkbox-inline blr-checkbox float-sm-right']) }}
+						{{ Form::label('remember_chk', 'Remember me', ['class' => 'float-sm-right --no-select']) }}
 					</div>
 
 					{{-- Log in --}}
