@@ -349,7 +349,7 @@ class AddonController extends Controller
 			}
 
 			$title = $addon_file->info->title;
-			$authors = $addon_file->info->title;
+			$authors = $addon_file->info->authorsRaw;
 			$summary = $addon_file->info->description;
 			$channel = $addon_file->version->channel;
 			$version = $addon_file->version->version;
