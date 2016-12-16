@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAddonsTable extends Migration
+class CreateRepositoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateAddonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('addons', function (Blueprint $table)
+        Schema::create('repositories', function (Blueprint $table)
         {
             $table->increments('id');
             $table->string('slug', 70)->unique();
@@ -30,6 +30,6 @@ class CreateAddonsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('addons');
+        Schema::drop('repositories');
     }
 }

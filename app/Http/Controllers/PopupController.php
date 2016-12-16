@@ -33,13 +33,13 @@ class PopupController extends Controller
 	 * @param  \Illuminate\Http\Request $request
 	 * @return string HTML containing the view or null if the user is not logged in
 	 */
-	public function getUploadAddonView(Request $request)
+	public function getUploadFileView(Request $request)
 	{
 		if (auth()->check()) {
 			if ($request->ajax()) {
-				return view('resources.addon.popup.upload');
+				return view('resources.file.popup.upload');
 			} else {
-				return view('resources.addon.upload');
+				return view('resources.file.upload');
 			}
 		} else {
 			// You need to be logged in to upload files.

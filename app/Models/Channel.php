@@ -14,7 +14,7 @@ class Channel extends Model
 	 *
 	 * @var string
 	 */
-	protected $hidden = ['id', 'addon_id'];
+	protected $hidden = ['id', 'repository_id'];
 
 	/**
 	 * The Attributes that are allowed to be Mass Assigned.
@@ -62,13 +62,13 @@ class Channel extends Model
 	//* Relationships *//
 	/////////////////////
 	/**
-	 * Returns the Addon this Channel belongs to.
+	 * Returns the Repository this Channel belongs to.
 	 *
-	 * @return App\Model\Addon
+	 * @return Relationship
 	 */
-	public function addon()
+	public function repository()
 	{
-		return $this->belongsTo(Addon::class);
+		return $this->belongsTo(Repository::class);
 	}
 
 	/**
@@ -157,10 +157,9 @@ class Channel extends Model
 	{
 		$version_obj = new Version;
 		$version_obj->name = $name;
-		$version_obj->channel_id = $this->id;
+		$this->versions()->save($version_obj);
 		if ($default)
 			$version_obj->default = true;
-		$this->versions()->save($version_obj);
 		return $version_obj;
 	}
 
@@ -175,7 +174,7 @@ class Channel extends Model
 			return;
 
 		// Remove default from old Channel
-		$channel = $this->addon->channel;
+		$channel = $this->repository->channel;
 		if ($channel)
 		{
 			$channel->attributes['default'] = false;

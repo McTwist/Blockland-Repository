@@ -12,7 +12,7 @@ class StoreAddon extends Request
 	public function rules()
 	{
 		return [
-			'title' => 'required|max:64|unique:addons,name',
+			'title' => 'required|max:64|unique:repositories,name',
 			'summary' => 'required',
 			'authors' => 'required',
 			'category' => 'integer|exists:categories,id'

@@ -27,12 +27,12 @@ class Tag extends Model
 	//* Relationships *//
 	/////////////////////
 	/**
-	 * Returns the Addons that this Tag has.
+	 * Returns the Repositories that this Tag has.
 	 *
 	 * @return Relationship
 	 */
-	public function addons()
+	public function repositories()
 	{
-		return $this->belongsToMany(Addon::class)->withTimestamps();
+		return $this->belongsToMany(Repository::class)->withTimestamps();
 	}
 }

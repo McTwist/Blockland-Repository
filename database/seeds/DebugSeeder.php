@@ -26,13 +26,13 @@ class DebugSeeder extends Seeder
 		$users = factory(App\Models\User::class, $max_users)->create();
 
 		// Create addons
-		$addons = factory(App\Models\Addon::class, mt_rand(2, $max_addons_per_user * count($users)))->create()->each(function($a)
+		$addons = factory(App\Models\Repository::class, mt_rand(2, $max_addons_per_user * count($users)))->create()->each(function($a)
 			use(&$users, &$categories)
 		{
 			// Attach category to addon
-			$categories->random()->addons()->save($a);
+			$categories->random()->repositories()->save($a);
 
-			$users->random()->addons()->save($a);
+			$users->random()->repositories()->save($a);
 		});
 
 		// Create channels
@@ -61,7 +61,7 @@ class DebugSeeder extends Seeder
 		{
 			// Make file
 			$file = factory(App\Models\File::class)->make();
-			$file->uploader()->associate($v->addon->owners->first());
+			$file->uploader()->associate($v->repository->owners->first());
 			// ... save file
 			$v->file()->save($file);
 		}

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\FormatSize;
 use App\Repository\Blockland\Addon\File as AddonFile;
 
-class Addon extends Model
+class Repository extends Model
 {
 	//////////////
 	//* Traits *//
@@ -64,7 +64,7 @@ class Addon extends Model
 	//* Relationships *//
 	/////////////////////
 	/**
-	 * Returns the Channels that this Addon has.
+	 * Returns the Channels that this Repository has.
 	 *
 	 * @return Relationship
 	 */
@@ -74,7 +74,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Returns the default Channel that this Addon has.
+	 * Returns the default Channel that this Repository has.
 	 *
 	 * @return Relationship
 	 */
@@ -84,7 +84,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Returns the Versions that this Addon has.
+	 * Returns the Versions that this Repository has.
 	 *
 	 * @return Relationship
 	 */
@@ -94,7 +94,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Returns the default Version that this Addon has.
+	 * Returns the default Version that this Repository has.
 	 *
 	 * @return Relationship
 	 */
@@ -104,7 +104,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Returns the Users that this Addon belongs to.
+	 * Returns the Users that this Repository belongs to.
 	 *
 	 * @return Relationship
 	 */
@@ -114,7 +114,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Returns the Category that this Addon belongs to.
+	 * Returns the Category that this Repository belongs to.
 	 *
 	 * @return Relationship
 	 */
@@ -124,7 +124,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Returns the Tag that this Addon has.
+	 * Returns the Tag that this Repository has.
 	 *
 	 * @return Relationship
 	 */
@@ -137,9 +137,9 @@ class Addon extends Model
 	//* Utilities *//
 	/////////////////
 	/**
-	 * Returns the slug that is unique to this Addon.
+	 * Returns the slug that is unique to this Repository.
 	 *
-	 * @param string $slug The slug unique to Addon.
+	 * @param string $slug The slug unique to Repository.
 	 *
 	 * @return string
 	 */
@@ -149,9 +149,9 @@ class Addon extends Model
 	}
 
 	/**
-	 * Returns the Addon that is unique to this filename.
+	 * Returns the Repository that is unique to this filename.
 	 *
-	 * @param string $file The file identifying this Addon.
+	 * @param string $file The file identifying this Repository.
 	 *
 	 * @return string
 	 */
@@ -165,14 +165,14 @@ class Addon extends Model
 			if ($version instanceof Version)
 			{
 				// And we're done with the link
-				return $version->addon;
+				return $version->repository;
 			}
 		}
 		return NULL;
 	}
 
 	/**
-	 * Returns true if User are owner to this Addon.
+	 * Returns true if User are owner to this Repository.
 	 *
 	 * @param User $user The User to check ownership.
 	 *
@@ -184,7 +184,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Updates the File with data from Addon and its relations.
+	 * Updates the File with data from Repository and its relations.
 	 *
 	 * @return bool
 	 */
@@ -248,10 +248,9 @@ class Addon extends Model
 		$channel_obj = new Channel;
 		$channel_obj->name = $name;
 		$channel_obj->slug = $this->slug.'_'.str_slug($name);
-		$channel_obj->addon_id = $this->id;
+		$this->channels()->save($channel_obj);
 		if ($default)
 			$channel_obj->default = $default;
-		$this->channels()->save($channel_obj);
 		return $channel_obj;
 	}
 
@@ -260,7 +259,7 @@ class Addon extends Model
 	///////////////////////////
 	// Note: All attributes should later on read from default version or defined slug
 	/**
-	 * Get the size of the Addon
+	 * Get the size of the Repository,
 	 *
 	 * @return string
 	 */
@@ -270,7 +269,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Get the size in metric of the Addon.
+	 * Get the size in metric of the Repository.
 	 *
 	 * @return string
 	 */
@@ -280,7 +279,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Get the size in bin of the Addon.
+	 * Get the size in bin of the Repository.
 	 *
 	 * @return string
 	 */
@@ -290,7 +289,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Get the summary of the Addon.
+	 * Get the summary of the Repository.
 	 *
 	 * @return string
 	 */
@@ -300,7 +299,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Set the summary of the Addon.
+	 * Set the summary of the Repository.
 	 *
 	 * @return void
 	 */
@@ -321,7 +320,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Returns the authors that made this Addon.
+	 * Returns the authors that made this Repository.
 	 *
 	 * @return string
 	 */
@@ -331,7 +330,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Sets the authors that made this Addon.
+	 * Sets the authors that made this Repository.
 	 *
 	 * @return void
 	 */
@@ -342,7 +341,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Get the Version name of the Addon.
+	 * Get the Version name of the Repository.
 	 *
 	 * @return string
 	 */
@@ -352,7 +351,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Get amounts of downloads of the Addon.
+	 * Get amounts of downloads of the Repository.
 	 *
 	 * @return int
 	 */
@@ -363,7 +362,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Get the User uploader of the Addon.
+	 * Get the User uploader of the Repository.
 	 *
 	 * @return App\Models\User
 	 */
@@ -373,7 +372,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Get the file name of the Addon.
+	 * Get the file name of the Repository.
 	 *
 	 * @return string
 	 */
@@ -383,7 +382,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Get the CRC calculation of the Addon.
+	 * Get the CRC calculation of the Repository.
 	 *
 	 * @return string
 	 */
@@ -393,7 +392,7 @@ class Addon extends Model
 	}
 
 	/**
-	 * Get the download link of the Addon.
+	 * Get the download link of the Repository.
 	 *
 	 * @return string
 	 */

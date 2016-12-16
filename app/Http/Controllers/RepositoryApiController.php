@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 
-use App\Models\Addon;
+use App\Models\Repository;
 use App\Models\Channel;
 
 class RepositoryApiController extends Controller
@@ -55,7 +55,7 @@ class RepositoryApiController extends Controller
 	{
 		$mods = self::ExtractData($data, $data);
 		$addon_slugs = explode('-', $mods);
-		$addons = Addon::whereIn('slug', $addon_slugs)->get();
+		$addons = Repository::whereIn('slug', $addon_slugs)->get();
 		$obj = self::ObjectFromArray($addons);
 		return self::json($obj, isset($pretty) || self::IsPretty($data));
 	}
@@ -71,7 +71,7 @@ class RepositoryApiController extends Controller
 	public function mod($data, $pretty = null)
 	{
 		$mod = self::ExtractData($data, $data);
-		$addon = Addon::where('slug', $mod)->first();
+		$addon = Repository::where('slug', $mod)->first();
 		$obj = self::ObjectFromArray([$addon]);
 		return self::json($obj, isset($pretty) || self::IsPretty($data));
 	}
@@ -87,7 +87,7 @@ class RepositoryApiController extends Controller
 	public function repository($data, $pretty = null)
 	{
 		$repo = self::ExtractData($data, $data);
-		$addons = Addon::all();
+		$addons = Repository::all();
 		$obj = self::ObjectFromArray($addons);
 		return self::json($obj, isset($pretty) || self::IsPretty($data));
 	}
@@ -102,7 +102,7 @@ class RepositoryApiController extends Controller
 	public function download($data)
 	{
 		$mod = self::ExtractData($data, $data);
-		$addon = Addon::where('slug', $mod)->first();
+		$addon = Repository::where('slug', $mod)->first();
 		//return response('Under construction: '.$addon->name);
 		return $addon->version->file->download();
 	}
@@ -146,7 +146,7 @@ class RepositoryApiController extends Controller
 		$obj->addons = [];
 		foreach ($addons as $addon)
 		{
-			$obj->addons[] = self::ObjectFromAddon($addon);
+			$obj->addons[] = self::ObjectFromRepository($addon);
 		}
 		return $obj;
 	}
@@ -154,11 +154,11 @@ class RepositoryApiController extends Controller
 	/**
 	 * Get object out from addon.
 	 *
-	 * @param  Addon  $addon
+	 * @param  Repository  $addon
 	 *
 	 * @return stdClass
 	 */
-	private static function ObjectFromAddon(Addon $addon)
+	private static function ObjectFromRepository(Repository $addon)
 	{
 		$obj = new \stdClass;
 		$obj->name = $addon->name;

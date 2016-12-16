@@ -36,13 +36,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	//* Relationships *//
 	/////////////////////
 	/**
-	 * Returns the Addons that this User has.
+	 * Returns the Repositories that this User has.
 	 *
 	 * @return Relationship
 	 */
-	public function addons()
+	public function repositories()
 	{
-		return $this->belongsToMany(Addon::class)->withTimestamps();
+		return $this->belongsToMany(Repository::class)->withTimestamps();
 	}
 
 	/**

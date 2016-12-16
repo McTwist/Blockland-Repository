@@ -10,7 +10,7 @@
 	<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
 		<div class="popup-box">
 			<div class="container-fluid">
-				{{ Form::open(['route' => 'addon.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
+				{{ Form::open(['route' => 'file.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
 				<fieldset class="blr-fieldset">
 					{{-- A special case. The center aligned text looks better. --}}
 					<legend style="text-align: center !important;">Upload Add-On</legend>

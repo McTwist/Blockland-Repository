@@ -66,14 +66,14 @@ class Version extends Model
 	}
 
 	/**
-	 * Returns the Addon that this Version belongs to through Channel.
+	 * Returns the Repository that this Version belongs to through Channel.
 	 *
 	 * @return Relationship
 	 */
-	public function addon()
+	public function repository()
 	{
 		// TODO: Try to nestle some lazy loading in here
-		return $this->channel->addon();
+		return $this->channel->repository();
 	}
 
 	/**

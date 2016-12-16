@@ -27,13 +27,13 @@ class Category extends Model
 	//* Relationships *//
 	/////////////////////
 	/**
-	 * Returns the Addons that this Category has.
+	 * Returns the Repositories that this Category has.
 	 *
 	 * @return Relationship
 	 */
-	public function addons()
+	public function repositories()
 	{
-		return $this->hasMany(Addon::class);
+		return $this->hasMany(Repository::class);
 	}
 
 	/////////////////

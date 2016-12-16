@@ -7,8 +7,8 @@
 	<h2>{{ $category->name }}</h2>
 	<div id="addons">
 
-		@forelse($category->addons()->get() as $addon)
-			<a href="{{ route('addon.show', $addon->slug) }}"><div>{{ $addon->name }}</div></a>
+		@forelse($category->repositories()->get() as $repo)
+			<a href="{{ route('addon.show', $repo->slug) }}"><div>{{ $repo->name }}</div></a>
 		@empty
 			Empty category
 		@endforelse

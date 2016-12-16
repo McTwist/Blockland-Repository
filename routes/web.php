@@ -45,14 +45,29 @@ Route::resource('categories', 'CategoriesController', [
 | If accessed directly from the browser, a different standalone view can be delivered if it exist.
 |
 */
-Route::get('/addon/upload', array(
-	'uses' => 'PopupController@getUploadAddonView',
-	'as' => 'addon.upload'
+Route::get('/file/upload', array(
+	'uses' => 'PopupController@getUploadFileView',
+	'as' => 'file.upload'
 ));
 
 Route::get('/user/login', array(
 	'uses' => 'PopupController@getLoginView',
 	'as' => 'user.login'
+));
+
+/*
+|--------------------------------------------------------------------------
+| File Routes
+|--------------------------------------------------------------------------
+|
+| All Routes pertaining to files are defined here. These routes are
+| prefixed by the 'file' noun, and use the '{file}' wildcard
+| when necessary. The Route Names are prefixed with 'file'.
+|
+*/
+Route::put('/file/upload', array(
+	'uses' => 'AddonController@upload',
+	'as' => 'file.upload'
 ));
 
 /*
@@ -65,10 +80,6 @@ Route::get('/user/login', array(
 | when necessary. The Route Names are prefixed with 'addon'.
 |
 */
-Route::put('/addon/upload', array(
-	'uses' => 'AddonController@upload',
-	'as' => 'addon.upload'
-));
 Route::resource('addon', 'AddonController', [
 	'except' => 'index'
 ]);

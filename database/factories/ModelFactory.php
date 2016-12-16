@@ -39,7 +39,7 @@ $factory->define(App\Models\Category::class, function (Faker\Generator $faker)
 	];
 });
 
-$factory->define(App\Models\Addon::class, function (Faker\Generator $faker)
+$factory->define(App\Models\Repository::class, function (Faker\Generator $faker)
 {
 	$updated_at = $faker->unixTime();
 	$created_at = $faker->unixTime($updated_at);

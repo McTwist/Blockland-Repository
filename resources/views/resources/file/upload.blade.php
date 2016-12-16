@@ -13,7 +13,7 @@
 
 @section('content')
 	<div class="container-fluid">
-		{{ Form::open(['route' => 'addon.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
+		{{ Form::open(['route' => 'file.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
 		<fieldset class="blr-fieldset">
 			<legend>Upload Add-On</legend>
 			<div class="row">

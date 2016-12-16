@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Addon;
+use App\Models\Repository;
 use Auth;
 
 class UpdateAddon extends Request
@@ -34,11 +34,11 @@ class UpdateAddon extends Request
 	public function rules()
 	{
 		// TOOD: Move this out somewhere else to not dirty this space
-		$this->addon = Addon::fromSlug($this->route()->getParameter('addon'));
+		$this->addon = Repository::fromSlug($this->route()->getParameter('addon'));
 		if ($this->addon === null)
 			return [];
 		return [
-			'title' => 'required|max:64|unique:addons,name,'.$this->addon->id,
+			'title' => 'required|max:64|unique:repositories,name,'.$this->addon->id,
 			'summary' => 'required',
 			'authors' => 'required'
 		];

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\MessageBag;
 
-use App\Models\Addon;
+use App\Models\Repository;
 use App\Models\Channel;
 use App\Models\Version;
 use App\Models\Category;
@@ -88,7 +88,7 @@ class AddonController extends Controller
 			else
 			{
 				$request->session()->flash('error', $messages);
-				return redirect()->intended(route('addon.upload'));
+				return redirect()->intended(route('file.upload'));
 			}
 		}
 
@@ -119,7 +119,7 @@ class AddonController extends Controller
 				else
 				{
 					$request->session()->flash('error', $messages);
-					return redirect()->intended(route('addon.upload'));
+					return redirect()->intended(route('file.upload'));
 				}
 			}
 			
@@ -140,7 +140,7 @@ class AddonController extends Controller
 		$request->session()->flash('upload', $data);
 
 		// Locate already existing Add-On
-		$addon = Addon::fromFile($orig_name);
+		$addon = Repository::fromFile($orig_name);
 		if ($addon)
 		{
 			if ($request->ajax())
@@ -243,13 +243,13 @@ class AddonController extends Controller
 		$slug = str_slug($data['attributes']['display_name'], '_');
 
 		// Create the Resource
-		$addon = Addon::create([
+		$addon = Repository::create([
 			'name' => $title,
 			'slug' => $slug,
 			'description' => $description
 		]);
 		// Link them together
-		Category::find($category)->addons()->save($addon);
+		Category::find($category)->repositories()->save($addon);
 
 		// Attach to user
 		$addon->owners()->save($request->user());
@@ -300,7 +300,7 @@ class AddonController extends Controller
 	 */
 	public function show($addon)
 	{
-		$addon = Addon::fromSlug($addon);
+		$addon = Repository::fromSlug($addon);
 		// Show the Add-On Page
 		return $addon === null ? view('errors.404') : view('resources.addon.show', compact('addon'));
 	}
@@ -315,7 +315,7 @@ class AddonController extends Controller
 	 */
 	public function edit(Request $request, $addon)
 	{
-		$addon = Addon::fromSlug($addon);
+		$addon = Repository::fromSlug($addon);
 
 		if ($addon === null)
 		{
@@ -471,7 +471,7 @@ class AddonController extends Controller
 	 */
 	public function destroy(Request $request, $addon)
 	{
-		$addon = Addon::fromSlug($addon);
+		$addon = Repository::fromSlug($addon);
 
 		$category = $addon->category_id;
 		

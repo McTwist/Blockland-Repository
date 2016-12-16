@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAddonTagTable extends Migration
+class CreateRepositoryTagTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateAddonTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('addon_tag', function (Blueprint $table)
+        Schema::create('repository_tag', function (Blueprint $table)
         {
-            $table->integer('addon_id')->unsigned()->index();
+            $table->integer('repository_id')->unsigned()->index();
             $table->integer('tag_id')->unsigned()->index();
-            $table->primary(['addon_id', 'tag_id']);
+            $table->primary(['repository_id', 'tag_id']);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateAddonTagTable extends Migration
      */
     public function down()
     {
-        Schema::drop('addon_tag');
+        Schema::drop('repository_tag');
     }
 }
