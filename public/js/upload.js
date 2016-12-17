@@ -18,6 +18,7 @@ $(function () {
 		},
 		previewTemplate: '<div style="display: none;"></div>',
 		init: function () {
+			$this = this;
 			// Reset state and display error message
 			function error(msgs) {
 				msgs = [].concat(msgs);
@@ -28,6 +29,7 @@ $(function () {
 				$.each(msgs, function(i) {
 					var li = $('<li/>').text(msgs[i]).appendTo(list);
 				});
+				$this.removeAllFiles();
 			}
 			this.on("sending", function (file, xhr, formData) {
 				btn = $('#dropClick');
