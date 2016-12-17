@@ -1,6 +1,6 @@
 {{-- Currently there is nothing to show on the navigation bar on the login page so skip the bar entirely. --}}
 @if(!Request::is('user/login'))
-	<div class="row mar-bottom">
+	<div class="row mar-xs-btm">
 		<nav id="navigation" class="navigation col-xs-12" role="navigation">
 			<div class="row">
 				@if(Auth::check())

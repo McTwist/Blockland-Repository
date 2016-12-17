@@ -21,7 +21,7 @@
 				</div>
 
 				{{-- Email --}}
-				<div class="row form-group mar-bottom-double">
+				<div class="row form-group mar-xs-btm-double">
 					<div class="col-xs-12 text-xs-left col-sm-2 col-sm-offset-1 hug-sm-right col-md-offset-2">
 						{{ Form::label('email', 'Email:', ['class' => 'control-label control-label-blr']) }}
 					</div>
@@ -32,7 +32,7 @@
 
 				{{-- TODO: Password change page. --}}
 
-				<h2 class="mar-bottom text-xs-center">Linked Blockland Account</h2>
+				<h2 class="mar-xs-btm text-xs-center">Linked Blockland Account</h2>
 
 				<div class="row">
 					<div class="col-xs-12">

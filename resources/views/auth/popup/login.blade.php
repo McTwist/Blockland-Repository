@@ -35,30 +35,30 @@
 							CSS is used to move the elements to their laptop/desktop (sm/md) locations. --}}
 
 							{{-- Remember me --}}
-							<div class="col-xs-12 text-xs-center mar-top">
+							<div class="col-xs-12 text-xs-center mar-xs-top">
 								{{ Form::checkbox('remember', 'remember', true, ['id' => 'remember_chk']) }}
 								{{ Form::label('remember_chk', 'Remember me', ['class' => 'float-sm-right --no-select']) }}
 							</div>
 
 							{{-- Log in --}}
-							<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-push-6 col-md-5 col-md-push-7 col-md-offset-0 mar-top">
+							<div class="col-xs-12 nopad-xs-both mar-xs-top col-sm-6 col-sm-push-6 col-md-5 col-md-push-7 col-md-offset-0">
 								{{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-md-auto']) }}
 							</div>
 
 							{{-- Close --}}
-							<div class="col-xs-12 nopad-xs-both col-sm-6 col-sm-pull-6 col-md-5 col-md-pull-3 mar-top">
+							<div class="col-xs-12 nopad-xs-both mar-xs-top col-sm-6 col-sm-pull-6 col-md-5 col-md-pull-3">
 								{{ Form::button('Close', ['onclick' => 'clearPopup()', 'class' => 'btn blr-btn btn-blr-close width-xs-full width-md-auto']) }}
 							</div>
 						</div>
 
 						<div class="col-xs-12 nopad-xs-both text-xs-center col-sm-6 col-sm-pull-6 col-md-6 col-md-pull-6">
 							{{-- Forgot password --}}
-							<div class="col-xs-12 hug-sm-left mar-top">
+							<div class="col-xs-12 mar-xs-top hug-sm-left">
 								<a href="{{ route('password.email') }}" class="blacklink uppercase">Forgot password?</a>
 							</div>
 
 							{{-- Register --}}
-							<div class="col-xs-12 hug-sm-left mar-top">
+							<div class="col-xs-12 mar-xs-top hug-sm-left">
 								<a href="{{ route('user.register') }}" class="blacklink uppercase">Register an
 									account</a>
 							</div>

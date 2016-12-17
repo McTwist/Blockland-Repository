@@ -5,13 +5,13 @@
 @section('content')
 	<div class="container-fluid">
 		<div class="row">
-			<h1 class="title mar-bottom-half">
+			<h1 class="title mar-xs-btm-half">
 				{{ $user->username }}
 			</h1>
 		</div>
 		<div class="row">
 			@if(Auth::id() === $user->id)
-				<div class="col-xs-12 nopad-xs-both col-sm-4 col-md-3 pull-right mar-bottom">
+				<div class="col-xs-12 nopad-xs-both mar-xs-btm col-sm-4 col-md-3 pull-right">
 					<a class="btn blr-btn btn-blr-default width-xs-full width-sm-auto pull-right"
 					   href="{{ route('user.edit') }}">Change Account Settings</a>
 				</div>

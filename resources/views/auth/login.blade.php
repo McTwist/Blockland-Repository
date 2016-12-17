@@ -41,25 +41,25 @@
 					CSS is used to move the elements to their laptop/desktop (sm/md) locations. --}}
 
 					{{-- Remember me --}}
-					<div class="col-xs-12 mar-top">
+					<div class="col-xs-12 mar-xs-top">
 						{{ Form::checkbox('remember', 'remember', true, ['id' => 'remember_chk']) }}
 						{{ Form::label('remember_chk', 'Remember me', ['class' => 'float-sm-right --no-select']) }}
 					</div>
 
 					{{-- Log in --}}
-					<div class="col-xs-12 col-sm-6 col-sm-offset-6 col-md-12 col-md-offset-0 mar-top">
+					<div class="col-xs-12 mar-xs-top col-sm-6 col-sm-offset-6 col-md-12 col-md-offset-0">
 						{{ Form::submit('Log In', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-md-auto']) }}
 					</div>
 				</div>
 
 				<div class="col-xs-12 nopad-xs-both col-sm-4 col-sm-pull-3 col-md-3 col-md-pull-0 col-md-push-1">
 					{{-- Forgot password --}}
-					<div class="col-xs-12 mar-top text-xs-center text-sm-left">
+					<div class="col-xs-12 mar-xs-top text-xs-center text-sm-left">
 						<a href="{{ route('password.email') }}" class="blacklink uppercase ">Forgot password?</a>
 					</div>
 
 					{{-- Register --}}
-					<div class="col-xs-12 mar-top text-xs-center text-sm-left">
+					<div class="col-xs-12 mar-xs-top text-xs-center text-sm-left">
 						<a href="{{ route('user.register') }}" class="blacklink uppercase">Register an account</a>
 					</div>
 				</div>

@@ -91,7 +91,7 @@
 
 				<div class="row">
 					{{-- Create --}}
-					<div class="col-xs-12 col-sm-4 col-sm-push-6 mar-top">
+					<div class="col-xs-12 mar-xs-top col-sm-4 col-sm-push-6">
 						{{ Form::submit('Create Add-On', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-sm-auto']) }}
 					</div>
 				</div>
