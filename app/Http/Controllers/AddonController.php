@@ -62,7 +62,7 @@ class AddonController extends Controller
 		// Remove previous one
 		if ($request->session()->has('upload'))
 		{
-			Storage::disk('temp')->remove($request->session()->get('upload')['path']);
+			Storage::disk('temp')->delete($request->session()->get('upload')['path']);
 			// Clear from session while we're at it
 			$request->session()->forget('upload');
 		}
