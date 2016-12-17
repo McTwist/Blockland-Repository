@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use Storage;
 use Illuminate\Support\MessageBag;
 
 use App\Models\Repository;
@@ -17,7 +18,6 @@ use App\Http\Requests\UploadFile;
 use App\Http\Requests\StoreAddon;
 use App\Http\Requests\UpdateAddon;
 use App\Jobs\VerifyAddon;
-use Storage;
 use AddonValidator;
 
 use Composer\Semver\Comparator;
