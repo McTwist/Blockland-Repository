@@ -19,7 +19,7 @@ class InfoRule implements Rule
 			{
 				$messages->add('info_missing', "Missing credits.");
 			}
-			elseif ($addon->info->Validate())
+			elseif (!$addon->info->Validate())
 			{
 				$messages->add('info_invalid', "Invalid credits.");
 			}
@@ -30,7 +30,7 @@ class InfoRule implements Rule
 			{
 				$messages->add('info_missing', "Missing description.");
 			}
-			elseif ($addon->info->Validate())
+			elseif (!$addon->info->Validate())
 			{
 				$messages->add('info_invalid', "Invalid description.");
 			}
