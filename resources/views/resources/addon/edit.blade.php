@@ -72,15 +72,7 @@
 				<div class="row">
 					{{-- Update --}}
 					<div class="col-xs-12 mar-xs-top col-sm-4 col-sm-push-6">
-						{{-- FIXME: Updating an add-on actually deletes the add-on. --}}
 						{{ Form::submit('Update', ['class' => 'btn blr-btn btn-blr-default width-xs-full float-sm-right width-sm-auto']) }}
-					</div>
-
-					{{-- Delete --}}
-					<div class="col-xs-12 mar-xs-top col-sm-4 col-sm-pull-2">
-						{{ Form::open(['route' => ['addon.destroy', $addon->slug], 'method' => 'delete', 'class' => 'form-horizontal']) }}
-						{{ Form::submit('Delete Add-On', ['class' => 'btn blr-btn btn-blr-red width-xs-full float-sm-left width-sm-auto uppercase']) }}
-						{{ Form::close() }}
 					</div>
 				</div>
 
@@ -98,5 +90,13 @@
 			</div>
 		</fieldset>
 		{{ Form::close() }}
+		<div class="row mar-xs-top extend-xs-double mar-sm-top-none">
+			{{-- Delete --}}
+			<div class="col-xs-12">
+				{{ Form::open(['route' => ['addon.destroy', $addon->slug], 'method' => 'delete', 'class' => 'form-horizontal']) }}
+				{{ Form::submit('Delete Add-On', ['class' => 'btn blr-btn btn-blr-red width-xs-full float-sm-left width-sm-auto uppercase vpull-btn-sm-up']) }}
+				{{ Form::close() }}
+			</div>
+		</div>
 	</div>
 @endsection
