@@ -20,7 +20,7 @@ class CreateCategoriesTable extends Migration
 			// Attributes
 			$table->string('name', 32)->unique();
 			$table->string('icon', 32)->nullable();
-			$table->string('types')->default('');
+			$table->integer('repository_type_id')->unsigned()->index();
 
 			// Revision Tracking
 			$table->timestamps();

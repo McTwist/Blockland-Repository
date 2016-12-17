@@ -114,6 +114,16 @@ class Repository extends Model
 	}
 
 	/**
+	 * Returns the RepositoryType that this Repository belongs to.
+	 *
+	 * @return Relationship
+	 */
+	public function type()
+	{
+		return $this->belongsTo(RepositoryType::class, 'repository_type_id');
+	}
+
+	/**
 	 * Returns the Category that this Repository belongs to.
 	 *
 	 * @return Relationship

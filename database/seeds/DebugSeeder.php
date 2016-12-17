@@ -18,6 +18,7 @@ class DebugSeeder extends Seeder
 
 		// Create categories
 		$categories = App\Models\Category::all();
+		$type = App\Models\RepositoryType::where('name', 'addon')->first();
 
 		// Note: Due to some odd internal functionality, enormous amounts of files were created
 		// with previous algorithm. Due to that, this was made instead. Hopefully it'll work better.
@@ -27,12 +28,14 @@ class DebugSeeder extends Seeder
 
 		// Create addons
 		$addons = factory(App\Models\Repository::class, mt_rand(2, $max_addons_per_user * count($users)))->create()->each(function($a)
-			use(&$users, &$categories)
+			use(&$users, &$categories, &$type)
 		{
 			// Attach category to addon
 			$categories->random()->repositories()->save($a);
 
 			$users->random()->repositories()->save($a);
+			if ($type)
+				$type->repositories()->save($a);
 		});
 
 		// Create channels

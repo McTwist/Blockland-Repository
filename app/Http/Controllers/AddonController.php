@@ -11,6 +11,7 @@ use App\Models\Repository;
 use App\Models\Channel;
 use App\Models\Version;
 use App\Models\Category;
+use App\Models\RepositoryType;
 use App\Models\File as FileModel;
 use App\Models\VersionCache;
 use App\Repository\Blockland\Addon\File as AddonFile;
@@ -197,8 +198,8 @@ class AddonController extends Controller
 
 		// TODO: Do checks, validations and generations and notify the user
 
-		$categories = Category::listSelect();
-		$category = Category::getByType($addon_file->type);
+		$categories = Category::listSelect('addon');
+		$category = Category::getIdByAddonGroup($addon_file->type);
 
 		// TODO: Use the addon directly instead of values, making this easier to change
 		$title = $addon_file->info->title;
@@ -245,6 +246,10 @@ class AddonController extends Controller
 			'slug' => $slug,
 			'description' => $description
 		]);
+
+		// Attach to type
+		$addon->type()->associate(RepositoryType::where('name', 'addon')->first());
+
 		// Link them together
 		Category::find($category)->repositories()->save($addon);
 

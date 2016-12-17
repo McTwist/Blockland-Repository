@@ -18,6 +18,7 @@ class CreateRepositoriesTable extends Migration
             $table->string('slug', 70)->unique();
             $table->string('name', 64)->unique();
             $table->text('description')->nullable();
+            $table->integer('repository_type_id')->nullable()->unsigned()->index();
             $table->integer('category_id')->nullable()->unsigned()->index();
             $table->timestamps();
         });
