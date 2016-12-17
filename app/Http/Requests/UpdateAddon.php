@@ -10,7 +10,7 @@ class UpdateAddon extends Request
 	/**
 	 * The current Add-On we are dealing with.
 	 *
-	 * @var Addon
+	 * @var Repository
 	 */
 	public $addon = null;
 
