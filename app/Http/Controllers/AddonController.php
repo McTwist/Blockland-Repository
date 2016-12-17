@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\File as FileModel;
 use App\Models\VersionCache;
 use App\Repository\Blockland\Addon\File as AddonFile;
+use App\Http\Requests\UploadFile;
 use App\Http\Requests\StoreAddon;
 use App\Http\Requests\UpdateAddon;
 use App\Jobs\VerifyAddon;
@@ -49,16 +50,12 @@ class AddonController extends Controller
 	/**
 	 * Upload the Resource.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param  UploadFile  $request
 	 *
 	 * @return \Illuminate\Http\Response, \Illuminate\Http\Redirect
 	 */
-	public function upload(Request $request)
+	public function upload(UploadFile $request)
 	{
-		$this->validate($request, [
-			'file' => 'required|mimes:zip|max:50000' // 50MB
-		]);
-
 		// Remove previous one
 		if ($request->session()->has('upload'))
 		{
