@@ -47,16 +47,16 @@ class Repository extends Model
 		parent::boot();
 		
 		// Deleting the model
-		static::deleting(function($addon)
+		static::deleting(function($repository)
 		{
-			foreach ($addon->channels as $channel)
+			foreach ($repository->channels as $channel)
 				$channel->delete();
 		});
 
 		// Model was created
-		static::created(function($addon)
+		static::created(function($repository)
 		{
-			$addon->createChannel('release', true);
+			$repository->createChannel('release', true);
 		});
 	}
 
