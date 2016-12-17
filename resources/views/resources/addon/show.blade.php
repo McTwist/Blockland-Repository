@@ -22,7 +22,7 @@
 					</div>
 				</div>
 				<div class="col-xs-12 mar-xs-top col-sm-3">
-					<div class="col-xs-12 nopad-xs-both mar-bottom-half">
+					<div class="col-xs-12 nopad-xs-both mar-xs-btm-half">
 						<a class="btn blr-btn btn-blr-default width-xs-full"
 						   href="{{ $addon->download_link }}">Download</a>
 					</div>
@@ -35,7 +35,7 @@
 					<div class="col-xs-12 nopad-xs-both summary">{{ $addon->summary }}</div>
 				</div>
 				<div class="col-xs-12 mar-xs-top col-sm-2 nopad-sm-left">
-					<div class="col-xs-12 nopad-xs-both mar-bottom-half">
+					<div class="col-xs-12 nopad-xs-both mar-xs-btm-half">
 						<a class="btn blr-btn btn-blr-default width-xs-full"
 						   href="{{ $addon->download_link }}">Download</a>
 					</div>
@@ -43,7 +43,7 @@
 				</div>
 			@endif
 		</div>
-		<hr class="mar-bottom-none">
+		<hr class="mar-xs-btm-none">
 		<div class="row inforow">
 			{{-- TODO: Figure out nice separators like in the concept that work at xs scale. --}}
 			<div class="col-xs-6 mar-xs-top-half col-sm-3">
