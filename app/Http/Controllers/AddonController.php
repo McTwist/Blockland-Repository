@@ -72,6 +72,7 @@ class AddonController extends Controller
 		$temp_path = temp_path($path);
 
 		$orig_name = $file->getClientOriginalName();
+		$ext = $file->getClientOriginalExtension();
 
 		// Validate the existant of the file
 		$file_obj = FileModel::fromContent(file_get_contents($temp_path), 'zip');
@@ -129,7 +130,7 @@ class AddonController extends Controller
 			'path' => $path,
 			'original' => $orig_name,
 			'attributes' => [
-				'display_name' => basename($orig_name, '.zip'),
+				'display_name' => basename($orig_name, '.'.$ext),
 				'size' => $file->getClientSize(),
 				'extension' => $file->guessClientExtension(),
 				'mime' => $file->getClientMimeType()
