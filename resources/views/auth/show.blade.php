@@ -16,25 +16,28 @@
 					   href="{{ route('user.edit') }}">Change Account Settings</a>
 				</div>
 			@endif
-			<div class="col-xs-12 col-sm-6">
-				<div class="row">
-					<div class="col-xs-12 text-xs-left col-sm-5 text-sm-right col-md-4 blr-label">
-						Blockland Name:
+			{{-- Blockland info --}}
+			@if($user->bl_id != -1)
+				<div class="col-xs-12 col-sm-6">
+					<div class="row">
+						<div class="col-xs-12 text-xs-left col-sm-5 text-sm-right col-md-4 blr-label">
+							Blockland Name:
+						</div>
+						<div class="col-xs-12 col-sm-7 hug-sm-left col-md-8">
+							<p class="text-xs-center text-sm-left blr-value">{{ $user->bl_name }}</p>
+						</div>
 					</div>
-					<div class="col-xs-12 col-sm-7 hug-sm-left col-md-8">
-						<p class="text-xs-center text-sm-left blr-value">{{ $user->bl_name }}</p>
-					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-xs-12 text-xs-left col-sm-5 text-sm-right col-md-4 blr-label">
-						Blockland ID:
-					</div>
-					<div class="col-xs-12 col-sm-7 hug-sm-left col-md-8">
-						<p class="text-xs-center text-sm-left blr-value">{{ $user->bl_id }}</p>
+					<div class="row">
+						<div class="col-xs-12 text-xs-left col-sm-5 text-sm-right col-md-4 blr-label">
+							Blockland ID:
+						</div>
+						<div class="col-xs-12 col-sm-7 hug-sm-left col-md-8">
+							<p class="text-xs-center text-sm-left blr-value">{{ $user->bl_id }}</p>
+						</div>
 					</div>
 				</div>
-			</div>
+			@endif
 		</div>
 	</div>
 @endsection
