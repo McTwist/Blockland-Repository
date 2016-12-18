@@ -8,7 +8,7 @@ $(function () {
 	var dropzone = new Dropzone('form#uploadAddon', {
 		method: "post",
 		paramName: paramName,
-		acceptedFiles: ".zip",
+		acceptedFiles: ".zip,.bls",
 		uploadMultiple: false,
 		maxFiles: 1,
 		maxFileSize: 50, // If you breach this you have put in too many ogg files

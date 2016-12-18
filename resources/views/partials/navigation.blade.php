@@ -23,7 +23,7 @@
 					<div class="col-xs-12 col-sm-3 col-sm-pull-9 col-md-2 col-md-pull-10">
 						<a href="{{ route('file.upload') }}" id="btn-new-addon"
 						   class="btn blr-btn btn-blr-default width-xs-full width-sm-auto float-sm-left show-popup">Upload
-							Add-On</a>
+							File</a>
 					</div>
 				@else
 					<div class="col-sm-2 col-sm-offset-10">

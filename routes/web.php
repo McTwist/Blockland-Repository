@@ -62,7 +62,7 @@ Route::get('/user/login', array(
 |
 */
 Route::put('/file/upload', array(
-	'uses' => 'AddonController@upload',
+	'uses' => 'UploadController@upload',
 	'as' => 'file.upload'
 ));
 
@@ -77,6 +77,20 @@ Route::put('/file/upload', array(
 |
 */
 Route::resource('addon', 'AddonController', [
+	'except' => 'index'
+]);
+
+/*
+|--------------------------------------------------------------------------
+| BLSave Routes
+|--------------------------------------------------------------------------
+|
+| All Routes pertaining to Saves are defined here. These routes are
+| prefixed by the 'save' noun, and use the '{save}' wildcard
+| when necessary. The Route Names are prefixed with 'save'.
+|
+*/
+Route::resource('save', 'BlocklandSaveController', [
 	'except' => 'index'
 ]);
 

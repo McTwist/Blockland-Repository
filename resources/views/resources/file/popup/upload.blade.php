@@ -12,7 +12,7 @@
 				{{ Form::open(['route' => 'file.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
 				<fieldset class="blr-fieldset">
 					{{-- A special case. The center aligned text looks better. --}}
-					<legend style="text-align: center !important;">Upload Add-On</legend>
+					<legend style="text-align: center !important;">Upload File</legend>
 					<div class="row">
 						<div class="file col-xs-12 nopad-xs-both">
 							{{-- Choose File button --}}

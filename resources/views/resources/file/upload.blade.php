@@ -11,7 +11,7 @@
 	<div class="container-fluid">
 		{{ Form::open(['route' => 'file.upload', 'method' => 'put', 'id' => 'uploadAddon', 'files' => true, 'enctype' => 'multipart/form-data']) }}
 		<fieldset class="blr-fieldset">
-			<legend>Upload Add-On</legend>
+			<legend>Upload File</legend>
 			<div class="row">
 				<div class="file col-xs-12 nopad-xs-both">
 					{{-- Choose File button --}}
