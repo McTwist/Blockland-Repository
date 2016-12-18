@@ -16,9 +16,10 @@ class DebugSeeder extends Seeder
 		$max_channels_per_addon = 3;
 		$max_versions_per_channel = 2;
 
-		// Create categories
-		$categories = App\Models\Category::all();
+		// Get addon type
 		$type = App\Models\RepositoryType::where('name', 'addon')->first();
+		// Get categories
+		$categories = App\Models\Category::where('repository_type_id', $type->id)->get();
 
 		// Note: Due to some odd internal functionality, enormous amounts of files were created
 		// with previous algorithm. Due to that, this was made instead. Hopefully it'll work better.
