@@ -402,6 +402,16 @@ class Repository extends Model
 	}
 
 	/**
+	 * Get the route link of the Repository.
+	 *
+	 * @return string
+	 */
+	public function getRouteAttribute()
+	{
+		return route($this->type->name.'.show', $this->slug);
+	}
+
+	/**
 	 * Get the download link of the Repository.
 	 *
 	 * @return string
