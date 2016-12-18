@@ -16,6 +16,16 @@
 					   href="{{ route('user.edit') }}">Change Account Settings</a>
 				</div>
 			@endif
+			{{-- Repositories --}}
+			<div class="col-xs-12 col-sm-6">
+				@forelse($user->repositories as $repo)
+					<div class="col-xs-12 text-xs-left col-sm-5 text-sm-right col-md-4 blr-label">
+						<a href="{{ $repo->route }}"><div>{{ $repo->name }}</div></a>
+					</div>
+				@empty
+					This user has no uploaded files.
+				@endforelse
+			</div>
 			{{-- Blockland info --}}
 			@if($user->bl_id != -1)
 				<div class="col-xs-12 col-sm-6">
