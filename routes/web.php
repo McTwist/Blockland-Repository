@@ -11,10 +11,6 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
 // The Home Page
 Route::get('/', array(
 	'uses' 	=> 'PagesController@home',
