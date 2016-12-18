@@ -221,6 +221,29 @@ class File extends Archive
 		return array_key_exists($type, $this->type_check);
 	}
 
+	// Guess the types of the file
+	public function GuessTypes()
+	{
+		$types = [];
+
+		foreach ($this->type_check as $type => $checks)
+		{
+			foreach ($checks as $func)
+			{
+				if (!call_user_func($func))
+				{
+					// Failed, so jump to outer loop
+					continue 2;
+				}
+			}
+
+			// All passed and well
+			$types[] = $type;
+		}
+
+		return $types;
+	}
+
 	// Validates file to contain the required data
 	public function Validate()
 	{
