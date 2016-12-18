@@ -2,7 +2,7 @@ body
 {
 	font-family: $blr-font-family-text;
 	font-size: 100%; /* 16px on nearly all browsers. */
-	line-height: 1.375em; /* 16 * 1.375 = 22px */
+	line-height: $body-line-height;
 	color: $blr-text-color;
 	background-color: $blr-col-bg-offwhite;
 	margin: 0;

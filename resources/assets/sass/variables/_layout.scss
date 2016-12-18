@@ -6,4 +6,11 @@ $standard-margin: $font-size-14px;
 $standard-margin-half: $standard-margin / 2.0;
 $bootstrap-row-margin: -15px;
 
-$default-button-height: 2.5625em; // 16 * 2.5625 = 41px
+// 16 * 2.5625 = 41px
+$default-button-height: 2.5625em;
+
+// 16 * 2.75 = 66px = 2 rows of text
+$height-text-rows-2: 2.75em;
+
+// 16 * 4.125 = 66px = 3 rows of text
+$height-text-rows-3: 4.125em;
