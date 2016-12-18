@@ -319,7 +319,7 @@ class File extends Archive
 		// Confirmed
 		return $this->isGameMode
 			&& $this->hasColorset
-			&& $this->hasDescription
+			&& $this->hasInfo
 			&& $this->HasFile('save.bls')
 			&& $this->HasFile('preview.jpg')
 			&& $this->HasFile('thumb.jpg');
