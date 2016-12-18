@@ -1,0 +1,107 @@
+table .linkrow
+{
+	&:hover
+	{
+		cursor: pointer !important;
+	}
+
+	&:active
+	{
+		background-color: $blr-col-bg-offwhite;
+	}
+
+	& table th,
+	& table td,
+	{
+		padding-left: 0;
+	}
+}
+
+.blr-table
+{
+	border: 0;
+	border-spacing: 0;
+	border-collapse: collapse;
+
+	& thead,
+	& th
+	{
+		font-family: $blr-font-family-label;
+	}
+
+	& tbody
+	{
+		font-family: $blr-font-family-text;
+
+		& td
+		{
+			vertical-align: top;
+			border-left: solid $blr-col-bg-gray 2px;
+			padding: 0 1em 0 1em;
+
+			&:first-child
+			{
+				border-left: 0;
+			}
+		}
+	}
+
+	& .titlerow th
+	{
+		font-family: $blr-font-family-title;
+		text-align: center;
+		vertical-align: bottom;
+	}
+
+	& .middle
+	{
+		vertical-align: middle;
+	}
+
+	& td.shrink
+	{
+		white-space: nowrap;
+	}
+
+	& td.expand
+	{
+		width: 99%;
+	}
+
+	& td.divider
+	{
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+.blr-table-xs
+{
+	& .footer-titles > th,
+	& .footer-titles > td
+	{
+		padding-top: $standard-margin;
+		padding-right: 1em;
+
+		&:last-child
+		{
+			padding-right: 0;
+		}
+	}
+
+	& tbody td
+	{
+		border-left: 0;
+	}
+
+	& .footer-titles > th
+	{
+		color: $blr-col-bg-gray-dark;
+		vertical-align: top;
+	}
+
+	& .reponame
+	{
+		font-size: $font-size-18px;
+	}
+}
