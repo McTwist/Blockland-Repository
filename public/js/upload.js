@@ -58,7 +58,7 @@ $(function () {
 						error(response.file);
 					}
 					else {
-						error('Unknown internal error');
+						error(response);
 					}
 				}
 				else {
