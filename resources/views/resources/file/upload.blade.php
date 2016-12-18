@@ -2,10 +2,6 @@
 
 @section('title', 'Upload Add-On')
 
-@section('stylesheets')
-	<link rel="stylesheet" type="text/css" href="/css/upload.css">
-@append
-
 @section('scripts')
 	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
 	<script type="text/javascript" src="/js/upload.js"></script>
