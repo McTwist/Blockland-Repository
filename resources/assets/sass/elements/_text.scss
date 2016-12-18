@@ -22,3 +22,9 @@ p
 	font-size: $font-size-14px;
 	text-align: justify;
 }
+
+// We need to be careful with nesting when using relative font sizes.
+.user-repo-list > li > a
+{
+	font-size: 1em;
+}
