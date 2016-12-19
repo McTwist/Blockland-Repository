@@ -58,15 +58,21 @@ class UserController extends Controller
 	{
 		$user = $request->user();
 
-		// Ignore this user when checking if username and email are unique.
+		// Ignore this user when checking if username, displayname and email are unique.
 		$validator = Validator::make($request->all(), [
 			'username' => ['required', 'max:32', Rule::unique('users')->ignore($user->id)],
+			'displayname' => ['required', 'max:128', Rule::unique('users')->ignore($user->id)],
 			'email' => ['email', 'max:254', Rule::unique('users')->ignore($user->id)]
 		]);
 
 		if ($request->has('username'))
 		{
 			$user->username = $request->input('username');
+		}
+
+		if ($request->has('displayname'))
+		{
+			$user->displayname = $request->input('displayname');
 		}
 
 		if ($request->has('email'))

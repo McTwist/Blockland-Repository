@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
-@section('title', $user->username)
+@section('title', $user->displayname)
 
 @section('content')
 	<div class="container-fluid">
 		<div class="row">
 			<h1 class="mar-xs-btm-half">
-				{{ $user->username }}
+				{{ $user->displayname }}
 			</h1>
 		</div>
 		<div class="row">

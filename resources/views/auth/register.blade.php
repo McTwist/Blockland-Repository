@@ -18,6 +18,16 @@
 					</div>
 				</div>
 
+				{{-- Display name --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-3 hug-sm-right col-md-2 col-md-offset-2">
+						{{ Form::label('displayname', 'Display name:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						{{ Form::text('displayname', old('displayname'), ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+					</div>
+				</div>
+
 				{{-- Email --}}
 				<div class="row form-group">
 					<div class="col-xs-12 text-xs-left col-sm-3 hug-sm-right col-md-2 col-md-offset-2">
