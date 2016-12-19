@@ -55,7 +55,7 @@
 						@endforeach
 					</ul>
 				@else
-					<p>{{ $user->username }} has no uploaded files.</p>
+					<p>{{ $user->displayname }} has no uploaded files.</p>
 				@endif
 			</div>
 		</div>
