@@ -212,3 +212,9 @@
 	/* Bootstrap override. */
 	font-size: $font-size-14px;
 }
+
+.blr-error
+{
+	border-color: rgba(255, 0, 0, 1);
+	box-shadow: inset 0 $px1 $px1 rgba(0, 0, 0, .075), 0 0 $px8 rgba(255, 0, 0, .6);
+}
