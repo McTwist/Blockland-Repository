@@ -11,7 +11,7 @@
 		</div>
 		<div class="row">
 			{{-- Blockland info --}}
-			@if($user->bl_id != -1)
+			@if($user->bl_id !== null)
 				<div class="col-xs-12 col-sm-6">
 					<div class="row">
 						<div class="col-xs-12 text-xs-left col-sm-5 text-sm-right col-md-4 blr-label">
