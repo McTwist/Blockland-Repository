@@ -28,6 +28,7 @@ class BlocklandAuthentication
 		$username = str_replace($encodeChars, $encodeValues, $username);
 
 		// Prepare data query
+		// Note: If this IP is invalid, it will check the connected IP
 		$data = "NAME={$username}&IP={$_SERVER['REMOTE_ADDR']}";
 		$length = strlen($data);
 
