@@ -97,7 +97,7 @@ class BlocklandAuthentication
 		$context = stream_context_create($options);
 
 		// Get content from Development board
-		$content = file_get_contents('https://forum.blockland.us/index.php?board=41.0', false, $context);
+		$content = file_get_contents('http://forum.blockland.us/index.php?board=41.0', false, $context);
 
 		// Locate revision numbers
 		preg_match_all("/[^0-9a-zA-Z](r[0-9]{4})[^0-9a-zA-Z]/", $content, $result);
