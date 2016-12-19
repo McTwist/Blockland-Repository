@@ -4,6 +4,79 @@
 
 @section('mainbox', 'edit')
 
+@section('scripts')
+	<script type="text/javascript" src="/js/verify.js"></script>
+@append
+
+@section('stylesheets')
+	<style type="text/css">
+		.loader
+		{
+			display: inline-block;
+			border: 6px solid #e9e9e9;
+			border-radius: 50%;
+			border-top: 6px solid #6b00b2;
+			width: 20px;
+			height: 20px;
+			-webkit-animation: spin 1.2s linear infinite;
+			animation: spin 1.2s linear infinite;
+		}
+
+		@-webkit-keyframes spin
+		{
+			0% { -webkit-transform: rotate(0deg); }
+			100% { -webkit-transform: rotate(360deg); }
+		}
+
+		@keyframes spin
+		{
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+
+		.checkmark
+		{
+			display: inline-block;
+			position: relative;
+			top: -14px;
+			width: 20px;
+			height: 20px;
+			-ms-transform: rotate(45deg); /* IE 9 */
+			-webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+			transform: rotate(45deg);
+		}
+		
+		.checkmark_stem
+		{
+			position: absolute;
+			width: 4px;
+			height: 16px;
+			background-color: #6b00b2;
+			left: 22px;
+			top: 12px;
+		}
+
+		.checkmark_kick
+		{
+			position: absolute;
+			width: 8px;
+			height: 4px;
+			background-color: #6b00b2;
+			left: 16px;
+			top: 24px;
+		}
+
+		.crossmark
+		{
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			font-size: 20px;
+			color: #ff0000;
+		}
+	</style>
+@append
+
 @section('content')
 	<div class="container-fluid">
 		{{ Form::open(['route' => ['user.update'], 'method' => 'put', 'class' => 'form-horizontal']) }}
@@ -58,7 +131,7 @@
 						{{ Form::label('id', 'Blockland ID:', ['class' => 'control-label control-label-blr']) }}
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-4">
-						{{ Form::number('id', $user->bl_id, ['id' => 'blockland_id', 'min'=>'1', 'max'=>'999999', 'class' => 'form-control blr-form-control']) }}
+						{{ Form::number('id', $user->bl_id, ['id' => 'blockland_id', 'min' => 0, 'max' => 999999, 'autocomplete' => 'off', 'class' => 'form-control blr-form-control']) }}
 					</div>
 				</div>
 
@@ -68,28 +141,32 @@
 						{{ Form::label('name', 'Blockland Name:', ['class' => 'control-label control-label-blr']) }}
 					</div>
 					<div class="col-xs-12 col-sm-6 col-md-4">
-						{{ Form::text('name', $user->bl_name, ['id' => 'blockland_name', 'class' => 'form-control blr-form-control']) }}
+						{{ Form::text('name', $user->bl_name, ['id' => 'blockland_name', 'autocomplete' => 'off', 'class' => 'form-control blr-form-control']) }}
 					</div>
 				</div>
 
 				{{-- Update button --}}
 				<div class="row form-group">
 					<div class="col-xs-12 col-sm-3 col-sm-offset-6 col-md-offset-5">
+						{{-- Move this elsewhere. // Mc --}}
+						<div class="loader" style="display: none;"></div>
+						<div class="checkmark" style="display: none;"><div class="checkmark_stem"></div><div class="checkmark_kick"></div></div>
+						<div class="crossmark" style="display: none;">&#10060;</div>
 						{{ Form::submit('Update Account', ['class' => 'btn blr-btn btn-blr-default width-xs-full width-sm-auto float-sm-right']) }}
 					</div>
 				</div>
 
-				@if (count($errors) > 0)
-					<div class="row">
-						<div class="col-xs-12">
-							<ul>
+				<div class="row">
+					<div class="col-xs-12">
+						<ul id="error-list">
+							@if (count($errors) > 0)
 								@foreach ($errors->all() as $error)
 									<li>{{ $error }}</li>
 								@endforeach
-							</ul>
-						</div>
+							@endif
+						</ul>
 					</div>
-				@endif
+				</div>
 			</div>
 		</fieldset>
 		{{ Form::close() }}
