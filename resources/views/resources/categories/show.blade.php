@@ -20,7 +20,7 @@
 		{{-- TODO: Sorting. --}}
 		{{-- TODO: This view needs more work. It's better than the one before but I'm not happy with it. -DW --}}
 		<div class="row">
-			@if(count($category->repositories()->get()) > 0)
+			@if(count($category->repositories) > 0)
 				<table class="blr-table hidden-xs visible-sm visible-md visible-lg">
 					<thead>
 					<tr class="titlerow">
