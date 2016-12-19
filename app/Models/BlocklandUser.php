@@ -26,6 +26,6 @@ class BlocklandUser extends Model
 	 */
 	public function user()
 	{
-		return $this->belongsTo(User::class, 'blockland_id');
+		return $this->belongsTo(User::class, 'id', 'blockland_id');
 	}
 }
