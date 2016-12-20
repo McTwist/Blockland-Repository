@@ -4,9 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Repository\Blockland\Addon\File as AddonFile;
-
-class VersionCache extends Model
+class SaveCache extends Model
 {
 	//////////////////
 	//* Attributes *//
@@ -16,7 +14,7 @@ class VersionCache extends Model
 	 *
 	 * @var string
 	 */
-	protected $table = 'version_cache';
+	protected $table = 'save_cache';
 
 	/**
 	 * The Attributes that are hidden.
@@ -30,13 +28,13 @@ class VersionCache extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['crc'];
+	protected $fillable = ['brick_count'];
 
 	/////////////
 	//* Magic *//
 	/////////////
 	/**
-	 * Updates the VersionCache with data from File.
+	 * Updates the SaveCache with data from File.
 	 *
 	 * @return bool
 	 */
@@ -47,8 +45,7 @@ class VersionCache extends Model
 		if (!$file->createTempFile())
 			return false;
 
-		// Get crc value
-		$this->crc = Blacklist\AddonCrcBlacklist::convertTo32(crc32($file->getTempContents()));
+		// TODO: Count the bricks
 
 		$file->deleteTempFile();
 
@@ -59,7 +56,7 @@ class VersionCache extends Model
 	//* Relationships *//
 	/////////////////////
 	/**
-	 * Returns the Version that this VersionCache belongs to.
+	 * Returns the Version that this SaveCache belongs to.
 	 *
 	 * @return Relationship
 	 */
@@ -69,7 +66,7 @@ class VersionCache extends Model
 	}
 
 	/**
-	 * Returns the File that this VersionCache is connected to.
+	 * Returns the File that this SaveCache is connected to.
 	 *
 	 * @return Relationship
 	 */

@@ -32,6 +32,19 @@ class Version extends Model
 		'default' => 'boolean'
 	];
 
+	/**
+	 * Cache tables to store for easier access.
+	 * Note: Moving this into a table could be more beneficial.
+	 * Note2: Using polymorph is doable, but problematic as it should not be linked here.
+	 * Note3: Putting the polymorph in an another table could be the solution.
+	 *
+	 * @var array
+	 */
+	protected $caches = [
+		'addon' => AddonCache::class,
+		'save' => SaveCache::class,
+	];
+
 	/////////////////////
 	//* Boot Override *//
 	/////////////////////
@@ -97,13 +110,14 @@ class Version extends Model
 	}
 
 	/**
-	 * Returns the VersionCache that this Version has.
+	 * Returns the cache that this Version has.
 	 *
 	 * @return Relationship
 	 */
 	public function cache()
 	{
-		return $this->hasOne(VersionCache::class);
+		// Note: This is probably really slow. Check notes above for a possible better solution.
+		return $this->hasOne($this->caches[$this->repository->type->name]);
 	}
 
 	///////////////////////////

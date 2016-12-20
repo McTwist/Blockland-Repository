@@ -15,7 +15,7 @@ use App\Models\Category;
 use App\Models\RepositoryType;
 use App\Models\File as FileModel;
 use App\Repository\Blockland\Addon\FileInfo;
-use App\Models\VersionCache;
+use App\Models\AddonCache;
 use App\Repository\Blockland\Addon\File as AddonFile;
 use App\Http\Requests\UploadFile;
 use App\Http\Requests\StoreAddon;
@@ -275,7 +275,7 @@ class AddonController extends Controller
 		$version_obj->save();
 
 		// Add to cache
-		$cache = new VersionCache;
+		$cache = new AddonCache;
 		$cache->version()->associate($version_obj);
 		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertFileCrcTo32(temp_path($data['path']));
 		$cache->save();
@@ -444,7 +444,7 @@ class AddonController extends Controller
 			}
 
 			// Add to cache
-			$cache = new VersionCache;
+			$cache = new AddonCache;
 			$cache->version()->associate($version_obj);
 			$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertFileCrcTo32(temp_path($data['path']));
 			$cache->save();

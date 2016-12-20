@@ -13,7 +13,7 @@ use App\Models\Category;
 use App\Models\RepositoryType;
 use App\Models\File as FileModel;
 use App\Repository\Blockland\Addon\FileInfo;
-use App\Models\VersionCache;
+use App\Models\SaveCache;
 use App\Http\Requests\UploadFile;
 use App\Http\Requests\StoreSave;
 use App\Http\Requests\UpdateSave;
@@ -179,9 +179,9 @@ class BlocklandSaveController extends Controller
 		$version_obj->save();
 
 		// Add to cache
-		$cache = new VersionCache;
+		$cache = new SaveCache;
 		$cache->version()->associate($version_obj);
-		$cache->crc = 0;
+		$cache->brick_count = 0;
 		$cache->save();
 
 		// Add authors
@@ -336,9 +336,9 @@ class BlocklandSaveController extends Controller
 			}
 
 			// Add to cache
-			$cache = new VersionCache;
+			$cache = new SaveCache;
 			$cache->version()->associate($version_obj);
-			$cache->crc = 0;
+			$cache->brick_count = 0;
 			$cache->save();
 
 			// Make the file model
