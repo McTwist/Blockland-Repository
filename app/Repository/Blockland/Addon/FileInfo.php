@@ -80,14 +80,12 @@ class FileInfo extends ArchiveFile
 		{
 			$this->authors = $value;
 			// TODO: Maybe determine the outcome depending on input. Will make cleanup worthwhile
-			$this->authors_raw = implode(', ', $value);
+			$this->authors_raw = self::arr2str($value);
 		});
 		$this->AddAttribute('authorsRaw', function() { return $this->authors_raw; }, function($value)
 		{
 			$this->authors_raw = trim($value);
-			$authors = preg_split('/(\,|\;| and |\&)/i', $value);
-			array_walk($authors, function(&$value, $i) { $value = trim($value); });
-			$this->authors = $authors;
+			$this->authors = self::str2arr($value);
 		});
 		$this->AddAttribute('description', function() { return $this->description; }, function($value) { $this->description = $value; });
 
@@ -104,6 +102,20 @@ class FileInfo extends ArchiveFile
 	{
 		return ($this->isDescription && $this->hasTitle && $this->hasAuthors && $this->hasDescription) ||
 			($this->isCredits && $this->hasAuthors);
+	}
+
+	// Split string of authors into an array
+	public static function str2arr($str)
+	{
+		$authors = preg_split('/(\,|\;| and |\&)/i', $str);
+		array_walk($authors, function(&$value, $i) { $value = trim($value); });
+		return $authors;
+	}
+
+	// Merge an array of authors into a string
+	public static function arr2str($arr)
+	{
+		return implode(', ', $arr);
 	}
 }
 
