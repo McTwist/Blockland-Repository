@@ -481,6 +481,7 @@ class AddonController extends Controller
 
 		// Save the Addon
 		$addon->push();
+		$addon->flush();
 
 		// Redirect to the Index Page
 		return redirect()->intended(route('addon.show', $addon->slug));
