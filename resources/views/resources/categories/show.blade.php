@@ -57,7 +57,7 @@
 								</table>
 							</td>
 							<td class="middle">
-								{{ str_limit($repo->authors, $limit = 26, $end = '&hellip;') }}
+								{{ str_limit($repo->authors->implode('name', ', '), $limit = 26, $end = '&hellip;') }}
 							</td>
 							<td class="middle text-nowrap">
 								{{ date('Y-m-d', $repo->updated_at->getTimestamp()) }}
@@ -95,7 +95,7 @@
 									</tr>
 									<tr class="footer-titles">
 										<th>Authors:</th>
-										<td>{{ str_limit($repo->authors, $limit = 26, $end = '&hellip;') }}</td>
+										<td>{{ str_limit($repo->authors->implode('name', ', '), $limit = 26, $end = '&hellip;') }}</td>
 										<th>Last Updated:</th>
 										<td>{{ date('Y-m-d', $repo->updated_at->getTimestamp()) }}</td>
 										<th>Downloads:</th>

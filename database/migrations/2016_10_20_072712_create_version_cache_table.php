@@ -17,7 +17,6 @@ class CreateVersionCacheTable extends Migration
         {
             $table->increments('id');
             $table->text('summary');
-            $table->string('authors');
             $table->string('crc');
             $table->integer('version_id')->index();
             $table->timestamps();

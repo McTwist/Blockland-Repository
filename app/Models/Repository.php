@@ -114,6 +114,16 @@ class Repository extends Model
 	}
 
 	/**
+	 * Returns the Authors that made this Repository.
+	 *
+	 * @return Relationship
+	 */
+	public function authors()
+	{
+		return $this->version->authors();
+	}
+
+	/**
 	 * Returns the RepositoryType that this Repository belongs to.
 	 *
 	 * @return Relationship
@@ -220,7 +230,7 @@ class Repository extends Model
 
 		// Set internal data info
 		$addon->title = $this->name;
-		$addon->info->authorsRaw = $cache->authors;
+		$addon->info->authors = $version->authors->pluck('name')->toArray();
 		$addon->info->description = $cache->summary;
 		$addon->version->channel = $channel->name;
 		$addon->version->version = $version->name;
@@ -327,27 +337,6 @@ class Repository extends Model
 	public function getDescriptionHtmlAttribute()
 	{
 		return nl2br(e($this->description));
-	}
-
-	/**
-	 * Returns the authors that made this Repository.
-	 *
-	 * @return string
-	 */
-	public function getAuthorsAttribute()
-	{
-		return ($cache = $this->version->cache) ? $cache->authors : '';
-	}
-
-	/**
-	 * Sets the authors that made this Repository.
-	 *
-	 * @return void
-	 */
-	public function setAuthorsAttribute($authors)
-	{
-		if ($cache = $this->version->cache)
-			$cache->update(['authors' => $authors]);
 	}
 
 	/**

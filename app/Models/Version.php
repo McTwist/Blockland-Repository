@@ -77,6 +77,16 @@ class Version extends Model
 	}
 
 	/**
+	 * Returns the Authors that this Version belongs to.
+	 *
+	 * @return Relationship
+	 */
+	public function authors()
+	{
+		return $this->belongsToMany(Author::class);
+	}
+
+	/**
 	 * Returns the File that this Version has.
 	 *
 	 * @return Relationship

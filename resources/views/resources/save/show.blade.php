@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', $save->name . ' by ' . $save->authors)
+@section('title', $save->name . ' by ' . $save->authors->implode('name', ', '))
 
 @section('mainbox', 'view')
 
@@ -11,7 +11,7 @@
 			@if(Auth::user() && $save->IsOwner(Auth::user()))
 				<div class="col-xs-12 col-sm-7 hug-xs-left nopad-xs-right mar-top">
 					<div class="col-xs-12 nopad-xs-both title">{{ $save->name }}</div>
-					<div class="col-xs-12 nopad-xs-both subtitle">by {{ $save->authors }}</div>
+					<div class="col-xs-12 nopad-xs-both subtitle">by {{ $save->authors->implode('name', ', ') }}</div>
 					<div class="col-xs-12 nopad-xs-both summary">{{ $save->summary }}</div>
 				</div>
 				<div class="col-xs-12 nopad-xs-right text-xs-center mar-xs-top col-sm-2">
@@ -31,7 +31,7 @@
 			@else
 				<div class="col-xs-12 mar-xs-top col-sm-10 hug-xs-left">
 					<div class="col-xs-12 nopad-xs-both title">{{ $save->name }}</div>
-					<div class="col-xs-12 nopad-xs-both subtitle">by {{ $save->authors }}</div>
+					<div class="col-xs-12 nopad-xs-both subtitle">by {{ $save->authors->implode('name', ', ') }}</div>
 					<div class="col-xs-12 nopad-xs-both summary">{{ $save->summary }}</div>
 				</div>
 				<div class="col-xs-12 mar-xs-top col-sm-2 nopad-sm-left">

@@ -30,7 +30,7 @@ class VersionCache extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['summary', 'authors', 'crc'];
+	protected $fillable = ['summary', 'crc'];
 
 	/////////////
 	//* Magic *//
@@ -60,7 +60,6 @@ class VersionCache extends Model
 
 		// Get internal data info
 		$this->summary = $addon->Description();
-		$this->authors = $addon->Authors('');
 
 		$addon->Close();
 

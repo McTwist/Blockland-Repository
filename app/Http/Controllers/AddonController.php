@@ -10,9 +10,11 @@ use Illuminate\Support\MessageBag;
 use App\Models\Repository;
 use App\Models\Channel;
 use App\Models\Version;
+use App\Models\Author;
 use App\Models\Category;
 use App\Models\RepositoryType;
 use App\Models\File as FileModel;
+use App\Repository\Blockland\Addon\FileInfo;
 use App\Models\VersionCache;
 use App\Repository\Blockland\Addon\File as AddonFile;
 use App\Http\Requests\UploadFile;
@@ -274,9 +276,17 @@ class AddonController extends Controller
 		$cache = new VersionCache;
 		$cache->version()->associate($version_obj);
 		$cache->summary = $summary;
-		$cache->authors = $authors;
 		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertFileCrcTo32(temp_path($data['path']));
 		$cache->save();
+
+		// Add authors
+		$author_ids = [];
+		foreach (FileInfo::str2arr($authors) as $author)
+		{
+			$author_obj = Author::firstOrCreate(['name' => $author]);
+			$author_ids[] = $author_obj->id;
+		}
+		$version_obj->authors()->sync($author_ids);
 
 		// Make the file model
 		$file_obj = FileModel::import($data['path'], $data['attributes']);
@@ -332,7 +342,7 @@ class AddonController extends Controller
 
 		$title = $addon->name;
 		$summary = $addon->summary;
-		$authors = $addon->authors;
+		$authors = $addon->authors->implode('name', ', ');
 		$channel = $addon->channel->name;
 		$version = $addon->version->name;
 
@@ -434,7 +444,6 @@ class AddonController extends Controller
 			$cache = new VersionCache;
 			$cache->version()->associate($version_obj);
 			$cache->summary = $summary;
-			$cache->authors = $authors;
 			$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertFileCrcTo32(temp_path($data['path']));
 			$cache->save();
 
@@ -450,12 +459,25 @@ class AddonController extends Controller
 			// Flush data to file
 			$addon->flush();
 		}
+		else
+		{
+			$version_obj = $addon->version;
+		}
 
 		// Update the Addon
 		$addon->name = $title;
 		$addon->description = $description;
 		$addon->summary = $summary;
-		$addon->authors = $authors;
+		//$addon->authors = $authors;
+
+		// Add authors
+		$author_ids = [];
+		foreach (FileInfo::str2arr($authors) as $author)
+		{
+			$author_obj = Author::firstOrCreate(['name' => $author]);
+			$author_ids[] = $author_obj->id;
+		}
+		$version_obj->authors()->sync($author_ids);
 
 		// Save the Addon
 		$addon->push();

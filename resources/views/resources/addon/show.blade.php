@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', $addon->name . ' by ' . $addon->authors)
+@section('title', $addon->name . ' by ' . $addon->authors->implode('name', ', '))
 
 @section('mainbox', 'view')
 
@@ -11,7 +11,7 @@
 			@if(Auth::user() && $addon->IsOwner(Auth::user()))
 				<div class="col-xs-12 col-sm-7 hug-xs-left nopad-xs-right mar-xs-top">
 					<div class="col-xs-12 nopad-xs-both title">{{ $addon->name }}</div>
-					<div class="col-xs-12 nopad-xs-both subtitle">by {{ $addon->authors }}</div>
+					<div class="col-xs-12 nopad-xs-both subtitle">by {{ $addon->authors->implode('name', ', ') }}</div>
 					<div class="col-xs-12 nopad-xs-both summary">{{ $addon->summary }}</div>
 				</div>
 				<div class="col-xs-12 nopad-xs-right text-xs-center mar-xs-top col-sm-2">
@@ -31,7 +31,7 @@
 			@else
 				<div class="col-xs-12 mar-xs-top col-sm-10 hug-xs-left">
 					<div class="col-xs-12 nopad-xs-both title">{{ $addon->name }}</div>
-					<div class="col-xs-12 nopad-xs-both subtitle">by {{ $addon->authors }}</div>
+					<div class="col-xs-12 nopad-xs-both subtitle">by {{ $addon->authors->implode('name', ', ') }}</div>
 					<div class="col-xs-12 nopad-xs-both summary">{{ $addon->summary }}</div>
 				</div>
 				<div class="col-xs-12 mar-xs-top col-sm-2 nopad-sm-left">

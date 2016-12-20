@@ -8,9 +8,11 @@ use Storage;
 use App\Models\Repository;
 use App\Models\Channel;
 use App\Models\Version;
+use App\Models\Author;
 use App\Models\Category;
 use App\Models\RepositoryType;
 use App\Models\File as FileModel;
+use App\Repository\Blockland\Addon\FileInfo;
 use App\Models\VersionCache;
 use App\Http\Requests\UploadFile;
 use App\Http\Requests\StoreSave;
@@ -178,9 +180,17 @@ class BlocklandSaveController extends Controller
 		$cache = new VersionCache;
 		$cache->version()->associate($version_obj);
 		$cache->summary = $summary;
-		$cache->authors = $authors;
 		$cache->crc = 0;
 		$cache->save();
+
+		// Add authors
+		$author_ids = [];
+		foreach (FileInfo::str2arr($authors) as $author)
+		{
+			$author_obj = Author::firstOrCreate(['name' => $author]);
+			$author_ids[] = $author_obj->id;
+		}
+		$version_obj->authors()->sync($author_ids);
 
 		// Make the file model
 		$file_obj = FileModel::import($data['path'], $data['attributes']);
@@ -236,7 +246,7 @@ class BlocklandSaveController extends Controller
 
 		$title = $save->name;
 		$summary = $save->summary;
-		$authors = $save->authors;
+		$authors = $save->authors->implode('name', ', ');
 		$channel = $save->channel->name;
 		$version = $save->version->name;
 
@@ -328,7 +338,6 @@ class BlocklandSaveController extends Controller
 			$cache = new VersionCache;
 			$cache->version()->associate($version_obj);
 			$cache->summary = $summary;
-			$cache->authors = $authors;
 			$cache->crc = 0;
 			$cache->save();
 
@@ -341,12 +350,25 @@ class BlocklandSaveController extends Controller
 			// Save file with the Addon
 			$save->version->file()->save($file_obj);
 		}
+		else
+		{
+			$version_obj = $save->version;
+		}
 
 		// Update the Addon
 		$save->name = $title;
 		$save->description = $description;
 		$save->summary = $summary;
-		$save->authors = $authors;
+		//$save->authors = $authors;
+
+		// Add authors
+		$author_ids = [];
+		foreach (FileInfo::str2arr($authors) as $author)
+		{
+			$author_obj = Author::firstOrCreate(['name' => $author]);
+			$author_ids[] = $author_obj->id;
+		}
+		$version_obj->authors()->sync($author_ids);
 
 		// Save the Addon
 		$save->push();
