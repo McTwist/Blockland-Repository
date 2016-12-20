@@ -270,12 +270,13 @@ class AddonController extends Controller
 		$version_obj = $channel_obj->version;
 		if (!empty($version))
 			$version_obj->name = $version;
+		if (!empty($summary))
+			$version_obj->summary = $summary;
 		$version_obj->save();
 
 		// Add to cache
 		$cache = new VersionCache;
 		$cache->version()->associate($version_obj);
-		$cache->summary = $summary;
 		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertFileCrcTo32(temp_path($data['path']));
 		$cache->save();
 
@@ -423,6 +424,8 @@ class AddonController extends Controller
 				$version_obj = $channel_obj->version;
 				if (!empty($version_name))
 					$version_obj->name = $version_name;
+				if (!empty($summary))
+					$version_obj->summary = $summary;
 				$version_obj->save();
 			}
 			else
@@ -443,7 +446,6 @@ class AddonController extends Controller
 			// Add to cache
 			$cache = new VersionCache;
 			$cache->version()->associate($version_obj);
-			$cache->summary = $summary;
 			$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertFileCrcTo32(temp_path($data['path']));
 			$cache->save();
 
@@ -467,8 +469,7 @@ class AddonController extends Controller
 		// Update the Addon
 		$addon->name = $title;
 		$addon->description = $description;
-		$addon->summary = $summary;
-		//$addon->authors = $authors;
+		$version_obj->summary = $summary;
 
 		// Add authors
 		$author_ids = [];

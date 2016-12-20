@@ -18,6 +18,7 @@ class CreateVersionsTable extends Migration
 			$table->integer('channel_id')->unsigned()->index();
 			$table->tinyInteger('default')->default(0)->index();
 			$table->string('name', 32);
+			$table->text('summary');
 			$table->text('change_log')->nullable();
 			$table->timestamps();
 		});

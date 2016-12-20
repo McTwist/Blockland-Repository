@@ -74,6 +74,7 @@ $factory->define(App\Models\Version::class, function (Faker\Generator $faker)
 	$created_at = $faker->unixTime($updated_at);
 	return [
 		'name' => $addonFaker->sem_ver,
+		'summary' => $faker->text(128),
 		'change_log' => $faker->text(128),
 		'created_at' => $created_at,
 		'updated_at' => $updated_at,

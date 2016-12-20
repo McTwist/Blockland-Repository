@@ -30,7 +30,7 @@ class VersionCache extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['summary', 'crc'];
+	protected $fillable = ['crc'];
 
 	/////////////
 	//* Magic *//
@@ -49,19 +49,6 @@ class VersionCache extends Model
 
 		// Get crc value
 		$this->crc = Blacklist\AddonCrcBlacklist::convertTo32(crc32($file->getTempContents()));
-
-		$addon = new AddonFile($file->download_name);
-
-		if (!$addon->Open(temp_path($file->path)))
-		{
-			$file->deleteTempFile();
-			return false;
-		}
-
-		// Get internal data info
-		$this->summary = $addon->Description();
-
-		$addon->Close();
 
 		$file->deleteTempFile();
 

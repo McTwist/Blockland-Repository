@@ -231,7 +231,7 @@ class Repository extends Model
 		// Set internal data info
 		$addon->title = $this->name;
 		$addon->info->authors = $version->authors->pluck('name')->toArray();
-		$addon->info->description = $cache->summary;
+		$addon->info->description = $version->summary;
 		$addon->version->channel = $channel->name;
 		$addon->version->version = $version->name;
 
@@ -315,7 +315,7 @@ class Repository extends Model
 	 */
 	public function getSummaryAttribute()
 	{
-		return ($cache = $this->version->cache) ? $cache->summary : '';
+		return $this->version->summary;
 	}
 
 	/**
@@ -325,8 +325,7 @@ class Repository extends Model
 	 */
 	public function setSummaryAttribute($summary)
 	{
-		if ($cache = $this->version->cache)
-			$cache->update(['summary' => $summary]);
+		$this->version->update(['summary' => $summary]);
 	}
 
 	/**

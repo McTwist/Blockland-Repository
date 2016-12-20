@@ -21,7 +21,7 @@ class Version extends Model
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'change_log'];
+	protected $fillable = ['name', 'summary', 'change_log'];
 
 	/**
 	 * The Attributes that are casts to a specific type.

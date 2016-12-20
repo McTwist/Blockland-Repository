@@ -157,6 +157,7 @@ class Channel extends Model
 	{
 		$version_obj = new Version;
 		$version_obj->name = $name;
+		$version_obj->summary = '';
 		$this->versions()->save($version_obj);
 		if ($default)
 			$version_obj->default = true;

@@ -174,12 +174,13 @@ class BlocklandSaveController extends Controller
 		$version_obj = $channel_obj->version;
 		if (!empty($version))
 			$version_obj->name = $version;
+		if (!empty($summary))
+			$version_obj->summary = $summary;
 		$version_obj->save();
 
 		// Add to cache
 		$cache = new VersionCache;
 		$cache->version()->associate($version_obj);
-		$cache->summary = $summary;
 		$cache->crc = 0;
 		$cache->save();
 
@@ -337,7 +338,6 @@ class BlocklandSaveController extends Controller
 			// Add to cache
 			$cache = new VersionCache;
 			$cache->version()->associate($version_obj);
-			$cache->summary = $summary;
 			$cache->crc = 0;
 			$cache->save();
 
@@ -358,8 +358,7 @@ class BlocklandSaveController extends Controller
 		// Update the Addon
 		$save->name = $title;
 		$save->description = $description;
-		$save->summary = $summary;
-		//$save->authors = $authors;
+		$version_obj->summary = $summary;
 
 		// Add authors
 		$author_ids = [];

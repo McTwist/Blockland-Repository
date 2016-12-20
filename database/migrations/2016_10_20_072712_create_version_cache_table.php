@@ -16,7 +16,6 @@ class CreateVersionCacheTable extends Migration
         Schema::create('version_cache', function (Blueprint $table)
         {
             $table->increments('id');
-            $table->text('summary');
             $table->string('crc');
             $table->integer('version_id')->index();
             $table->timestamps();
