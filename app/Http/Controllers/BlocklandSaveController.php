@@ -352,7 +352,7 @@ class BlocklandSaveController extends Controller
 		$save->push();
 
 		// Redirect to the Index Page
-		return redirect()->intended(route('addon.show', $addon->slug));
+		return redirect()->intended(route('save.show', $save->slug));
 	}
 
 	/**
