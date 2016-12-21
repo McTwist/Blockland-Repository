@@ -85,14 +85,29 @@ class UserController extends Controller
 			// Did user change Blockland name or ID?
 			if ($user->blid != $id || $user->blname != $name)
 			{
-				// Validate again.
-				$data = $this->validateBlocklandID($user, $id, $name);
-
-				// If verification failed.
-				if ($data['code'] !== 'VERIFIED')
+				// Already verified
+				if (!$this->verifyBlocklandID($id, $name))
 				{
-					return redirect()->back()->withErrors([$data['code'] => $data['msg']])->withInput();
+					// Validate again.
+					$data = $this->validateBlocklandID($user, $id, $name);
+
+					// If verification failed.
+					if ($data['code'] !== 'VERIFIED')
+					{
+						return redirect()->back()->withErrors([$data['code'] => $data['msg']])->withInput();
+					}
 				}
+
+				// Get and update
+				$blockland_user = BlocklandUser::firstOrNew(['id' => $id]);
+
+				if ($blockland_user->name != $name)
+					$blockland_user->name = $name;
+
+				$blockland_user->save();
+
+				$user->blockland_id = $id;
+				$user->save();
 			}
 		}
 		// Unlinked account
@@ -119,7 +134,18 @@ class UserController extends Controller
 		$id = $request->input('id');
 		$name = $request->input('name');
 
-		$data = $this->validateBlocklandID($user, $id, $name);
+		$verified = $this->verifyBlocklandID($id, $name);
+
+		if (!$verified)
+		{
+			$data = $this->validateBlocklandID($user, $id, $name);
+			$verified = $data['code'] == 'VERIFIED';
+		}
+
+		if ($verified)
+		{
+			$this->markBlocklandID($id, $name);
+		}
 
 		if ($request->ajax())
 		{
@@ -183,21 +209,36 @@ class UserController extends Controller
 		{
 			$data['msg'] = 'Verified.';
 			$data['code'] = 'VERIFIED';
-
-			$id = $bl_id;
-
-			if (!is_object($blockland_user))
-				$blockland_user = new BlocklandUser(compact(['id', 'name']));
-			elseif ($blockland_user->name != $name)
-				$blockland_user->name = $name;
-
-			$blockland_user->save();
-
-			$user->blockland_id = $id;
-			$user->save();
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Check through cache our current situation.
+	 *
+	 * @param  int    $id   bl_id
+	 * @param  string $name bl_name
+	 * @return bool
+	 */
+	protected function verifyBlocklandID($id, $name)
+	{
+		// This checks it only once
+		$auth = session()->pull('verify_auth', false);
+
+		return $auth && $auth['id'] == $id && $auth['name'] == $name;
+	}
+
+	/**
+	 * Mark the current situation
+	 *
+	 * @param  int    $id   bl_id
+	 * @param  string $name bl_name
+	 * @return bool
+	 */
+	protected function markBlocklandID($id, $name)
+	{
+		session('verify_auth', ['id' => $id, 'name' => $name]);
 	}
 }
 
