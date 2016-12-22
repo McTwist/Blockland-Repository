@@ -225,6 +225,11 @@ class AddonController extends Controller
 	 */
 	public function store(StoreAddon $request)
 	{
+		// Denied
+		if (!$request->session()->has('upload'))
+		{
+			return redirect()->intended(route('pages.home'));
+		}
 		$data = $request->session()->get('upload');
 
 		// Get all inputs

@@ -130,6 +130,11 @@ class BlocklandSaveController extends Controller
 	 */
 	public function store(StoreSave $request)
 	{
+		// Denied
+		if (!$request->session()->has('upload'))
+		{
+			return redirect()->intended(route('pages.home'));
+		}
 		$data = $request->session()->get('upload');
 
 		// Get all inputs
