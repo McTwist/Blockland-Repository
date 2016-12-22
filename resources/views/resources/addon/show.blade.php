@@ -69,7 +69,7 @@
 				{!! $addon->description_html or '<p>No description.</p>' !!}
 			</div>
 			<div class="col-xs-12 nopad-xs-both text-xs-right mar-xs-top footnote">{{ $addon->filename }} uploaded by <a
-						href="{{ route('user.show', $addon->uploader->id) }}">{{ $addon->uploader->username }}</a>
+						href="{{ route('user.show', $addon->uploader->id) }}">{{ $addon->uploader->displayname }}</a>
 			</div>
 		</div>
 	</div>
