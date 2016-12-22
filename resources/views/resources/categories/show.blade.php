@@ -13,6 +13,7 @@
 @append
 
 @section('content')
+	{!! Breadcrumbs::render('category', $category) !!}
 	<div class="container-fluid">
 		<div class="row mar-xs-btm mar-sm-btm-none">
 			<h1>{{ $category->name }}</h1>

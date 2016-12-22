@@ -5,6 +5,7 @@
 @section('mainbox', 'view')
 
 @section('content')
+	{!! Breadcrumbs::render('repo', $addon) !!}
 	{{-- Negative margin is needed so the download button can have a top margin for xs size. --}}
 	<div class="container-fluid mar-xs-top-neg">
 		<div class="row">

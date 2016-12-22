@@ -168,6 +168,7 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -232,6 +233,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
 
         'AddonValidator' => App\Validation\Addon\Facade::class,
 
