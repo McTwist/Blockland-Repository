@@ -31,6 +31,12 @@ Route::resource('categories', 'CategoriesController', [
 	'parameters' => 'singular'
 ]);
 
+// Get tags depending on one tag
+Route::get('/tags/{tag?}', array(
+	'uses' => 'CategoriesController@tags',
+	'as' => 'categories.tags'
+));
+
 /*
 |--------------------------------------------------------------------------
 | Popup Routes

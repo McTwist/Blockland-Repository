@@ -11,6 +11,7 @@ use App\Models\Version;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\RepositoryType;
+use App\Models\Tag;
 use App\Models\File as FileModel;
 use App\Repository\Blockland\Addon\FileInfo;
 use App\Models\SaveCache;
@@ -142,6 +143,7 @@ class BlocklandSaveController extends Controller
 		$title = $request->input('title');
 		$summary = $request->input('summary');
 		$authors = $request->input('authors');
+		$tags = explode(',', $request->input('tags', ''));
 		$description = $request->input('description', '');
 		$channel = $request->input('channel');
 		$version = $request->input('version');
@@ -188,6 +190,15 @@ class BlocklandSaveController extends Controller
 		$cache->version()->associate($version_obj);
 		$cache->brick_count = 0;
 		$cache->save();
+
+		// Locate all tags, and create new one if needed
+		$tag_ids = [];
+		foreach ($tags as $tag)
+		{
+			$tag_obj = Tag::firstOrCreate(['name' => strtolower(trim($tag))]);
+			$tag_ids[] = $tag_obj->id;
+		}
+		$addon->tags()->sync($tag_ids);
 
 		// Add authors
 		$author_ids = [];
@@ -253,6 +264,7 @@ class BlocklandSaveController extends Controller
 		$title = $save->name;
 		$summary = $save->summary;
 		$authors = $save->authors->implode('name', ', ');
+		$tags = $addon->tags->implode('name', ', ');
 		$channel = $save->channel->name;
 		$version = $save->version->name;
 
@@ -280,11 +292,11 @@ class BlocklandSaveController extends Controller
 		// Show the Edit Page for Save
 		if ($request->session()->has('upload'))
 		{
-			return view('resources.save.update', compact('save', 'title', 'summary', 'authors', 'channel', 'version', 'error', 'categories'));
+			return view('resources.save.update', compact('save', 'title', 'summary', 'authors', 'tags', 'channel', 'version', 'error', 'categories'));
 		}
 		else
 		{
-			return view('resources.save.edit', compact('save', 'title', 'summary', 'authors', 'channel', 'version', 'error', 'categories'));
+			return view('resources.save.edit', compact('save', 'title', 'summary', 'authors', 'tags', 'channel', 'version', 'error', 'categories'));
 		}
 	}
 
@@ -303,6 +315,7 @@ class BlocklandSaveController extends Controller
 		$title = $request->input('title');
 		$summary = $request->input('summary');
 		$authors = $request->input('authors');
+		$tags = explode(',', $request->input('tags', ''));
 		$description = $request->input('description', '');
 
 		// Update the file with a new version
@@ -360,8 +373,17 @@ class BlocklandSaveController extends Controller
 			$version_obj = $save->version;
 		}
 
+		// Locate all tags, and create new one if needed
+		$tag_ids = [];
+		foreach ($tags as $tag)
+		{
+			$tag_obj = Tag::firstOrCreate(['name' => strtolower(trim($tag))]);
+			$tag_ids[] = $tag_obj->id;
+		}
+
 		// Update the Addon
 		$save->name = $title;
+		$addon->tags()->sync($tag_ids);
 		$save->description = $description;
 		$version_obj->summary = $summary;
 

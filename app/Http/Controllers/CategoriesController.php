@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Tag;
 use App\Http\Requests\Request;
 
 /*
@@ -117,5 +118,19 @@ class CategoriesController extends Controller
 
 		// Redirect to the Index Page
 		return redirect()->intended(route('categories.index'));
+	}
+
+	/**
+	 * Get list of tags depending on search.
+	 *
+	 * @param  string  $tags  The specified tag to look for.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function tags($tag=null)
+	{
+		$tag = strtolower($tag);
+		$tags = Tag::where('name', 'LIKE', "%{$tag}%")->get();
+		return response()->json(['tags' => $tags->pluck('name')->toArray()]);
 	}
 }

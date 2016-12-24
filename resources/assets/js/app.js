@@ -16,5 +16,42 @@ require('./bootstrap');
 Vue.component('example', require('./components/Example.vue'));
 
 const app = new Vue({
-    el: '#app'
+	el: '#app'
+});
+
+/**
+ * Selectize
+ */
+
+require('selectize');
+
+$(document).ready(function() {
+	$('.tags').selectize({
+		plugins: ['remove_button'],
+		delimiter: ',',
+		persist: false,
+		valueField: 'tag',
+		labelField: 'tag',
+		searchField: 'tag',
+		create: function(input) {
+			return {
+				tag: input
+			}
+		},
+		load: function(query, callback) {
+			if (!query.length) return callback();
+			$.ajax({
+				url: '/tags/' + encodeURIComponent(query),
+				type: 'GET',
+				error: function() {
+					callback();
+				},
+				success: function(res) {
+					callback(res.tags.slice(0, 10).map(function(val) {
+						return { tag: val };
+					}));
+				}
+			});
+		}
+	});
 });

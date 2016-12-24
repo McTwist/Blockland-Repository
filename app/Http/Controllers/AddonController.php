@@ -13,6 +13,7 @@ use App\Models\Version;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\RepositoryType;
+use App\Models\Tag;
 use App\Models\File as FileModel;
 use App\Repository\Blockland\Addon\FileInfo;
 use App\Models\AddonCache;
@@ -238,6 +239,7 @@ class AddonController extends Controller
 		$title = $request->input('title');
 		$summary = $request->input('summary');
 		$authors = $request->input('authors');
+		$tags = explode(',', $request->input('tags', ''));
 		$description = $request->input('description', '');
 		$channel = $request->input('channel');
 		$version = $request->input('version');
@@ -284,6 +286,15 @@ class AddonController extends Controller
 		$cache->version()->associate($version_obj);
 		$cache->crc = \App\Models\Blacklist\AddonCrcBlacklist::convertFileCrcTo32(temp_path($data['path']));
 		$cache->save();
+
+		// Locate all tags, and create new one if needed
+		$tag_ids = [];
+		foreach ($tags as $tag)
+		{
+			$tag_obj = Tag::firstOrCreate(['name' => strtolower(trim($tag))]);
+			$tag_ids[] = $tag_obj->id;
+		}
+		$addon->tags()->sync($tag_ids);
 
 		// Add authors
 		$author_ids = [];
@@ -349,6 +360,7 @@ class AddonController extends Controller
 		$title = $addon->name;
 		$summary = $addon->summary;
 		$authors = $addon->authors->implode('name', ', ');
+		$tags = $addon->tags->implode('name', ', ');
 		$channel = $addon->channel->name;
 		$version = $addon->version->name;
 
@@ -386,11 +398,11 @@ class AddonController extends Controller
 		// Show the Edit Page for Addon
 		if ($request->session()->has('upload'))
 		{
-			return view('resources.addon.update', compact('addon', 'title', 'summary', 'authors', 'channel', 'version', 'error', 'categories'));
+			return view('resources.addon.update', compact('addon', 'title', 'summary', 'authors', 'tags', 'channel', 'version', 'error', 'categories'));
 		}
 		else
 		{
-			return view('resources.addon.edit', compact('addon', 'title', 'summary', 'authors', 'channel', 'version', 'error', 'categories'));
+			return view('resources.addon.edit', compact('addon', 'title', 'summary', 'authors', 'tags', 'channel', 'version', 'error', 'categories'));
 		}
 	}
 
@@ -409,6 +421,7 @@ class AddonController extends Controller
 		$title = $request->input('title');
 		$summary = $request->input('summary');
 		$authors = $request->input('authors');
+		$tags = explode(',', $request->input('tags', ''));
 		$description = $request->input('description', '');
 
 		// Update the file with a new version
@@ -471,8 +484,17 @@ class AddonController extends Controller
 			$version_obj = $addon->version;
 		}
 
+		// Locate all tags, and create new one if needed
+		$tag_ids = [];
+		foreach ($tags as $tag)
+		{
+			$tag_obj = Tag::firstOrCreate(['name' => strtolower(trim($tag))]);
+			$tag_ids[] = $tag_obj->id;
+		}
+
 		// Update the Addon
 		$addon->name = $title;
+		$addon->tags()->sync($tag_ids);
 		$addon->description = $description;
 		$version_obj->summary = $summary;
 

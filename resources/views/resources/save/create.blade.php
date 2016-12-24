@@ -50,6 +50,16 @@
 					</div>
 				</div>
 
+				{{-- Tags --}}
+				<div class="row form-group">
+					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
+						{{ Form::label('tags', 'Tags:', ['class' => 'control-label control-label-blr']) }}
+					</div>
+					<div class="col-xs-12 col-sm-8">
+						{{ Form::text('tags', $addon->tags->implode('name', ', '), ['class' => 'form-control blr-form-control tags']) }}
+					</div>
+				</div>
+
 				{{-- Description --}}
 				<div class="row form-group">
 					<div class="col-xs-12 text-xs-left col-sm-2 hug-sm-right">
