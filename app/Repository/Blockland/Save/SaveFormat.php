@@ -15,6 +15,8 @@ use App\Repository\Blockland\Colorset\Color;
  * Reading chunks(8-64KiB) and parse them locally could be faster and a thing to look into in the future
  *
  * SplFileObject has been tested to be slower (But could be faster in some circumstances)
+ *
+ * Generators have also been tested and was a bit slower
  */
 class SaveFormat implements \Iterator
 {
@@ -161,7 +163,7 @@ class SaveFormat implements \Iterator
 			break;
 		case 'NTOBJECTNAME':
 			$name = $values;
-			$brick->ntobjectname['name'] = $name;
+			$brick->ntobjectname['name'] = bl_convert_encoding($name);
 			break;
 		}
 	}
