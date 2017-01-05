@@ -56,7 +56,7 @@
 						{{ Form::label('tags', 'Tags:', ['class' => 'control-label control-label-blr']) }}
 					</div>
 					<div class="col-xs-12 col-sm-8">
-						{{ Form::text('tags', $addon->tags->implode('name', ', '), ['class' => 'form-control blr-form-control tags']) }}
+						{{ Form::text('tags', null, ['class' => 'form-control blr-form-control tags']) }}
 					</div>
 				</div>
 
