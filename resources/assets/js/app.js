@@ -54,4 +54,32 @@ $(document).ready(function() {
 			});
 		}
 	});
+	$('.authors').selectize({
+		plugins: ['remove_button'],
+		delimiter: ',',
+		persist: false,
+		valueField: 'author',
+		labelField: 'author',
+		searchField: 'author',
+		create: function(input) {
+			return {
+				author: input
+			}
+		},
+		load: function(query, callback) {
+			if (!query.length) return callback();
+			$.ajax({
+				url: '/authors/' + encodeURIComponent(query),
+				type: 'GET',
+				error: function() {
+					callback();
+				},
+				success: function(res) {
+					callback(res.authors.slice(0, 10).map(function(val) {
+						return { author: val };
+					}));
+				}
+			});
+		}
+	});
 });

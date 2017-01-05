@@ -37,6 +37,12 @@ Route::get('/tags/{tag?}', array(
 	'as' => 'categories.tags'
 ));
 
+// Get authors depending on one author
+Route::get('/authors/{author?}', array(
+	'uses' => 'CategoriesController@authors',
+	'as' => 'categories.authors'
+));
+
 /*
 |--------------------------------------------------------------------------
 | Popup Routes

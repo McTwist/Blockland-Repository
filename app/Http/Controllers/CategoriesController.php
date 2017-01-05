@@ -133,4 +133,18 @@ class CategoriesController extends Controller
 		$tags = Tag::where('name', 'LIKE', "%{$tag}%")->get();
 		return response()->json(['tags' => $tags->pluck('name')->toArray()]);
 	}
+
+	/**
+	 * Get list of authors depending on search.
+	 *
+	 * @param  string  $authors  The specified author to look for.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function authors($author=null)
+	{
+		$author = strtolower($author);
+		$authors = Author::where('name', 'LIKE', "%{$author}%")->get();
+		return response()->json(['authors' => $tags->pluck('name')->toArray()]);
+	}
 }

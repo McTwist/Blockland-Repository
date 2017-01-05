@@ -46,7 +46,7 @@
 						{{ Form::label('authors', 'Authors:', ['class' => 'control-label control-label-blr']) }}
 					</div>
 					<div class="col-xs-12 col-sm-8">
-						{{ Form::text('authors', null, ['required' => 'true', 'class' => 'form-control blr-form-control']) }}
+						{{ Form::text('authors', null, ['required' => 'true', 'class' => 'form-control blr-form-control authors']) }}
 					</div>
 				</div>
 
