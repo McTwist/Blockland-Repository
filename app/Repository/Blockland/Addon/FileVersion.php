@@ -11,7 +11,7 @@ use App\Repository\Archive\ArchiveFile;
  */
 class FileVersion extends ArchiveFile
 {
-	private $version = '0.0';
+	private $version = '1.0';
 	private $channel = '*';
 	private $repositories = [];
 

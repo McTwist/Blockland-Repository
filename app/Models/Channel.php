@@ -54,7 +54,7 @@ class Channel extends Model
 		// Model was created
 		static::created(function($channel)
 		{
-			$channel->createVersion('0', true);
+			$channel->createVersion('1.0', true);
 		});
 	}
 
