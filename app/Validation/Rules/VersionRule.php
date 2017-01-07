@@ -15,7 +15,7 @@ class VersionRule implements Rule
 		
 		if (!$addon->ValidateVersion())
 		{
-			$messages->add('version_invalid', "Invalid version.");
+			$messages->add('version_invalid', "Version is invalid and needs to be corrected");
 		}
 	}
 }

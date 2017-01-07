@@ -3,11 +3,19 @@
 @if (count($error) > 0)
 	<h2>Warnings</h2>
 
-	{{-- Invalid description --}}
+	{{-- Missing info --}}
+	@if ($error->has('info_missing'))
+		<div class="row form-group">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				{{ $error->first('info_missing') }}
+			</div>
+		</div>
+	@endif
+	{{-- Invalid info --}}
 	@if ($error->has('info_invalid'))
 		<div class="row form-group">
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-				Description is required and will be created
+				{{ $error->first('info_invalid') }}
 			</div>
 		</div>
 	@endif
@@ -33,7 +41,7 @@
 	@if ($error->has('version_invalid'))
 		<div class="row form-group">
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-				Version is invalid and needs to be corrected
+				{{ $error->first('version_invalid') }}
 			</div>
 		</div>
 	@endif

@@ -17,22 +17,22 @@ class InfoRule implements Rule
 		{
 			if (!$addon->hasInfo)
 			{
-				$messages->add('info_missing', "Missing credits.");
+				$messages->add('info_missing', "Missing credits.txt");
 			}
 			elseif (!$addon->info->Validate())
 			{
-				$messages->add('info_invalid', "Invalid credits.");
+				$messages->add('info_invalid', "Invalid credits.txt");
 			}
 		}
 		else
 		{
 			if (!$addon->hasInfo)
 			{
-				$messages->add('info_missing', "Missing description.");
+				$messages->add('info_missing', "Missing description.txt");
 			}
 			elseif (!$addon->info->Validate())
 			{
-				$messages->add('info_invalid', "Invalid description.");
+				$messages->add('info_invalid', "Invalid description.txt");
 			}
 		}
 	}
