@@ -81,9 +81,9 @@ class File extends Archive
 				return $this->GetFile('credits.txt');
 			}
 
-			return $this->GetFile('description.txt', true);
+			return $this->GetFile('description.txt');
 		}, null);
-		$this->AddAttribute('namecheck', function() { return $this->GetFile('namecheck.txt', true); }, null);
+		$this->AddAttribute('namecheck', function() { return $this->GetFile('namecheck.txt'); }, null);
 		$this->AddAttribute('version', function()
 		{
 			if ($this->HasFile('version.json'))
@@ -95,9 +95,9 @@ class File extends Archive
 				return $this->GetFile('version.txt');
 			}
 			// Create it
-			return $this->GetFile('version.json', true);
+			return $this->GetFile('version.json');
 		}, null);
-		$this->AddAttribute('rtbInfo', function() { return $this->GetFile('rtbInfo.txt', true); }, null);
+		$this->AddAttribute('rtbInfo', function() { return $this->GetFile('rtbInfo.txt'); }, null);
 
 		// ================
 		// Attribute checks

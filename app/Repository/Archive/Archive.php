@@ -13,14 +13,12 @@ namespace App\Repository\Archive;
 class Archive
 {
 	use ArchiveAttributes;
+	use ArchiveTypes;
 
 	protected $archive_name = '';
 	private $archive = null;
 
 	private $filetype_count = [];
-
-	private $filetype_readers = [];
-	private $file_readers = [];
 
 	private $file_cache = [];
 
@@ -73,84 +71,21 @@ class Archive
 		$this->Close();
 	}
 
-	// Add file reader
-	// file - File to find
-	// reader - Class name for reader
-	public function AddFileReader($file, $reader)
-	{
-		if (!empty($file) && class_exists($reader) && is_subclass_of($reader, ArchiveFile::class))
-		{
-			if (is_array($file))
-			{
-				$files = array_map('strtolower', $file);
-				foreach($files as $file)
-				{
-					$this->file_readers[$file] = $reader;
-				}
-			}
-			else
-			{
-				$file = strtolower($file);
-				$this->file_readers[$file] = $reader;
-			}
-		}
-	}
-
-	// Add file type reader
-	// type - Extension of the file type
-	// reader - Class name for reader
-	public function AddFileTypeReader($type, $reader)
-	{
-		if (!empty($type) && class_exists($reader) && is_subclass_of($reader, ArchiveFile::class))
-		{
-			if (is_array($type))
-			{
-				$types = array_map('strtolower', $type);
-				foreach($types as $type)
-				{
-					$this->filetype_readers[$type] = $reader;
-				}
-			}
-			else
-			{
-				$type = strtolower($type);
-				$this->filetype_readers[$type] = $reader;
-			}
-		}
-	}
-
 	// Get file to read
-	public function GetFile($file, $force_object = false)
+	public function GetFile($file)
 	{
 		$file = strtolower($file);
 		// Got cache
 		if (array_key_exists($file, $this->file_cache))
 			return $this->file_cache[$file];
 
-		if (!$this->HasFile($file) && !$force_object)
-			return null;
-
+		// Get content to be read
 		$content = $this->ReadFile($file);
 
-		$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+		// Get reader
+		$reader = $this->GetFileReader($file);
 
-		$reader = ArchiveFile::class;
-
-		// Read a file
-		if (array_key_exists($file, $this->file_readers))
-		{
-			$reader = $this->file_readers[$file];
-		}
-		// Read a type
-		elseif (array_key_exists($ext, $this->filetype_readers))
-		{
-			$reader = $this->filetype_readers[$ext];
-		}
-		elseif (!$force_object)
-		{
-			return $content;
-		}
-		
+		// Create reader
 		$reader = new $reader($this, $file);
 		$reader->content = $content;
 		$this->file_cache[$file] = $reader;
