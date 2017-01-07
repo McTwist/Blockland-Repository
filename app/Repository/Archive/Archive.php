@@ -20,6 +20,9 @@ class Archive
 
 	private $filetype_count = [];
 
+	private $remove_file = [];
+	private $remove_folder = [];
+
 	private $file_cache = [];
 
 	// Convenient common newline
@@ -31,6 +34,14 @@ class Archive
 
 		$this->AddAttribute('isOpen', function() { return $this->archive !== null; }, null);
 		$this->AddAttribute('filename', function() { return $this->archive_name; }, null);
+
+		// Get out all those pesky files that somehow get into every other archive
+		$this->AddFileRemoval('Thumbs.db'); // Windows thumbnails
+		$this->AddFileRemoval('.DS_Store'); // Mac folder attributes
+		$this->AddFolderRemoval('__MACOSX'); // Mac folder
+		$this->AddFolderRemoval('.svn'); // SVN
+		$this->AddFolderRemoval('.git'); // GIT
+		$this->AddFileRemoval('.gitignore'); // GIT ignore
 	}
 
 	public function __destruct()
@@ -121,15 +132,52 @@ class Archive
 		return true;
 	}
 
-	// Get out all those pesky files that somehow get into every other add-on
-	public function Cleanup()
+	// Add file to be removed
+	public function AddFileRemoval($file)
 	{
-		$this->RemoveFile('Thumbs.db'); // Windows thumbnails
-		$this->RemoveFile('.DS_Store'); // Mac folder attributes
-		$this->RemoveFolder('__MACOSX'); // Mac folder
-		$this->RemoveFolder('.svn'); // SVN
-		$this->RemoveFolder('.git'); // GIT
-		$this->RemoveFile('.gitignore'); // GIT ignore
+		$this->remove_file[] = $file;
+	}
+
+	// Add folder to be removed
+	public function AddFolderRemoval($folder)
+	{
+		$this->remove_folder[] = $folder;
+	}
+
+	// Clean up items to be removed
+	public function Cleanup(array $items=null)
+	{
+		// First for the folders
+		foreach ($this->remove_folder as $folder)
+		{
+			$this->RemoveFolder($folder);
+		}
+
+		// ... then for the files
+		foreach ($this->remove_file as $file)
+		{
+			$this->RemoveFile($file);
+		}
+	}
+
+	// Get a list of items to be removed from current folder
+	public function GetListOfRemovals()
+	{
+		$items = [];
+
+		foreach ($this->remove_folder as $folder)
+		{
+			if ($this->HasFolder($folder))
+				$items[] = $folder;
+		}
+
+		foreach ($this->remove_file as $file)
+		{
+			if ($this->HasFile($file))
+				$items[] = $file;
+		}
+
+		return $items;
 	}
 
 	// Remove all files with this name

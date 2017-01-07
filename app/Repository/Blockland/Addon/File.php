@@ -173,6 +173,10 @@ class File extends Archive
 		$this->AddTypeCheck('sky', function() { return $this->hasAtmosphere; }); // Confirmed
 		$this->AddTypeCheck('speedkart', function() { return $this->ValidateSpeedkart(); }); // Confirmed
 		$this->AddTypeCheck('water', function() { return $this->hasWater; });
+
+		// Get out some extra files
+		$this->AddFileRemoval('rtbcontent.txt'); // RTB cache file
+		$this->AddFileRemoval('rtbinfo.txt'); // RTB file
 	}
 
 	// Add a type to check against
@@ -292,14 +296,6 @@ class File extends Archive
 			return false;
 		// TODO: Go through all scripts and verify that they are correct
 		return true;
-	}
-
-	// Get out some extra files
-	public function Cleanup()
-	{
-		parent::Cleanup();
-		$this->RemoveFile('rtbcontent.txt'); // RTB cache file
-		$this->RemoveFile('rtbinfo.txt'); // RTB file
 	}
 
 	// Fix info file, if possible
