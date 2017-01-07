@@ -151,11 +151,6 @@ class File extends Archive
 		// only a few of them is guaranteed to be named this way
 		// This system is only guessing
 		// ===========
-		$this->AddTypeCheck([
-			'bot', 'brick', 'client', 'daycycle', 'decal', 'emote', 'event', 'face', 'gamemode',
-			'ground', 'item', 'light', 'particle', 'player', 'print', 'projectile', 'script',
-			'server', 'sky', 'sound', 'tool', 'vehicle', 'water', 'weapon'
-		], function() { return $this->hasInfo; });
 		$this->AddTypeCheck(['bot', 'script'], function() { return $this->isServer || $this->isClient; });
 		$this->AddTypeCheck('brick', function() { return $this->isServer && $this->HasFileType('blb'); });
 		$this->AddTypeCheck('client', function() { return $this->isClient; });
