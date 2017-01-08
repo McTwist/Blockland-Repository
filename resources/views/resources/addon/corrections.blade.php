@@ -3,6 +3,15 @@
 @if (count($error) > 0)
 	<h2>Warnings</h2>
 
+	{{-- File removals --}}
+	@if ($error->has('file_removals'))
+		<div class="row form-group">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
+				{{ Form::checkbox('file_removals', 1, true, ['id' => 'file_removals']) }}
+				{{ Form::label('file_removals', 'Remove unnecessary files', ['class' => 'checkbox-inline blr-checkbox']) }}
+			</div>
+		</div>
+	@endif
 	{{-- Missing info --}}
 	@if ($error->has('info_missing'))
 		<div class="row form-group">
