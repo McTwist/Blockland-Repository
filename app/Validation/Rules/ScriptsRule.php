@@ -15,7 +15,7 @@ class ScriptsRule implements Rule
 		
 		if (!$addon->ValidateScripts())
 		{
-			$messages->add('scripts_invalid', "Scripts is invalid.");
+			$messages->add('scripts_invalid', "Scripts is invalid");
 		}
 	}
 }

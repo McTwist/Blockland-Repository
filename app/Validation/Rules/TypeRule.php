@@ -15,7 +15,7 @@ class TypeRule implements Rule
 
 		if (empty($addon->type))
 		{
-			$messages->add('type_missing', "Type is missing.");
+			$messages->add('type_missing', "Type is missing");
 		}
 	}
 }

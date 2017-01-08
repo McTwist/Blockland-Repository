@@ -16,7 +16,7 @@ class RequiredFilesRule implements Rule
 		if (!$addon->ValidateType())
 		{
 			$type = $addon->type;
-			$messages->add('required_files', "Required files are missing from type '{$type}'.");
+			$messages->add('required_files', "Required files are missing from type '{$type}'");
 		}
 
 		if (!empty($addon->GetListOfRemovals()))
