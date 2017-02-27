@@ -315,7 +315,9 @@ class AddonController extends Controller
 		$addon->version->file()->save($file_obj);
 
 		// Flush data to file
-		$addon->flush();
+		$addon->flush($request->input('item_removals', true),
+			($request->has('namecheck_missing') && $request->input('namecheck_missing', false)) ||
+			($request->has('namecheck_invalid') && $request->input('namecheck_invalid', true)));
 
 		// Redirect to the addon page
 		return redirect()->intended(route('addon.show', $addon->slug));
@@ -477,7 +479,9 @@ class AddonController extends Controller
 			$addon->version->file()->save($file_obj);
 
 			// Flush data to file
-			$addon->flush();
+			$addon->flush($request->input('item_removals', true),
+				($request->has('namecheck_missing') && $request->input('namecheck_missing', false)) ||
+				($request->has('namecheck_invalid') && $request->input('namecheck_invalid', true)));
 		}
 		else
 		{
@@ -509,7 +513,7 @@ class AddonController extends Controller
 
 		// Save the Addon
 		$addon->push();
-		$addon->flush();
+		$addon->flush(false, false);
 
 		// Redirect to the Index Page
 		return redirect()->intended(route('addon.show', $addon->slug));

@@ -208,7 +208,7 @@ class Repository extends Model
 	 *
 	 * @return bool
 	 */
-	public function flush()
+	public function flush($cleanup = true, $update_namecheck = true)
 	{
 		// Get needed models
 		$channel = $this->channel;
@@ -238,7 +238,11 @@ class Repository extends Model
 		// Set repository info
 		$addon->version->SetRepository(url('api'), 'json', $this->slug);
 
-		$addon->Cleanup();
+		if ($update_namecheck)
+			$addon->SetFile($addon->namecheck);
+
+		if ($cleanup)
+			$addon->Cleanup();
 
 		$addon->Close();
 
