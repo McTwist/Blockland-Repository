@@ -14,6 +14,7 @@ use App\Validation\Rules\NamecheckRule;
 use App\Validation\Rules\InfoRule;
 use App\Validation\Rules\VersionRule;
 use App\Validation\Rules\RequiredFilesRule;
+use App\Validation\Rules\RemovalsRule;
 use App\Validation\Rules\ScriptsRule;
 use App\Validation\Rules\TypeRule;
 
@@ -58,6 +59,7 @@ class Validator implements ValidatorBase
 		InfoRule::class,
 		VersionRule::class,
 		RequiredFilesRule::class,
+		RemovalsRule::class,
 		ScriptsRule::class,
 	];
 

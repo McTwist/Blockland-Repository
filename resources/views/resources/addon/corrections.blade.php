@@ -4,11 +4,13 @@
 	<h2>Warnings</h2>
 
 	{{-- File removals --}}
-	@if ($error->has('file_removals'))
+	@if ($error->has('item_removals'))
 		<div class="row form-group">
 			<div class="col-xs-12 col-sm-8 col-sm-offset-2">
-				{{ Form::checkbox('file_removals', 1, true, ['id' => 'file_removals']) }}
-				{{ Form::label('file_removals', 'Remove unnecessary files', ['class' => 'checkbox-inline blr-checkbox']) }}
+				{{ Form::checkbox('item_removals', 1, true, ['id' => 'item_removals']) }}
+				{{ Form::label('item_removals', 'Remove unnecessary items', ['class' => 'checkbox-inline blr-checkbox']) }}
+				<br>
+				{{ $error->first('item_removals') }}
 			</div>
 		</div>
 	@endif

@@ -18,10 +18,5 @@ class RequiredFilesRule implements Rule
 			$type = $addon->type;
 			$messages->add('required_files', "Required files are missing from type '{$type}'");
 		}
-
-		if (!empty($addon->GetListOfRemovals()))
-		{
-			$messages->add('file_removals', "The archive contains files to be removed");
-		}
 	}
 }
