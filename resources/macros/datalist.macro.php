@@ -24,4 +24,3 @@ Form::macro('datalist', function ($name, $list = [], $key_value = false, $option
 
     return $this->toHtmlString("<datalist{$options}>{$list}</datalist>");
 });
-?>
