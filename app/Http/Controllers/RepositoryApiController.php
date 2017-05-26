@@ -195,7 +195,7 @@ class RepositoryApiController extends Controller
 		if (!empty($restart_required))
 			$obj->restart_required = $restart_required;
 
-		$obj->file = '';
+		$obj->file = $channel->version->file->download_name;
 		$obj->changelog = '';
 		return $obj;
 	}
