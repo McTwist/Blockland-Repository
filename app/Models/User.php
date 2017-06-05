@@ -90,7 +90,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		if (is_null($blockland_user))
 			return null;
 		else
-			return $blockland_user->first()->id;
+			return $blockland_user->id;
 	}
 
 	/**
@@ -104,6 +104,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 		if (is_null($blockland_user))
 			return '';
 		else
-			return $blockland_user->first()->name;
+			return $blockland_user->name;
 	}
 }
